@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twitcherino - The Game!</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dist/animate.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- HEADER -->
+    <div class="header">
+      <ul>
+        <li id="nav-logo"><img src="/imgs/TTVGUESSER_LOGO_v0.2.png" alt=""></li>
+      </ul>
+    </div>
+    <!-- NAV-ASIDE -->
+    <aside class="nav-aside">
+      <ul>
+        <li><button class="battle-royale-btn"><img class="aside-icon aside-icon-1" src="imgs/crown.svg" alt=""><div>BATTLE ROYALE</div></button></li>
+        <li><button class="one-vs-one-btn"><img class="aside-icon aside-icon-2" src="imgs/1v1-swords.svg" alt=""><div>1 VS 1</div></button></li>
+        <li><button class="solo-btn"><img class="aside-icon aside-icon-3" src="imgs/solo.svg" alt=""><div>PRACTICE SOLO</div></button></li>
+        <li><button class=""><img class="aside-icon aside-icon-4" src="imgs/user.svg" alt=""><div>MY PROFILE</div></button></li>
+      </ul>
+    </aside>
+    <!-- BATTLE-ROYALE-ASIDE -->
+    <aside class="battle-royale-aside" style="display: none;">
+      <div class="players-remaining-aside">PLAYERS REMAINING<div id="players-remaining">12</div></div>
+      <ul class="player-aside-container">
+      </ul>
+      <ul class="player-aside-eliminated-container">
+      </ul>
+    </aside>
+    <!-- MAIN -->
+    <main class="main">
+    </main>
+    <!-- EXTRAS -->
+    <div class="room-is-full-label">ROOM IS FULL!</div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.0/socket.io.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <!-- <script src="/js/data.js"></script> -->
+  <script src="/js/dist/emotes.js"></script>
+  <script src="/js/worker.js"></script>
+
+  <script src="/js/BattleRoyale.js"></script>
+  <script src="/js/BattleRoyaleLobby.js"></script>
+  <script src="/js/RacerGameBattle.js"></script>
+  <script src="/js/OriginalGame.js"></script>
+  <script src="/js/RacerGame.js"></script>
+  <script src="/js/app.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2/dist/confetti.browser.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+.show {
+  transform-origin: bottom;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+.position-fixed {
+  position: fixed !important;
+}
+
+.emote-box-show {
+  transition: 400ms ease !important;
+  opacity: 1 !important;
+  margin-top: 22px;
+}
+
+.emote-box-hide {
+  transition: 400ms ease !important;
+  opacity: 0 !important;
+  transform: scale(0);
+}
+
+.show-fade {
+  transition: 1s !important;
+  opacity: 1 !important;
+}
+
+.show-fade-output {
+  transition: 1s !important;
+  opacity: 1 !important;
+  // margin-top: 0px !important;
+  animation: slideUp 500ms;
+}
+
+@keyframes slideUp {
+  from {
+    margin-top: 200px;
+  }
+  to {
+    margin-top: 0px;
+  }
+}
+
+.show-fade-next {
+  transition: 1s !important;
+  opacity: 1 !important;
+  // margin-top: 0px !important;
+  animation: slideDown 500ms;
+}
+
+@keyframes slideDown {
+  from {
+    margin-top: -300px;
+  }
+  to {
+    margin-top: 0px;
+  }
+}
+
+.hide-fade {
+  transition: 200ms !important;
+  opacity: 0 !important;
+}
+
+.noclick {
+  pointer-events: none;
+}
+
+.correct-pick {
+  border-color: rgb(1, 206, 104) !important;
+  transition: 1s;
+}
+.wrong-pick {
+  border-color: rgb(221, 44, 0) !important;
+  transition: 1s;
+}
+
+.page-transition {
+  animation: pageTransition 500ms;
+}
+
+@keyframes pageTransition {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.page-transition-top {
+  animation: pageTransitionTop 400ms;
+}
+
+@keyframes pageTransitionTop {
+  from {
+    margin-top: -100%;
+  }
+
+  to {
+    margin-top: 0%;
+  }
+}
+
+.racer-fade-output {
+  transition: 1s !important;
+  opacity: 1 !important;
+  animation: racerSlideUp 200ms;
+}
+
+@keyframes racerSlideUp {
+  from {
+    margin-top: -100px;
+  }
+  to {
+    margin-top: 0px;
+  }
+}
+
+.fade-scale-animation {
+  animation: fadeScaleAnimation 400ms;
+}
+
+@keyframes fadeScaleAnimation {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+
+
+.hide-player-aside {
+  transition: 400ms;
+  transform: scale(0) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 0 !important;
+}
+
+// .content-hide {
+//   height: 0;
+// }
+
+
+.guest-img {
+  background-color: lightblue;
+}
+
+
+.wait-label-fade {
+  animation: waitLabelFade 800ms;
+  display: block !important;
+}
+
+@keyframes waitLabelFade {
+  0% {
+    top: -20px;
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 1;
+    top: -35px;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    top: -35px;
+  }
+}
+
+
+// .room-is-full-fade {
+//   animation: roomIsFullAnim 1s !important;
+//   display: block !important;
+// }
+
+// @keyframes roomIsFullAnim {
+//   0% {
+//     top: 0px !important;
+//     opacity: 0 !important;
+//   }
+//   80% {
+//     opacity: 1 !important;
+//   }
+//   100% {
+//     opacity: 0 !important;
+//     top: -100px !important;
+//   }
+// }
+
+
+
+
+// .custom-fade-down-anim {
+//   transition: 1s !important;
+//   margin-top: 100px !important;
+//   top: -20%;
+// }
+
+.input-wrong {
+  border: 3px solid red !important;
+}
+
+#progressBar {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translate(-50%);
+  width: 50%;
+  // margin: 10px auto;
+  height: 22px;
+  background-color: #232329;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+#progressBar div {
+  height: 100%;
+  text-align: right;
+  // padding: 0 1px;
+  line-height: 22px; /* same as #progressBar height if we want text middle aligned */
+  width: 100%;
+  background-color: rgb(255, 200, 0);
+  box-sizing: border-box;
+  border-radius: 12px;
+  box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.35) inset;
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.35) inset;
+  -moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.35) inset;
+}
+
+
+
+
+
+.fa-heart {
+  color: red;
+}
+// #emitter {
+//   visibility: hidden;
+//   background-color: #222;
+//   position: absolute;
+//   width: 20px;
+//   height: 20px;
+//   border-radius: 50%;
+//   top: 40%;
+//   left: 0%;
+// }
+// .dot-container {
+//   position:absolute;
+//   left:0;
+//   top:0;
+//   overflow:visible;
+//   z-index:5000;
+//   pointer-events:none;
+// }
+// .dot {
+//   position: absolute;
+//   pointer-events: none; /*performance optimization*/
+// }
+
+
+// 1v1
+
+.game-results-win {
+  background-color: rgba(11, 134, 32, 0.8) !important;
+}
+
+.game-results-lose {
+  background-color: rgba(172, 9, 9, 0.8) !important;
+}
+
+.game-results-draw {
+  background-color: rgba(55, 62, 56, 0.8) !important;
+}
+
+
+
+.color-red {
+  color: red !important;
+}
+
+.color-green {
+  color: green !important;
+}
+
+.score-fx {
+  display: block !important;
+  opacity: 0;
+  color: green;
+  animation: scoreFx 800ms;
+}
+
+
+@keyframes scoreFx {
+  0% {
+    opacity: 1;
+    margin-top: 40px;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    margin-top: -40px;
+  }
+}

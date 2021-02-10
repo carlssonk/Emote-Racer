@@ -1,0 +1,23 @@
+$font-stack: Arial, Helvetica, sans-serif;
+$light-color: #dbdbdb;
+$dark-color: rgb(45, 45, 45);
+$secondary-dark-color: rgb(55, 55, 55);
+$primary-color: #0e6cff;
+$secondary-color: #ff8700;
+$highlight-color: rgb(0, 195, 255);
+
+$aside: #1f1e23;
+$header: #18171c;
+$main: #232329;
+
+$properties-width: 350px;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f8f8f8;
+}
