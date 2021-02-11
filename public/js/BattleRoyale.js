@@ -1015,6 +1015,7 @@ function initBattleRoyale(mode) {
 
       // If someone WON
       function handleWinner() {
+        gameUpperContent.classList.add("hide-fade")
         playersRemaining.innerText = "0";
         // Add all players that has not qualified to the eliminated list
         const eliminatedPlayers = localUsers.filter(e => e.hasQualified === false)
@@ -1039,7 +1040,7 @@ function initBattleRoyale(mode) {
 
       function handleWinnerLoserDom(result) {
         if(result === "winner") {
-          outputEnd.style.backgroundColor = "rgba(11, 134, 32, 0.8)";
+          outputEnd.style.backgroundColor = "rgba(9, 109, 26, 0.8)";
           outputWinLoseLabel.innerText = "YOU WIN";
           // confetti();
           confetti({
@@ -1066,13 +1067,14 @@ function initBattleRoyale(mode) {
       }
 
       this.forceWin = function() {
+        gameUpperContent.classList.add("hide-fade")
         playersRemaining.innerText = "0";
         // If player is not eliminated, give him WIN. (of all the players left, there can only be 1 of them that is not eliminated)
         if(eliminated === false) {
           gameEnded = true;
           resetOutput();
   
-          outputEnd.style.backgroundColor = "rgba(11, 134, 32, 0.8)";
+          outputEnd.style.backgroundColor = "rgba(9, 109, 26, 0.8)";
           outputWinLoseLabel.innerText = "YOU WIN";
           confetti({
             particleCount: 150,
@@ -1201,29 +1203,27 @@ function initBattleRoyale(mode) {
         <div class="output-eliminated output-exit">
           <div class="output-exit-btn"><i class="fas fa-times"></i></div>
           <h1>YOU'RE ELIMINATED</h1>
-          <div>
-            <button class="spectate-btn">SPECTATE</button>
-          </div>
         </div>
         <div class="output-can-still-qualify output-exit">
           <div class="output-exit-btn"><i class="fas fa-times"></i></div>
           <h1>NO GUESSES LEFT</h1>
-          <div>You can still qualify if no one gets it right</div>
+          <div class="can-still-qualify-text">You can still qualify if no one gets it right</div>
         </div>
         <div class="output-qualified output-exit">
           <div class="output-exit-btn"><i class="fas fa-times"></i></div>
           <h1>YOU QUALIFIED!</h1>
         </div>
         <div class="output-end output-exit" style="display: none">
-          <div class="output-exit-btn"><i class="fas fa-times"></i></div>
-          <div class="correct-answer-content">
-            <img class="emote-img-end" src="" alt="">
-            <h1 class="emote-name-end"></h1>
-          </div>
           <h1 class="output-win-lose-label"></h1>
+          <div class="output-end-content">
+            <div class="correct-answer-content">
+              <img class="emote-img-end" src="" alt="">
+              <h1 class="emote-name-end"></h1>
+            </div>
+          </div>
           <div class="output-buttons-container">
-            <button class="br-play-again-btn">Play Again</button>
-            <button class="br-main-menu-btn">Main Menu</button>
+            <button class="br-play-again-btn result-btn-style">Play Again</button>
+            <button class="br-main-menu-btn result-btn-style">Main Menu</button>
           </div>
         </div>
       </div>
@@ -1235,8 +1235,10 @@ function initBattleRoyale(mode) {
             <img class="output-emote-img" src="" alt="">
             <h1 class="output-correct"></h1>
           </div>
-          <div>Next round starting in</div>
-          <div class="next-round-starting-in">5.0...</div>
+          <div class="next-round-starting-in-container">
+            <div>Next round starting in</div>
+            <div class="next-round-starting-in">5.0...</div>
+          </div>
         </div>
       </div>
       <div class="game-starting-in-container">
@@ -1369,10 +1371,6 @@ function initBattleRoyale(mode) {
     brMainMenuBtn.addEventListener("click", function() {
       socket.disconnect();
       mainPage();
-    })
-
-    spectateBtn.addEventListener("click", function() {
-      outputEliminated.style.display = "none";
     })
 
     for(let button of outputExitBtn) {
