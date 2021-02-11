@@ -77,6 +77,10 @@ function initBattleRoyale(mode) {
     // startGameBtnContainer.innerHTML = `<button class="start-game-btn">Start Game!</button>`
     // const startGameBtn = document.querySelector(".start-game-btn")
     // startGameBtn.addEventListener("click", brStartGame)
+    const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
+    waitingForOtherPlayers.classList.add("waiting-label-show")
+
+
     roomId = room.id;
   });
 
@@ -115,6 +119,20 @@ function initBattleRoyale(mode) {
       startGameBtn.addEventListener("click", brStartGame)
       }
     }
+
+    // Waiting label...
+    if(users[0].room.isPrivate === false) {
+      if(users.length === 1) {
+        const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
+        waitingForOtherPlayers.classList.add("waiting-label-show")
+      } else {
+        const gameStartingInShortly = document.querySelector(".game-starting-shortly-container")
+        const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
+        waitingForOtherPlayers.classList.remove("waiting-label-show")
+        gameStartingInShortly.classList.add("waiting-label-show")
+      }
+    }
+
 
     roomId = room
 
@@ -187,6 +205,16 @@ function initBattleRoyale(mode) {
         startGameBtnContainer.innerHTML = `<button class="start-game-btn">Start Game!</button>`
         const startGameBtn = document.querySelector(".start-game-btn")
         startGameBtn.addEventListener("click", brStartGame)
+        }
+      }
+
+      // Waiting label...
+      if(users[0].room.isPrivate === false) {
+        if(users.length === 1) {
+          const gameStartingInShortly = document.querySelector(".game-starting-shortly-container")
+          const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
+          gameStartingInShortly.classList.remove("waiting-label-show")
+          waitingForOtherPlayers.classList.add("waiting-label-show")
         }
       }
 

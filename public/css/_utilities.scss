@@ -319,3 +319,102 @@
     margin-top: -40px;
   }
 }
+
+
+
+.waiting-label-show {
+  display: block !important;
+  opacity: 1;
+  animation: waitingLabelShow 800ms;
+}
+
+.game-starting-shortly-container {
+  display: none;
+}
+.waiting-for-other-players {
+  display: none;
+}
+
+@keyframes waitingLabelShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.pulse-container {
+  position:  absolute;
+  display: flex;
+  left: 50%;
+  transform: translate(-50%);
+  bottom: -60px;
+}
+
+div[class^="dot-"] {
+  width: 6px;
+  height: 6px;
+  border-radius: 100px;
+  margin: 0 20px;
+}
+
+.dot-1 {
+  animation: dotPulse 1.5s infinite ease-in-out;
+}
+.dot-2 {
+  animation: dotPulse 1.5s infinite ease-in-out;
+  animation-delay: .4s;
+}
+.dot-3 {
+  animation: dotPulse 1.5s infinite ease-in-out;
+  animation-delay: .8s;
+}
+
+@keyframes dotPulse {
+  0% {
+    box-shadow: 0 -50px 0 -5px rgba(255, 255, 255, 0.8);
+  }
+  30% {
+    box-shadow: 0 -50px 0 15px rgba(255, 255, 255, 0.8);
+  }
+  60%,
+  100% {
+    box-shadow: 0 -50px 0 -5px rgba(255, 255, 255, 0.8);
+  }
+}
+
+
+
+// Mini dots
+
+span[class^="mini-dot-"] {
+  opacity: 0.1;
+}
+
+.mini-dot-1 {
+  animation: miniDotHide 1.8s infinite;
+}
+.mini-dot-2 {
+  animation: miniDotHide 1.8s infinite;
+  animation-delay: .6s;
+}
+.mini-dot-3 {
+  animation: miniDotHide 1.8s infinite;
+  animation-delay: 1.2s;
+}
+
+@keyframes miniDotHide {
+  0% {
+    opacity: 1;
+  }
+  33% {
+    opacity: 1;
+  }
+  34% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}

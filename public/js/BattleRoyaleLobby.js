@@ -109,9 +109,16 @@ function lobbyRoom(room) { // <--- room here refers to room.id
       <div class="invite-link-container">
         <input class="invite-link-input" type="text" value="LINK HERE">
         <div class="start-game-btn-container"></div>
-        <div class="lobby-timer">20s ...</div>
+        <h1 class="waiting-for-other-players">Waiting for players <span class="mini-dot-1">.</span><span class="mini-dot-2">.</span><span class="mini-dot-3">.</span></h1>
+        <div class="game-starting-shortly-container">
+          <h1>Game starting in shortly</h1>
+          <div class="pulse-container">
+            <div class="dot-1"></div>
+            <div class="dot-2"></div>
+            <div class="dot-3"></div>
+          </div>
+        </div>
       </div>
-
     </div>
       `
     )
