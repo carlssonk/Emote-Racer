@@ -1074,7 +1074,15 @@ function initBattleRoyale(mode) {
   
           outputEnd.style.backgroundColor = "rgba(11, 134, 32, 0.8)";
           outputWinLoseLabel.innerText = "YOU WIN";
-          confetti();
+          confetti({
+            particleCount: 150,
+            startVelocity: 40,
+            spread: 150,
+            origin: {
+              x: 0.4,
+              y: 0.5
+            }
+          });
   
           emoteImgEnd.src = emoteImg.src;
           emoteNameEnd.innerText = currentEmote.name;
@@ -1083,6 +1091,8 @@ function initBattleRoyale(mode) {
           outputEnd.style.display = "flex"
           outputEnd.classList.add("show-fade-next")
         }
+        // Add player img to playersQualified if he is not there
+        if(playerQualified[0].dataset.id !== localUsers[0].id) playerQualifiedImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/1/3.0`
       }
 
 
