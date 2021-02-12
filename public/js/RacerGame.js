@@ -129,6 +129,7 @@ function racerGame() {
       if(currentEmoteLast.provider === "ffz") emoteImg[1].src = `https://cdn.frankerfacez.com/emoticon/${currentEmoteLast.id}/4`
 
       emotesClone.splice(randomEmoteIndex2, 1)
+      console.log(emotesClone)
     } else {
       randomEmoteIndex = Math.floor(Math.random() * emotesClone.length)
       currentEmoteFirst = emotesClone[randomEmoteIndex]
@@ -138,6 +139,7 @@ function racerGame() {
       if(currentEmoteFirst.provider === "ffz") emoteImg[0].src = `https://cdn.frankerfacez.com/emoticon/${currentEmoteFirst.id}/4`
   
       emotesClone.splice(randomEmoteIndex, 1)
+      console.log(emotesClone)
     }
   }
 
@@ -279,7 +281,6 @@ function racerGame() {
 
     gameInfoLabelContainer.style.display = "block"
     circleBox.classList.remove("racer-timer-bar")
-    inputEmote.readOnly = false;
 
     // Reset Stats
     speed = 0;

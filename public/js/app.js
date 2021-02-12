@@ -311,6 +311,7 @@ function pageChange(prevPage) {
   }
   if(prevPage === "1v1") {
     disconnectSocket();
+    if(typeof stopInitTimer === "function") stopInitTimer();
     if(typeof stop1v1Timer === "function") stop1v1Timer();
   }
 }

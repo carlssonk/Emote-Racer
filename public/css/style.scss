@@ -365,6 +365,7 @@ body {
       .battle-player-box {
         position: relative;
         top: 8px;
+        width: 110px;
         max-width: 120px;
         min-height: 134px;
         display: flex;
@@ -642,7 +643,7 @@ body {
     .game-results-nav {
       display: flex;
       justify-content: center;
-      margin: 150px 50px;
+      margin-top: 150px;
       .game-nav-btn {
         padding: 18px 12px;
         margin: 0 8px;
@@ -650,6 +651,7 @@ body {
         border: none;
         outline: none;
         background-color: rgb(255, 200, 0);
+        color: #18171c;
         font-size: 20px;
         cursor: pointer;
       }
@@ -936,6 +938,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    transition: 200ms;
     .game-starting-in-box {
       background-color: rgba(58, 43, 82, 0.904);
       border-radius: 12px;

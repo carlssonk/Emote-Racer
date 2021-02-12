@@ -281,6 +281,7 @@ io.on("connection", (socket) => {
   socket.on("quickPlay", (username) => {
 
     // Check if there are any available empty slots in rooms
+    console.log(brRoomsList)
     if(brRoomsList.some(e => e.userLength < 12) && brRoomsList.some(e => e.isPlaying === false)) {
       // Sort rooms from high to low
       const roomsDescending = brRoomsList.sort((a, b) => b.userLength - a.userLength);
@@ -408,9 +409,9 @@ io.on("connection", (socket) => {
   })
 
   socket.on("requestJoin", (roomId, username) => {
-
-    if(brGetRoomUsersPrivate(roomId).length > 0) {
-      if(brGetRoomUsersPrivate(roomId).length >= 12 || brGetRoomUsersPrivate(roomId)[0].room.isPlaying === true) {
+    const theRoom = brGetRoomUsersPrivate(roomId);
+    if(theRoom.length > 0) {
+      if(theRoom.length >= 12 || theRoom[0].room.isPlaying === true) {
         socket.emit("roomIsFull")
         // Room is full
         return
@@ -425,12 +426,13 @@ io.on("connection", (socket) => {
     // Join user to roomId
     socket.join(user.room.id)
     // Send all users currently in the room to client side
-    io.to(user.room.id).emit("joinLobby", brGetRoomUsersPrivate(user.room.id), room.id);
+    io.to(user.room.id).emit("joinLobby", brGetRoomUsersPrivate(roomId), roomId);
   })
 
   socket.on("gameEndPrivate", (roomId) => {
-    for(let i = 0; i < brGetRoomUsersPrivate(roomId).length; i++) {
-      brGetRoomUsersPrivate(roomId)[i].room.isPlaying = false;
+    const theRoom = brGetRoomUsersPrivate(roomId)
+    for(let i = 0; i < theRoom.length; i++) {
+      theRoom[i].room.isPlaying = false;
     }
   })
 
@@ -440,9 +442,10 @@ io.on("connection", (socket) => {
   // ###########################
 
   // Send signal to all users
-  socket.on("requestStartGame", (roomId) => {
-    for(let i = 0; i < brGetRoomUsersPrivate(roomId).length; i++) {
-      brGetRoomUsersPrivate(roomId)[i].room.isPlaying = true;
+  socket.on("requestStartGamePrivate", (roomId) => {
+    const theRoom = brGetRoomUsersPrivate(roomId)
+    for(let i = 0; i < theRoom.length; i++) {
+      theRoom[i].room.isPlaying = true;
     }
 
     const randomEmoteIndex = Math.floor(Math.random() * emotesServer.length);
@@ -456,7 +459,8 @@ io.on("connection", (socket) => {
   });
 
   function requestStartGamePublic(roomId) {
-    if(brGetRoomUsersPublic(roomId).length === 1) return;
+    const theRoom = brGetRoomUsersPublic(roomId)
+    if(theRoom.length === 1) return;
 
     const room = brRoomsList.findIndex(room => room.id === roomId)
     brRoomsList[room].isPlaying = true;
@@ -493,11 +497,12 @@ io.on("connection", (socket) => {
   socket.on("quickPlay1v1", (username, image) => {
 
     // Check if there are any available empty slots in rooms
-    if(oneRoomsList.some(e => e.userLength < 2)) {
+    if(oneRoomsList.some(e => e.userLength < 2) && oneRoomsList.some(e => e.isPlaying === false)) {
 
       // Find a room that the user can join
       for(let room of oneRoomsList) {
-        if(room.userLength < 2) {
+        console.log(room)
+        if(room.userLength < 2 && room.isPlaying === false) {
           room.userLength++;
           joinRoom(room.id);
           break;
@@ -526,7 +531,7 @@ io.on("connection", (socket) => {
     // Create new user
     const user = oneUserJoinPublic(socket.id, username, image, room)
     // Set Public Room
-    oneRoomsList.push({id: room.id, isPrivate: false, userLength: 1})
+    oneRoomsList.push({id: room.id, isPrivate: false, isPlaying: false, userLength: 1})
     // Join user to roomId
     console.log(user)
     console.log(user.room)
@@ -544,7 +549,7 @@ io.on("connection", (socket) => {
 
   socket.on("createPrivateLobby1v1", (username, image) => {
     // Create new room
-    const room = {id: uuidv4(), isPrivate: true}
+    const room = {id: uuidv4(), isPrivate: true, isPlaying: false}
     // Create new user
     const user = oneUserJoinPrivate(socket.id, username, image, room)
     // Join user to roomId
@@ -558,21 +563,32 @@ io.on("connection", (socket) => {
   })
 
   socket.on("requestJoin1v1", (roomId, username, image) => {
+    console.log("-------------")
+    const theRoom = oneGetRoomUsersPrivate(roomId)
 
-    if(oneGetRoomUsersPrivate(roomId).length >= 2) {
-      socket.emit("roomIsFull")
-      // Room is full
-      return
+    if(theRoom.length > 0) {
+      if(theRoom.length >= 2 || theRoom[0].room.isPlaying === true) {
+        socket.emit("roomIsFull")
+        // Room is full
+        return
+      }
     }
 
     // Set room 
-    const room = {id: roomId, isPrivate: true}
+    const room = {id: roomId, isPrivate: true, isPlaying: false}
     // Create new user
     const user = oneUserJoinPrivate(socket.id, username, image, room)
     // Join user to roomId
     socket.join(user.room.id)
     // Send all users currently in the room to client side
-    io.to(user.room.id).emit("joinLobby1v1", oneGetRoomUsersPrivate(user.room.id));
+    io.to(user.room.id).emit("joinPrivateLobby1v1", oneGetRoomUsersPrivate(roomId));
+  })
+
+  socket.on("gameEndPrivate1v1", (roomId) => {
+    const theRoom = oneGetRoomUsersPrivate(roomId)
+    for(let i = 0; i < theRoom.length; i++) {
+      theRoom[i].room.isPlaying = false;
+    }
   })
 
 
@@ -580,14 +596,21 @@ io.on("connection", (socket) => {
   // #### GAME LOGIC WIRING ####
   // ###########################
 
+
   socket.on("toggleReady1v1", (roomId) => {
     console.log(roomId)
     console.log("TOGGLE READYT")
     io.to(roomId).emit("toggleReady1v1", socket.id);
   });
 
+
   // Send signal to all users
-  socket.on("requestStartGame1v1", (roomId) => {
+  socket.on("requestStartGamePrivate1v1", (roomId) => {
+    const theRoom = oneGetRoomUsersPrivate(roomId)
+    for(let i = 0; i < theRoom.length; i++) {
+      theRoom[i].room.isPlaying = true;
+    }
+
     let randomEmoteIndexArr = [];
 
     for(let i = 0; i < emotesServer.length; i++) {
@@ -597,11 +620,40 @@ io.on("connection", (socket) => {
     shuffleArray(randomEmoteIndexArr)
 
     io.to(roomId).emit("startGame1v1", emotesServer, randomEmoteIndexArr);
-
   })
 
+
+
+  // Send signal to all users
+  socket.on("requestStartGamePublic1v1", (roomId) => {
+    console.log("REQUEST PUBLIX")
+    requestStartGamePublic1v1(roomId);
+  })
+
+  function requestStartGamePublic1v1(roomId) {
+    const theRoom = oneGetRoomUsersPublic(roomId)
+    if(theRoom.length === 1) return;
+
+    const room = oneRoomsList.findIndex(room => room.id === roomId)
+    oneRoomsList[room].isPlaying = true;
+    console.log(oneRoomsList)
+    console.log("is it TRUE?!")
+
+    let randomEmoteIndexArr = [];
+
+    for(let i = 0; i < emotesServer.length; i++) {
+      randomEmoteIndexArr.push(i)
+    }
+
+    shuffleArray(randomEmoteIndexArr)
+
+    io.to(roomId).emit("startGame1v1", emotesServer, randomEmoteIndexArr);
+  }
+
+
+
   socket.on("userCorrect1v1", (roomId, socketId) => {
-    console.log(socketId)
+    // console.log(socketId)
     io.to(roomId).emit("userCorrect1v1", socketId);
   })
 
@@ -665,8 +717,10 @@ io.on("connection", (socket) => {
         brUserLeavePrivate(socket.id)
       }
 
-
     }
+
+    // console.log("HOW MANY IN THA ROOM?")
+    // console.log(oneGetRoomUsersPrivate(user.room.id))
 
  });
 

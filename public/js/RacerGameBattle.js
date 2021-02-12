@@ -67,11 +67,11 @@ function racerGameBattle(mode) {
     // SET PLAYER DOM
     battlePlayerImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
     battlePlayerName[0].innerText = username;
-    battlePlayerReady[0].innerText = "NOT READY";
+    // battlePlayerReady[0].innerText = "NOT READY";
 
     // Set configurations
     roomId = room.id;
-    localUsers = [{id: socketId, isReady: false}, {isReady: false}];
+    // localUsers = [{id: socketId, isReady: false, isPrivate: true}, {isReady: false}];
 
   });
 
@@ -81,37 +81,46 @@ function racerGameBattle(mode) {
     // SET PLAYER DOM
     battlePlayerImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
     battlePlayerName[0].innerText = username;
-    battlePlayerReady[0].innerText = "NOT READY";
+    // battlePlayerReady[0].innerText = "NOT READY";
+
+    // More DOM
+    const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
+    waitingForOtherPlayers.classList.add("waiting-label-show")
 
     // Set configurations
     roomId = room.id;
     console.log(roomId)
-    localUsers = [{id: socketId, isReady: false}, {isReady: false}];
+    // localUsers = [{id: socketId, isReady: false, isPrivate: false}, {isReady: false}];
   });
 
   // Update lobby when player joins
   socket.on("joinPublicLobby1v1", (users, room) => {
     roomId = room.id;
-    console.log("joinPublicLobby1v1")
+    main.dataset.isPrivate = "false"
 
     if(users.length === 1) {
 
     // SET PLAYER DOM
     battlePlayerImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
     battlePlayerName[0].innerText = username;
-    battlePlayerReady[0].innerText = "NOT READY";
+    // battlePlayerReady[0].innerText = "NOT READY";
+
+    // More DOM
+    const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
+    waitingForOtherPlayers.classList.add("waiting-label-show")
 
     // Set configurations
-    console.log(roomId)
-    localUsers = [{id: socketId, isReady: false}, {isReady: false}];
+    // console.log(roomId)
+    // localUsers = [{id: socketId, isReady: false, isPrivate: false}, {isReady: false}];
 
     } else {
 
+      console.log(users)
       // Both users have their position at [0]
       if(socketId === users[0].id) {
         localUsers = users;
       } else {
-        localUsers = users.reverse();
+        localUsers = [...users].reverse();
       }
 
       // LOBBY DOM
@@ -119,9 +128,18 @@ function racerGameBattle(mode) {
       for(let i = 0; i < 2; i++) {
         battlePlayerImg[i].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
         battlePlayerName[i].innerText = localUsers[i].username
-        battlePlayerReady[i].innerText = "NOT READY"
-        battlePlayerReady[i].classList.remove("color-green") // Reset classname for player [0]
+        if(users[0].room.isPrivate === true) {
+          battlePlayerReady[i].innerText = "NOT READY"
+          battlePlayerReady[i].classList.remove("color-green") // Reset classname for player [0]
+        }
       }
+      battlePlayerImg[1].classList.add("fade-scale-animation")
+      battlePlayerName[1].classList.add("fade-scale-animation")
+
+      // More DOM
+      const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
+      waitingForOtherPlayers.classList.remove("waiting-label-show")
+
 
 
       // Set isReady & score for localUsers
@@ -131,14 +149,24 @@ function racerGameBattle(mode) {
       localUsers[0].score = 0;
       localUsers[1].score = 0;
 
+
+      // START GAME
+      if(users[0].id === socketId) { // Isolate so only one player starts game
+        console.log("UNIQUE")
+        setTimeout(() => requestStartGamePublic1v1(), 400)
+      }
     }
+
+
 
   });
 
 
-  // Update lobby when player joins
-  socket.on("joinLobby1v1", (users) => {
-    console.log("joinLobby1v1")
+  // Update lobby when player joins PRIVATE LOBBY
+  socket.on("joinPrivateLobby1v1", (users) => {
+    console.log(users)
+    console.log("joinPrivateLobby1v1")
+    main.dataset.isPrivate = "true"
 
     if(users.length === 1) {
 
@@ -150,10 +178,10 @@ function racerGameBattle(mode) {
     // SET PLAYER DOM
     battlePlayerImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
     battlePlayerName[0].innerText = username;
-    battlePlayerReady[0].innerText = "NOT READY";
+    // battlePlayerReady[0].innerText = "NOT READY";
 
     // Set configurations
-    localUsers = [{id: socketId, isReady: false}, {isReady: false}];
+    // localUsers = [{id: socketId, isReady: false, isPrivate: true}, {isReady: false}];
 
     } else {
 
@@ -169,9 +197,13 @@ function racerGameBattle(mode) {
       for(let i = 0; i < 2; i++) {
         battlePlayerImg[i].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
         battlePlayerName[i].innerText = localUsers[i].username
-        battlePlayerReady[i].innerText = "NOT READY"
-        battlePlayerReady[i].classList.remove("color-green") // Reset classname for player [0]
+        if(users[0].room.isPrivate === true) {
+          battlePlayerReady[i].innerText = "NOT READY"
+          battlePlayerReady[i].classList.remove("color-green") // Reset classname for player [0]
+        }
       }
+      battlePlayerImg[1].classList.add("fade-scale-animation")
+      battlePlayerName[1].classList.add("fade-scale-animation")
 
 
       // Set isReady & score for localUsers
@@ -186,7 +218,9 @@ function racerGameBattle(mode) {
   });
 
 
-
+  socket.on("test", (users) => {
+    console.log(users)
+  })
 
 
   // User Leave
@@ -208,27 +242,46 @@ function racerGameBattle(mode) {
 
     // TIMER && Force WIN!
     if(gameStarted === true) {
-      stop1v1Timer();
+      if(typeof stop1v1Timer === "function") stop1v1Timer();
+      if(typeof stopInitTimer === "function") stopInitTimer();
+      console.log("FORCE WIN")
       forceWin();
+    }
+
+    // More DOM
+    if(users[0].room.isPrivate === false) {
+      const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
+      waitingForOtherPlayers.classList.add("waiting-label-show")
     }
   });
 
 
 
-
-
-  
   // Listen for Lobby leader to start game
-  this.requestStartGame1v1 = function() {
-    socket.emit("requestStartGame1v1", roomId)
+  this.requestStartGamePrivate1v1 = function() {
+    socket.emit("requestStartGamePrivate1v1", roomId)
   }
+
+  // Listen for Lobby leader to start game
+  this.requestStartGamePublic1v1 = function() {
+    socket.emit("requestStartGamePublic1v1", roomId)
+  }
+
 
   socket.on("startGame1v1", (emotesServer, randomEmoteIndexArr) => {
     console.log("1")
     // Set game configuration
     localEmotes = emotesServer;
     localRandomEmoteIndexArr = randomEmoteIndexArr;
-    timer(); // Start game if all players are ready
+
+    gameStarted = true;
+    // DOM
+    gameInfoLabelContainer.style.display = "none"
+    for(let rdy of battlePlayerReady) {
+      rdy.classList.remove("color-green")
+      rdy.innerText = ""
+    }
+    startCountdown()
   });
 
   socket.on("toggleReady1v1", (userSocketId) => {
@@ -258,7 +311,7 @@ function racerGameBattle(mode) {
     if(userSocketId === socketId) { // Isolate so only one player starts game
       if(localUsers.every(e => e.isReady)) {
         console.log("START GAME")
-        requestStartGame1v1();
+        requestStartGamePrivate1v1();
       } 
     } 
   });
@@ -292,6 +345,65 @@ function racerGameBattle(mode) {
   let currentEmoteLast = {};
   let randomEmoteIndex = 0;
   let randomEmoteIndex2 = 0;
+
+
+  function startCountdown() {
+    // If user leaves page by clicking on the navLogo we need to clear timer so we dont get any errors
+    this.stopInitTimer = function() {
+      myWorker.postMessage("clearCountdown")
+      clearInterval(countdown);
+    }
+
+    // Start countdown timer in worker.js
+    myWorker.postMessage("startCountdown")
+
+    // Update countdown timer in worker.js on window.onfocus (i.e if user switches tab and comes back)
+    window.onfocus = function() {
+      if(main.dataset.page === "battle-royale") myWorker.postMessage("updateCountdown")
+    };
+
+    myWorker.onmessage = (e) => {
+      if(e.data.name === "updateCountdown") {
+        count = e.data.message
+        // document.querySelector(".game-starting-in-time").innerHTML=count /10+ " ..."; 
+      }
+
+      if(e.data === "stopCountdown") {
+        if(typeof stopTimerInit1v1 === "function") stopTimerInit1v1()
+      }
+
+    }
+
+    function stopTimerInit1v1() {
+      clearInterval(countdown);
+      document.querySelector(".game-starting-in-time").innerHTML=count /10+ " ...";
+      gameStartingInContainer.classList.add("hide-fade");
+
+      setTimeout(function() {
+        gameStartingInContainer.style.display = "none"
+      }, 200)
+
+      timer();
+    }
+
+  
+    // Show timer
+    gameStartingInContainer.style.display = ""
+    setTimeout(() => gameStartingInContainer.classList.remove("hide-fade"), 10)
+    
+    let count = 50;
+    let countdown = setInterval(() => init1v1Countdown(), 100); //10 will  run it every 100th of a second
+    function init1v1Countdown() {
+      if(count <= 0) return;
+      count--;
+
+      if(count%10 === 0) {
+        gameStartingIn.innerHTML=count /10+ ".0" + " ...";
+      } else {
+        gameStartingIn.innerHTML=count /10+ " ...";
+      }
+    }
+  }
 
   function timer() {
     // Configutation for game
@@ -341,17 +453,13 @@ function racerGameBattle(mode) {
   }
 
   function startGameConfig() {
-    gameStarted = true;
     inputEmote.readOnly = false;
-    gameInfoLabelContainer.style.display = "none"
     gameUpperContent.style.transition = "100ms"
     circleBox.classList.add("racer-timer-bar")
 
     // Generate For First slot
-    console.log(localRandomEmoteIndexArr)
     currentEmoteFirst = localEmotes[localRandomEmoteIndexArr[0]]
     localRandomEmoteIndexArr.splice(0, 1)
-    console.log(localRandomEmoteIndexArr)
   }
 
   const initRound = (data) => {
@@ -475,7 +583,8 @@ function racerGameBattle(mode) {
   }
 
   function guessListener(e) {
-    togglePlayerReady(e); // Toggle player ready, when both players are ready, game will start
+    console.log(localUsers[0])
+    if(localUsers[0].room.isPrivate === true) togglePlayerReady(e); // Toggle player ready, when both players are ready, game will start
     if(gameStarted === true && e.key === "Enter") {
       if(inputEmote.value === "") return;
       const guess = inputEmote.value.toLowerCase();
@@ -525,8 +634,7 @@ function racerGameBattle(mode) {
   let toggleReadyBool = true;
   function togglePlayerReady(e) {
     if(gameStarted === false && e.key === "Enter") {
-      // Prevent spam-click
-      console.log(localUsers.filter(e => { return e.id }).length === 2)
+      // If there are 2 players in room
       if(toggleReadyBool && localUsers.filter(e => { return e.id }).length === 2) {
         toggleReadyBool = false;
         socket.emit("toggleReady1v1", roomId)
@@ -668,6 +776,9 @@ function racerGameBattle(mode) {
   }
 
   function forceWin() {
+    gameStartingInContainer.classList.add("hide-fade")
+    setTimeout(() => gameStartingInContainer.style.display = "none")
+    console.log("FORCE WIN!")
     handleRoundEnd("force-win");
 
     boardImg1v1[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${localUsers[0].image}/3.0`
@@ -777,6 +888,7 @@ function racerGameBattle(mode) {
         <h2>GUESS AS MANY EMOTES AS YOU CAN UNDER 60 SECONDS</h2>
         <h2>PLAYER WITH THE HIGHEST SCORE WINS</h2>
         <h2>PRESS ENTER TO READY UP</h2>
+        <h1 class="waiting-for-other-players">Waiting for players <span class="mini-dot-1">.</span><span class="mini-dot-2">.</span><span class="mini-dot-3">.</span></h1>
       </div>
       <div class="game-upper game-upper2">
         <div class="racer-game-timer-container">
@@ -788,15 +900,15 @@ function racerGameBattle(mode) {
         <div class="battle-container-1v1">
           <div class="battle-player-box">
             <div class="battle-player-score-fx battle-player-score-fx1">+1</div>
-            <div class="battle-player-score battle-player-score1">0</div>
+            <div class="battle-player-score battle-player-score1"></div>
             <div class="battle-player-img-box"><img class="battle-player-img" src="" alt=""></div>
             <div class="battle-player-name"></div>
-            <div class="battle-player-ready">NOT READY</div>
+            <div class="battle-player-ready"></div>
           </div>
           <img class="battle-icon-1v1" src="/imgs/SwordsGlow.png" alt="">
           <div class="battle-player-box">
             <div class="battle-player-score-fx battle-player-score-fx2">+1</div>
-            <div class="battle-player-score battle-player-score2">0</div>
+            <div class="battle-player-score battle-player-score2"></div>
             <div class="battle-player-img-box"><img class="battle-player-img" src="" alt=""></div>
             <div class="battle-player-name"></div>
             <div class="battle-player-ready"></div>
@@ -809,6 +921,12 @@ function racerGameBattle(mode) {
               <img class="emote-img" src="" alt="">
             </div>
           </div>
+        </div>
+      </div>
+      <div class="game-starting-in-container hide-fade" style="display: none;">
+        <div class="game-starting-in-box">
+          <h1>Starting in</h1>
+          <div class="game-starting-in-time">5.0...</div>
         </div>
       </div>
       <div class="game-lower">
@@ -832,6 +950,8 @@ function racerGameBattle(mode) {
       `
     )
   }
+  let gameStartingInContainer = null;
+  let gameStartingIn = null;
   let emoteImg = null;
   let gameResults = null;
   let emoteName = null;
@@ -861,6 +981,8 @@ function racerGameBattle(mode) {
   let resultAccuracyStats = null;
   let resultIncorrectStats = null;
   this.originalGameDOM = function() {
+  gameStartingInContainer = document.querySelector(".game-starting-in-container");
+  gameStartingIn = document.querySelector(".game-starting-in-time");
   inputEmote = document.querySelector(".inputEmote");
   emoteImg = document.querySelectorAll(".emote-img");
   emoteName = document.querySelector(".emote-name");
@@ -900,9 +1022,21 @@ function racerGameBattle(mode) {
 
     // Play Again
     playAgainBtn.addEventListener("click", function() {
-      currentScore = 0;
-      gameResults.style.display = "none"
-      playAgainDomReset();
+      socket.disconnect();
+
+      // currentScore = 0;
+      // gameResults.style.display = "none"
+      // playAgainDomReset();
+      if(main.dataset.isPrivate === "true") {
+        racerGameBattle("joinByLink")
+        console.log("PRIVATE")
+      } else {
+        console.log("PUBLIC")
+        racerGameBattle("public")
+      }
+      
+
+      
     });
 
     // Back To Main Page

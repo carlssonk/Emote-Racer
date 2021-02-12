@@ -103,6 +103,7 @@ function oneUserLeavePrivate(id) {
 
 // Get all users in a room
 function oneGetRoomUsersPrivate(room) {
+  console.log(oneUsersPrivate)
   return oneUsersPrivate.filter(user => user.room.id === room);
 }
 

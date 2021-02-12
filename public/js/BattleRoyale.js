@@ -278,7 +278,7 @@ function initBattleRoyale(mode) {
 
   // Listen for Lobby leader to start game
   this.brStartGame = function() {
-    socket.emit("requestStartGame", roomId)
+    socket.emit("requestStartGamePrivate", roomId)
   }
 
   socket.on("startGame", (emotesServer, randomEmoteIndex, users) => {
