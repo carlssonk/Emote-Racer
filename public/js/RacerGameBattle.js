@@ -342,6 +342,7 @@ function racerGameBattle(mode) {
 
   function startGameConfig() {
     gameStarted = true;
+    inputEmote.readOnly = false;
     gameInfoLabelContainer.style.display = "none"
     gameUpperContent.style.transition = "100ms"
     circleBox.classList.add("racer-timer-bar")
@@ -517,7 +518,7 @@ function racerGameBattle(mode) {
         }, 100)
       } 
       
-      setTimeout(() => skipBool = true, 1000)
+      setTimeout(() => skipBool = true, 400)
     }
   }
 
@@ -525,7 +526,8 @@ function racerGameBattle(mode) {
   function togglePlayerReady(e) {
     if(gameStarted === false && e.key === "Enter") {
       // Prevent spam-click
-      if(toggleReadyBool) {
+      console.log(localUsers.filter(e => { return e.id }).length === 2)
+      if(toggleReadyBool && localUsers.filter(e => { return e.id }).length === 2) {
         toggleReadyBool = false;
         socket.emit("toggleReady1v1", roomId)
         setTimeout(() => toggleReadyBool = true, 1000)
@@ -819,7 +821,8 @@ function racerGameBattle(mode) {
           placeholder="TYPE HERE" 
           onfocus="this.placeholder = ''"
           onblur="this.placeholder = 'TYPE HERE'"
-          autofocus>
+          autofocus
+          readonly>
         </div>
         <div class="game-skip-container">
           <h2 class="game-skip-label">PRESS ^ TO SKIP</h2>

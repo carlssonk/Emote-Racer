@@ -135,6 +135,22 @@
 
 
 
+.back-in-up-animation {
+  animation: fadeAnimationFromUp 400ms;
+}
+
+@keyframes fadeAnimationFromUp {
+  0% {
+    margin-top: -50px;
+    opacity: 0;
+  }
+  50% {
+    margin-top: 0;
+    opacity: 1;
+  }
+}
+
+
 .hide-player-aside {
   transition: 400ms;
   transform: scale(0) !important;
@@ -152,6 +168,12 @@
   background-color: lightblue;
 }
 
+
+
+.wait-counter-fade {
+  animation: waitLabelFade 1000ms;
+  display: block !important;
+}
 
 .wait-label-fade {
   animation: waitLabelFade 800ms;

@@ -67,6 +67,7 @@ function racerGame() {
   const initRound = () => {
     cycleBool = !cycleBool
     roundKeysTyped = 0;
+    inputEmote.readOnly = false;
     inputEmote.focus(); // Automatically focus input text
 
     gameUpperContent.style.marginTop = "500px"
@@ -188,7 +189,7 @@ function racerGame() {
   function skipListener(e) {
     if(skipBool) {
       skipBool = false;
-
+ 
       if(gameStarted === true && e.key === "ArrowUp") {
         inputEmote.value = ""
         gameUpperContent.style.transform = "scale(0)"
@@ -199,9 +200,21 @@ function racerGame() {
         }, 100)
       } 
       
-      setTimeout(() => skipBool = true, 1000)
+      setTimeout(() => skipBool = true, 400)
     }
   }
+  // function skipTimer() {
+  //   let count = 1000;
+  //   let counter = setInterval(() => skipTimerSolo(), 10); //10 will  run it every 100th of a second
+  //   this.skipTimeSolo = function() {
+  //     count--;
+  //     if(count <= 0) {
+  //       clearInterval(counter)
+  //       return;
+  //     }
+  //     return count;
+  //   }
+  // }
 
 
   // DOM MANIPULATION WHEN USER GUESS WRONG
@@ -342,7 +355,8 @@ function racerGame() {
           placeholder="TYPE HERE" 
           onfocus="this.placeholder = ''"
           onblur="this.placeholder = 'TYPE HERE'"
-          autofocus>
+          autofocus
+          readonly>
         </div>
         <div class="game-skip-container">
           <h2 class="game-skip-label">PRESS ^ TO SKIP</h2>

@@ -690,6 +690,7 @@ body {
   border: none;
   outline: none;
   background-color: #ffc800;
+  color: #18171c;
   font-size: 20px;
   cursor: pointer;
   }
@@ -722,6 +723,17 @@ body {
       -moz-box-shadow: 0 0 38px 0px rgba(0,0,0,0.75);
       h1 {
         color: white;
+      }
+      .output-buttons-container {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%);
+        bottom: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        width: 100%;
       }
     }
     .output-can-still-qualify {

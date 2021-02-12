@@ -560,10 +560,11 @@ function initBattleRoyale(mode) {
       inputEmote.addEventListener("keypress", guessListener)
 
 
-      // If users are AFK, kick them
+      // If round is higher than 50, kick players
       if(currentRound > 50) {
         socket.disconnect();
         mainPage();
+        alert("Kicked for being AFK")
       }
 
       // ###########################################################
@@ -1231,6 +1232,10 @@ function initBattleRoyale(mode) {
         <div class="output-eliminated output-exit">
           <div class="output-exit-btn"><i class="fas fa-times"></i></div>
           <h1>YOU'RE ELIMINATED</h1>
+          <div class="output-buttons-container">
+            <button class="br-play-again-btn result-btn-style">Play Again</button>
+            <button class="br-main-menu-btn result-btn-style">Main Menu</button>
+          </div>
         </div>
         <div class="output-can-still-qualify output-exit">
           <div class="output-exit-btn"><i class="fas fa-times"></i></div>
@@ -1372,8 +1377,8 @@ function initBattleRoyale(mode) {
     nextRoundStartingIn = document.querySelector(".next-round-starting-in");
     bar = document.querySelector(".bar")
     waitLabel = document.querySelector(".wait-label");
-    brPlayAgainBtn = document.querySelector(".br-play-again-btn")
-    brMainMenuBtn = document.querySelector(".br-main-menu-btn")
+    brPlayAgainBtn = document.querySelectorAll(".br-play-again-btn")
+    brMainMenuBtn = document.querySelectorAll(".br-main-menu-btn")
     spectateBtn = document.querySelector(".spectate-btn")
     outputExitBtn = document.querySelectorAll(".output-exit-btn")
     outputExit = document.querySelectorAll(".output-exit")
@@ -1381,25 +1386,32 @@ function initBattleRoyale(mode) {
   }
 
   this.brGameEVENT = function() {
-    brPlayAgainBtn.addEventListener("click", function() {
-      socket.disconnect();
-      // Simple dom reset
-      playerEliminatedContainer.innerHTML = "";
 
-      if(main.dataset.isPrivate === "true") {
-        initBattleRoyale("joinByLink"); // Initialize socket connection & Battle Royale Game
-        lobbyRoom(); // Redirects to lobby room
-      } else {
-        // Find/Create new public lobby
-        initBattleRoyale("public")
-        lobbyRoom("public")
-      }
-    });
+    for(let button of brPlayAgainBtn) {
+      button.addEventListener("click", function() {
+        socket.disconnect();
+        // Simple dom reset
+        playerEliminatedContainer.innerHTML = "";
+  
+        if(main.dataset.isPrivate === "true") {
+          initBattleRoyale("joinByLink"); // Initialize socket connection & Battle Royale Game
+          lobbyRoom(); // Redirects to lobby room
+        } else {
+          // Find/Create new public lobby
+          initBattleRoyale("public")
+          lobbyRoom("public")
+        }
+      });
+    }
 
-    brMainMenuBtn.addEventListener("click", function() {
-      socket.disconnect();
-      mainPage();
-    })
+
+    for(let button of brMainMenuBtn) {
+      button.addEventListener("click", function() {
+        socket.disconnect();
+        mainPage();
+      })
+    }
+
 
     for(let button of outputExitBtn) {
       button.addEventListener("click", function() {

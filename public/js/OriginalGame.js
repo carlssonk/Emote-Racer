@@ -31,7 +31,8 @@ function originalGame() {
 
   const initRoundDOM = () => {
     gameUpperContent.style.display = "block";
-    gameUpperContent.classList.add("animate__backInLeft");
+    // gameUpperContent.classList.add("animate__backInLeft");
+    gameUpperContent.classList.add("back-in-up-animation");
     setTimeout(() => waitSubmit = false, 200)
   }
 
@@ -123,7 +124,8 @@ function originalGame() {
     gameUpperContent.classList.add("animate__backOutRight")
     setTimeout(function() {
       gameUpperContent.classList.remove("animate__backOutRight")
-      gameUpperContent.classList.add("animate__backInLeft")
+      // gameUpperContent.classList.add("animate__backInLeft")
+      gameUpperContent.classList.add("back-in-up-animation");
 
       emoteName.classList.remove("show-fade");
       emoteName.innerText = "";
@@ -238,5 +240,6 @@ function originalGame() {
 
   inputEmote.focus(); // Automatically focus input text
   gameUpperContent.style.display = "none";
-  setTimeout(initRound, 1000) // Start game script
+  // setTimeout(initRound, 1000) // Start game script
+  initRound()
 }
