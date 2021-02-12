@@ -326,8 +326,7 @@ function racerGame() {
       </div>
       <div class="game-info-label-container">
         <h2>GUESS AS MANY EMOTES AS YOU CAN UNDER 60 SECONDS</h2>
-        <h2>PLAYER WITH THE HIGHEST SCORE WINS</h2>
-        <h2>PRESS ENTER TO READY UP</h2>
+        <h2 class="racer-start-game-label"> PRESS ENTER <img class="enter-key" src="imgs/EnterKey.svg"> TO START</h2>
       </div>
       <div class="game-upper">
         <div class="racer-game-timer-container">
@@ -360,7 +359,7 @@ function racerGame() {
           readonly>
         </div>
         <div class="game-skip-container">
-          <h2 class="game-skip-label">PRESS ^ TO SKIP</h2>
+          <h2 class="game-skip-label">PRESS <img class="arrow-up-key"src="imgs/ArrowUp.svg"> TO SKIP</h2>
         </div>
       </div>
     </div>

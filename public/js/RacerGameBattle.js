@@ -59,15 +59,17 @@ function racerGameBattle(mode) {
   socket.on("initPrivateLobby1v1", (room) => {
     console.log("initPrivateLobby1v1")
     // Set INVITE LINK
-    gameInfoLabelContainer.insertAdjacentHTML('beforeend', `<input class="racer-link-input" type="text" value="LINK HERE">`);
-    racerLinkInput = document.querySelector(".racer-link-input");
+    inviteLinkBox.style.display = "block";
     history.pushState({urlPath: `/1v1/?${room.id}`},"",`/1v1/?${room.id}`)
-    racerLinkInput.value = location.href;
+    inviteLinkInput.value = location.href;
 
     // SET PLAYER DOM
     battlePlayerImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
     battlePlayerName[0].innerText = username;
     // battlePlayerReady[0].innerText = "NOT READY";
+
+    const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
+    waitingForOtherPlayers.style.display = "none"
 
     // Set configurations
     roomId = room.id;
@@ -139,6 +141,10 @@ function racerGameBattle(mode) {
       // More DOM
       const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
       waitingForOtherPlayers.classList.remove("waiting-label-show")
+      console.log("REMOVE")
+      // const gameInfoLabelContainer = document.querySelector(".game-info-label-container-1v1")
+      gameInfoLabelContainer.classList.add("hide-fade")
+      setTimeout(() => gameInfoLabelContainer.style.display = "none", 200)
 
 
 
@@ -168,12 +174,18 @@ function racerGameBattle(mode) {
     console.log("joinPrivateLobby1v1")
     main.dataset.isPrivate = "true"
 
+
+    enterKey.src = `${window.location.origin}/imgs/EnterKey.svg`
+    arrowUpKey.src = `${window.location.origin}/imgs/ArrowUp.svg`
+    const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
+    waitingForOtherPlayers.style.display = "none"
+
+
     if(users.length === 1) {
 
     // Set INVITE LINK
-    gameInfoLabelContainer.insertAdjacentHTML('beforeend', `<input class="racer-link-input" type="text" value="LINK HERE">`);
-    racerLinkInput = document.querySelector(".racer-link-input");
-    racerLinkInput.value = location.href;
+    inviteLinkBox.style.display = "block";
+    inviteLinkInput.value = location.href;
 
     // SET PLAYER DOM
     battlePlayerImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
@@ -204,6 +216,7 @@ function racerGameBattle(mode) {
       }
       battlePlayerImg[1].classList.add("fade-scale-animation")
       battlePlayerName[1].classList.add("fade-scale-animation")
+      racerStartGameLabel.classList.remove("hide-fade")
 
 
       // Set isReady & score for localUsers
@@ -227,10 +240,9 @@ function racerGameBattle(mode) {
   socket.on("userLeave1v1", (userSocketId, users, message) => {
     // Set INVITE LINK
     console.log(message)
-    if(message === "private" && racerLinkInput === null || racerLinkInput === undefined ) {
-      gameInfoLabelContainer.insertAdjacentHTML('beforeend', `<input class="racer-link-input" type="text" value="LINK HERE">`);
-      racerLinkInput = document.querySelector(".racer-link-input");
-      racerLinkInput.value = location.href;
+    if(message === "private" && inviteLinkInput === null || inviteLinkInput === undefined ) {
+      inviteLinkBox.style.display = "block";
+      inviteLinkInput.value = location.href;
     }
 
     battlePlayerImg[1].src = "";
@@ -884,11 +896,18 @@ function racerGameBattle(mode) {
           <button class="game-nav-btn main-lobby-btn">MAIN LOBBY</button>
         </div>
       </div>
-      <div class="game-info-label-container">
-        <h2>GUESS AS MANY EMOTES AS YOU CAN UNDER 60 SECONDS</h2>
-        <h2>PLAYER WITH THE HIGHEST SCORE WINS</h2>
-        <h2>PRESS ENTER TO READY UP</h2>
-        <h1 class="waiting-for-other-players">Waiting for players <span class="mini-dot-1">.</span><span class="mini-dot-2">.</span><span class="mini-dot-3">.</span></h1>
+      <div class="game-info-label-container-1v1">
+        <h1 class="waiting-for-other-players">Searching for players <span class="mini-dot-1">.</span><span class="mini-dot-2">.</span><span class="mini-dot-3">.</span></h1>
+        <h2 class="racer-start-game-label hide-fade"> PRESS ENTER <img class="enter-key" src="imgs/EnterKey.svg"> TO READY UP</h2>
+        <div class="invite-link-box" style="display: none;">
+          <div class="invite-link-first">
+            <div class="invite-link-label">HOVER TO SEE INVITE LINK</div>
+            <input class="invite-link-input" type="text" value="LINK HERE">
+          </div>
+          <div class="invite-link-second">
+            <button class="invite-copy-btn">COPY</button>
+          </div>
+        </div>
       </div>
       <div class="game-upper game-upper2">
         <div class="racer-game-timer-container">
@@ -943,7 +962,7 @@ function racerGameBattle(mode) {
           readonly>
         </div>
         <div class="game-skip-container">
-          <h2 class="game-skip-label">PRESS ^ TO SKIP</h2>
+          <h2 class="game-skip-label">PRESS <img class="arrow-up-key"src="imgs/ArrowUp.svg"> TO SKIP</h2>
         </div>
       </div>
     </div>
@@ -965,7 +984,7 @@ function racerGameBattle(mode) {
   let racerGameTimer = null;
   let gameInfoLabelContainer = null;
   let circleBox = null;
-  let racerLinkInput = null;
+  let inviteLinkInput = null;
   let battlePlayerImg = null;
   let battlePlayerName = null;
   let battlePlayerReady = null;
@@ -976,6 +995,11 @@ function racerGameBattle(mode) {
   let battlePlayerNameBoard = null;
   let boardRanking1v1 = null;
   let winLoseLabel1v1 = null;
+  let racerStartGameLabel = null;
+  let enterKey = null;
+  let arrowUpKey = null;
+  let inviteCopyBtn = null;
+  let inviteLinkBox = null;
   // stats
   let resultSpeedStats = null;
   let resultAccuracyStats = null;
@@ -994,9 +1018,9 @@ function racerGameBattle(mode) {
   waitLabel = document.querySelector(".wait-label");
   racerGameTimerContainer = document.querySelector(".racer-game-timer-container");
   racerGameTimer = document.querySelector(".racer-game-timer");
-  gameInfoLabelContainer = document.querySelector(".game-info-label-container")
+  gameInfoLabelContainer = document.querySelector(".game-info-label-container-1v1")
   circleBox = document.querySelector(".circle-box")
-  racerLinkInput = document.querySelector(".racer-link-input")
+  inviteLinkInput = document.querySelector(".invite-link-input")
   battlePlayerImg = document.querySelectorAll(".battle-player-img")
   battlePlayerName = document.querySelectorAll(".battle-player-name")
   battlePlayerReady = document.querySelectorAll(".battle-player-ready")
@@ -1007,6 +1031,11 @@ function racerGameBattle(mode) {
   battlePlayerNameBoard = document.querySelectorAll(".battle-player-name-board")
   boardRanking1v1 = document.querySelectorAll(".board-ranking-1v1")
   winLoseLabel1v1 = document.querySelector(".win-lose-label-1v1")
+  racerStartGameLabel = document.querySelector(".racer-start-game-label")
+  enterKey = document.querySelector(".enter-key")
+  arrowUpKey = document.querySelector(".arrow-up-key")
+  inviteCopyBtn = document.querySelector(".invite-copy-btn")
+  inviteLinkBox = document.querySelector(".invite-link-box")
 
   // stats
   resultSpeedStats = document.querySelector(".result-speed-stats")
@@ -1019,6 +1048,17 @@ function racerGameBattle(mode) {
     // inputEmote.addEventListener("keypress", guessListener)
     document.addEventListener("keypress", guessListener)
     document.addEventListener("keydown", skipListener)
+
+    // INVITE COPY
+    inviteCopyBtn.addEventListener("click", function() {
+      /* Select the text field */
+      inviteLinkInput.select();
+      inviteLinkInput.setSelectionRange(0, 99999); /*For mobile devices*/
+      document.execCommand("copy");
+
+      inviteCopyBtn.innerText = "COPIED!"
+      inviteCopyBtn.classList.add("copied-animation")
+    });
 
     // Play Again
     playAgainBtn.addEventListener("click", function() {
@@ -1034,8 +1074,6 @@ function racerGameBattle(mode) {
         console.log("PUBLIC")
         racerGameBattle("public")
       }
-      
-
       
     });
 
@@ -1054,6 +1092,8 @@ function racerGameBattle(mode) {
 
   inputEmote.focus(); // Automatically focus input text
   gameUpperContent.style.clip = "rect(0px,0px,0px,0px)", gameUpperContent.style.position = "absolute";
+  if(mode === "public") racerStartGameLabel.style.display = "none"
+
 
 }
 

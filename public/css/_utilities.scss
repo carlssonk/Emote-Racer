@@ -298,6 +298,27 @@
 
 // 1v1
 
+.copied-animation {
+  animation: copiedAnimation 800ms;
+}
+
+
+@keyframes copiedAnimation {
+  0% {
+    transform: scale(0.95);
+  }
+  33% {
+    transform: scale(1.05);
+  }
+  66% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
 .game-results-win {
   background-color: rgba(11, 134, 32, 0.8) !important;
 }

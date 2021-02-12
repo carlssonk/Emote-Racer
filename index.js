@@ -268,6 +268,11 @@ let brRoomsList = [];
 let oneRoomsList = [];
 let lobbyCountdownTimers = [];
 
+// setInterval(function() {
+//   console.log(brRoomsList)
+// }, 1000)
+
+
 io.on("connection", (socket) => {
 
   // Send socketId to client
@@ -312,7 +317,7 @@ io.on("connection", (socket) => {
       // Send all users currently in the room to client side
       io.to(user.room.id).emit("joinLobby", brGetRoomUsersPublic(user.room.id), room.id); // True statement refers to that this is a public lobby
       // Start Lobby Timer
-      if(userLength === 2) startLobbyTimer(roomId)
+      if(userLength === 3) startLobbyTimer(roomId)
       // Start game if FULL
       if(userLength === 12) {
         clearTimeoutLobby(roomId) // Clears timeout
@@ -335,11 +340,11 @@ io.on("connection", (socket) => {
 
   })
 
-  // So game start automatically if lobby is not full
-  socket.on("startLobbyTimer", (roomId, usersLength, socketId) => {
-    handleLobbyTimer(roomId, usersLength, socketId)
+  // // So game start automatically if lobby is not full
+  // socket.on("startLobbyTimer", (roomId, usersLength, socketId) => {
+  //   handleLobbyTimer(roomId, usersLength, socketId)
 
-  })
+  // })
 
 
   function startLobbyTimer(roomId) {
@@ -453,12 +458,14 @@ io.on("connection", (socket) => {
     io.to(roomId).emit("startGame", emotesServer, randomEmoteIndex, brGetRoomUsersPrivate(roomId));
   })
 
-  // Send signal to all users
-  socket.on("requestStartGamePublic", (roomId) => {
-    requestStartGamePublic(roomId);
-  });
+  // // Send signal to all users
+  // socket.on("requestStartGamePublic", (roomId) => {
+  //   requestStartGamePublic(roomId);
+  // });
 
   function requestStartGamePublic(roomId) {
+    clearTimeoutLobby(roomId); // Clear lobby timer since we are now gonna start game
+
     const theRoom = brGetRoomUsersPublic(roomId)
     if(theRoom.length === 1) return;
 
@@ -626,11 +633,9 @@ io.on("connection", (socket) => {
 
   // Send signal to all users
   socket.on("requestStartGamePublic1v1", (roomId) => {
-    console.log("REQUEST PUBLIX")
-    requestStartGamePublic1v1(roomId);
-  })
+    // console.log("REQUEST PUBLIX")
+    // requestStartGamePublic1v1(roomId);
 
-  function requestStartGamePublic1v1(roomId) {
     const theRoom = oneGetRoomUsersPublic(roomId)
     if(theRoom.length === 1) return;
 
@@ -648,7 +653,13 @@ io.on("connection", (socket) => {
     shuffleArray(randomEmoteIndexArr)
 
     io.to(roomId).emit("startGame1v1", emotesServer, randomEmoteIndexArr);
-  }
+
+
+  })
+
+  // function requestStartGamePublic1v1(roomId) {
+
+  // }
 
 
 
@@ -691,15 +702,20 @@ io.on("connection", (socket) => {
     
     if(user !== undefined) {
 
-
       // If user was in a public room, remove user count in that room
       if(user.room.isPrivate === false && userRoom === "brGetUserPublic") {
-        for(let room of brRoomsList) {
-          if(room.id === user.room.id) room.userLength--;
+        for(let i = 0; i < brRoomsList; i++) {
+          if(brRoomsList[i].id === user.room.id) {
+            brRoomsList[i].userLength--;
+            if(brRoomsList[i].userLength === 0) brRoomsList.splice(i, 1)
+          } 
         }
       } else if(user.room.isPrivate === false && userRoom === "oneGetUserPublic") {
-        for(let room of oneRoomsList) {
-          if(room.id === user.room.id) room.userLength--;
+        for(let i = 0; i < oneRoomsList; i++) {
+          if(oneRoomsList[i].id === user.room.id) {
+            oneRoomsList[i].userLength--;
+            if(oneRoomsList[i].userLength === 0) oneRoomsList.splice(i, 1)
+          }
         }
       }
 
@@ -719,9 +735,6 @@ io.on("connection", (socket) => {
 
     }
 
-    // console.log("HOW MANY IN THA ROOM?")
-    // console.log(oneGetRoomUsersPrivate(user.room.id))
-
  });
 
 
@@ -735,6 +748,8 @@ io.on("connection", (socket) => {
   })
 
 })
+
+
 
 
 // EXTRAS

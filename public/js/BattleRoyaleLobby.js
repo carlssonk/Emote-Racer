@@ -37,7 +37,7 @@ function lobbyRoom(room) { // <--- room here refers to room.id
     // inviteLinkInput.value = window.location.href;
     // roomId = location.search.substring(1);
     if(room === "public") {
-      inviteLinkInput.style.display = "none";
+      inviteLinkBox.style.display = "none";
     }
   }
 
@@ -107,7 +107,16 @@ function lobbyRoom(room) { // <--- room here refers to room.id
         </div>     
       </div>
       <div class="invite-link-container">
-        <input class="invite-link-input" type="text" value="LINK HERE">
+        <div class="invite-link-box">
+          <div class="invite-link-first">
+            <div class="invite-link-label">HOVER TO SEE INVITE LINK</div>
+            <input class="invite-link-input" type="text" value="LINK HERE">
+          </div>
+          <div class="invite-link-second">
+            <button class="invite-copy-btn">COPY</button>
+          </div>
+        </div>
+        
         <div class="start-game-btn-container"></div>
         <h1 class="waiting-for-other-players">Waiting for players <span class="mini-dot-1">.</span><span class="mini-dot-2">.</span><span class="mini-dot-3">.</span></h1>
         <div class="game-starting-shortly-container">
@@ -126,13 +135,17 @@ function lobbyRoom(room) { // <--- room here refers to room.id
 
   let playerName = null;
   let inviteLinkInput = null;
+  let inviteLinkBox = null;
   let playerLobbyImg = null; 
-  let lobbyTimer = null; 
+  let lobbyTimer = null;
+  let inviteCopyBtn = null;
   this.lobbyDOM = function() {
     playerName = document.querySelectorAll(".player-name");
     inviteLinkInput = document.querySelector(".invite-link-input");
     playerLobbyImg = document.querySelectorAll(".player-lobby-img");
+    inviteLinkBox = document.querySelector(".invite-link-box");
     lobbyTimer = document.querySelector(".lobby-timer")
+    inviteCopyBtn = document.querySelector(".invite-copy-btn");
   }
 
   lobbyHTML(); // Loads html
@@ -140,5 +153,17 @@ function lobbyRoom(room) { // <--- room here refers to room.id
   lobbyDOM(); // Inits dom wiring
   if(room !== "public") initLobbyUser();
   if(room === "public") initLobbyUserPublic(room);
+
+
+  // INVITE COPY
+  inviteCopyBtn.addEventListener("click", function() {
+    /* Select the text field */
+    inviteLinkInput.select();
+    inviteLinkInput.setSelectionRange(0, 99999); /*For mobile devices*/
+    document.execCommand("copy");
+
+    inviteCopyBtn.innerText = "COPIED!"
+    inviteCopyBtn.classList.add("copied-animation")
+  });
 
 }

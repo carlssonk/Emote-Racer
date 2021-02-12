@@ -88,11 +88,11 @@ function initBattleRoyale(mode) {
   socket.on("initPrivateLobby", (room) => {
     // Join lobby room
     lobbyRoom(room.id)
-    // Add start button
-    const startGameBtnContainer = document.querySelector(".start-game-btn-container")
-    startGameBtnContainer.innerHTML = `<button class="start-game-btn">Start Game!</button>`
-    const startGameBtn = document.querySelector(".start-game-btn")
-    startGameBtn.addEventListener("click", brStartGame)
+    // // Add start button
+    // const startGameBtnContainer = document.querySelector(".start-game-btn-container")
+    // startGameBtnContainer.innerHTML = `<button class="start-game-btn">Start Game!</button>`
+    // const startGameBtn = document.querySelector(".start-game-btn")
+    // startGameBtn.addEventListener("click", brStartGame)
   });
 
   // Update lobby when player joins
@@ -122,7 +122,7 @@ function initBattleRoyale(mode) {
 
     // Waiting label...
     if(users[0].room.isPrivate === false) {
-      if(users.length === 1) {
+      if(users.length <= 2) {
         const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
         waitingForOtherPlayers.classList.add("waiting-label-show")
       } else {
@@ -144,23 +144,23 @@ function initBattleRoyale(mode) {
     
   });
 
-  socket.on("startTimer", () => {
-    lobbyTimer();
-  })
+  // socket.on("startTimer", () => {
+  //   lobbyTimer();
+  // })
 
-  function lobbyTimer() {
-    let count = 5;
-    let counter = setInterval(() => initLobbyTimer(), 1000); //10 will  run it every 100th of a second
-    function initLobbyTimer() {
-      count--;
-      if(count <= 0) {
-        console.log("START GAME")
-        socket.emit("requestStartGamePublic", roomId)
-        clearInterval(counter)
-        return;
-      } 
-    }
-  }
+  // function lobbyTimer() {
+  //   let count = 5;
+  //   let counter = setInterval(() => initLobbyTimer(), 1000); //10 will  run it every 100th of a second
+  //   function initLobbyTimer() {
+  //     count--;
+  //     if(count <= 0) {
+  //       console.log("START GAME")
+  //       socket.emit("requestStartGamePublic", roomId)
+  //       clearInterval(counter)
+  //       return;
+  //     } 
+  //   }
+  // }
 
   // User Leave
   socket.on("userLeave", (userSocketId, users) => {
@@ -210,7 +210,7 @@ function initBattleRoyale(mode) {
 
       // Waiting label...
       if(users[0].room.isPrivate === false) {
-        if(users.length === 1) {
+        if(users.length <= 2) {
           const gameStartingInShortly = document.querySelector(".game-starting-shortly-container")
           const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
           gameStartingInShortly.classList.remove("waiting-label-show")
@@ -1096,6 +1096,8 @@ function initBattleRoyale(mode) {
       }
 
       this.forceWin = function() {
+        if(typeof stopNextRoundTimer === "function") stopNextRoundTimer();
+        nextRoundContainer.style.display = "none"
         gameUpperContent.classList.add("hide-fade")
         playersRemaining.innerText = "0";
         // If player is not eliminated, give him WIN. (of all the players left, there can only be 1 of them that is not eliminated)

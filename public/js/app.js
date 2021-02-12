@@ -24,6 +24,17 @@ const main = document.querySelector(".main");
 // ############################### PAGE INITIALIZATION #############################
 // #################################################################################
 
+// // let socket;
+// initSocket = function() {
+//   return socket = io();
+// }
+
+// setInterval(function() {
+//   console.log("go")
+//   initSocket()
+//   socket.disconnect();
+// }, 1000)
+
 
 // INIT PAGE
 let transition = false // <-- we dont want to have a transition when page loads
@@ -38,6 +49,7 @@ if(window.location.pathname === "/") {
   initBattleRoyale("joinByLink"); // Initialize socket connection & Battle Royale Game
   lobbyRoom(); // Redirects to lobby room
 } else if(location.pathname === "/1v1/" && location.search.length > 0) {
+  history.pushState({urlPath: ``},"",``)
   racerGameBattle("joinByLink") // Initialize socket connection & 1v1 Game
 } else if(window.location.pathname === "/solo") {
   soloPage();

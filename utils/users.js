@@ -10,6 +10,7 @@ const oneUsersPublic = []; // <--- All the players that are in a PUBLIC 1 vs 1 G
 // ####################
 
 
+
 // Join user to room
 function brUserJoinPrivate(id, username, room) {
   const user = { id, username, room };
