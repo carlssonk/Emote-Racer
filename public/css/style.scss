@@ -723,17 +723,19 @@ body {
       -moz-box-shadow: 0 0 38px 0px rgba(0,0,0,0.75);
       h1 {
         color: white;
+        margin-top: 24px;
       }
       .output-buttons-container {
-        position: absolute;
-        left: 50%;
-        transform: translate(-50%);
-        bottom: 24px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: row;
-        width: 100%;
+        margin-top: 24px;
+        // position: absolute;
+        // left: 50%;
+        // transform: translate(-50%);
+        // bottom: 24px;
+        // display: flex;
+        // justify-content: center;
+        // align-items: center;
+        // flex-direction: row;
+        // width: 100%;
       }
     }
     .output-can-still-qualify {
