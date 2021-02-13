@@ -29,8 +29,6 @@ const main = document.querySelector(".main");
 // #################################################################################
 
 
-
-
 // INIT PAGE
 let transition = false // <-- we dont want to have a transition when page loads
 window.onload = () => transition = true;

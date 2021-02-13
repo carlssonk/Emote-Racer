@@ -10,28 +10,30 @@ if(window.Worker) {
 
 
 // Temporary username and profileImg
-let username = setUsername();
-let profileImg = "1";
+// let username = setUsername();
 
 
 
 function initBattleRoyale(mode) {
+  // USER CONFIG
+  const profileImg = "https://static-cdn.jtvnw.net/emoticons/v1/1/3.0"
+  const username = setUsername()
+
+  // ROOM CONFIG
   let roomId = "";
+  let currentPage = "";
 
-
-  // Game data
-  let localUsers = [];
-  let localEmotes = [];
-  let localRandomEmoteIndex = 0;
-  let currentEmote = {};
+  // GAME CONFIG
   let gameEnded = false;
   let playerQualifiedCount = 0;
 
-  let currentPage = "";
+  // GAME DATA
+  let localUsers = [];
+  let localEmotes = [];
+  let localRandomEmoteIndex = 0;
 
 
 
-  console.log(mode)
   // Quickplay or Private lobby with friends
   if(mode === "public") socket.emit("quickPlay", username);
   if(mode === "private") socket.emit("createPrivateLobby", username);
@@ -54,9 +56,6 @@ function initBattleRoyale(mode) {
     // Join lobby room
     lobbyRoom("brPublic", room.id, []) // Empty Array here means that there are no users currently in this room
 
-    // DOM
-    // waitingForOtherPlayers() 
-
     roomId = room.id;
     currentPage = "lobby-page";
   });
@@ -75,8 +74,7 @@ function initBattleRoyale(mode) {
 
   // Update lobby when player joins
   socket.on("joinPublicLobby", (users, room, userSocketId) => {
-    console.log(users)
-    console.log("ONCE")
+
     // Player that just JOINED gets sent to lobby room
     if(socket.id === userSocketId) lobbyRoom("brPublic", room.id, users)
     
@@ -88,14 +86,7 @@ function initBattleRoyale(mode) {
   });
 
   socket.on("joinPrivateLobby", (users, room, userSocketId) => {
-    console.log("-------roomid-------")
-    console.log(room.id)
-    console.log("-------roomid-------")
-    // console.log("ONCE")
-    // Player that just JOINED gets sent to lobby room
-    console.log(socket.id)
-    console.log(socket.id)
-    console.log(userSocketId)
+
     if(socket.id === userSocketId) lobbyRoom("brPrivate", room.id, users)
 
     // DOM
@@ -109,12 +100,9 @@ function initBattleRoyale(mode) {
   // User Leave
   socket.on("userLeave", (userSocketId, users) => {
 
-    // if(socket.id === userSocketId) return;
     // ###########################
     // PLAYER LEAVES IN LOBBY ROOM
     // ###########################
-    // console.log(currentPage)
-    // console.log(typeof leaveLobbyUser === "function")
 
     if(currentPage === "lobby-page") {
   
@@ -184,9 +172,6 @@ function initBattleRoyale(mode) {
   }
 
   socket.on("startGame", (emotesServer, randomEmoteIndex, users) => {
-    gameEnded = false;
-    playerQualifiedCount = 0;
-    
     localEmotes = emotesServer;
     localRandomEmoteIndex = randomEmoteIndex;
     localUsers = users;
@@ -195,32 +180,30 @@ function initBattleRoyale(mode) {
 
 
   function loadBattleRoyale() {
-  // CONFIG
   currentPage = "battle-royale";
-
+  
   // GAME CONFIGURATION 
-  let hasGuessed = false;
+
+  let currentEmote = localEmotes[localRandomEmoteIndex]; // get emote for first round
+  let eliminated = false;
+  let currentRound = 0;
+
+  // These variables resets after every round
   let canStillQualify = false;
   let qualified = false;
   let lives = 3;
   let waitSubmit = true;
-  
-  let eliminated = false;
-  let currentRound = 0;
 
-  // Utils
+  
   function resetGameSettings() {
-    hasGuessed = false;
     canStillQualify = false;
     playerQualifiedCount = 0;
     qualified = false;
     lives = 3;
     waitSubmit = true;
-    for(let user of localUsers) user.hasQualified = false;
 
+    // DOM
     gameUpperContent.style.display = "none";
-
-    currentEmote = localEmotes[localRandomEmoteIndex];
   }
 
   // GAME CONTAINER
@@ -251,12 +234,12 @@ function initBattleRoyale(mode) {
 
       // Set username & socket.id to DOM
       playerAsideName[0].innerText = localUsers[socketIndex].username;
-      playerAsideImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
+      playerAsideImg[0].src = profileImg
       playerAside[0].dataset.id = socket.id;
       playerAside[0].style.display = "flex";
       for(let i = 0; i < otherPlayers.length; i++) {
         playerAsideName[i+1].innerText = otherPlayers[i].username;
-        playerAsideImg[i+1].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
+        playerAsideImg[i+1].src = profileImg
         playerAside[i+1].dataset.id = otherPlayers[i].id;
         playerAside[i+1].style.display = "flex";
       }
@@ -316,9 +299,6 @@ function initBattleRoyale(mode) {
 
 
     function showCorrectAnswer() {
-      inputEmote.readOnly = true;
-      inputEmote.value = "";
-
       // Show Next Round Container
       nextRoundContainer.classList.remove("hide-fade");
       nextRoundContainer.style.display = "flex";
@@ -427,6 +407,7 @@ function initBattleRoyale(mode) {
 
     socket.on("nextRound", randomEmoteIndex => {
       localRandomEmoteIndex = randomEmoteIndex;
+
       currentEmote = localEmotes[localRandomEmoteIndex];
 
       slideRightEmoteAnimation();
@@ -465,12 +446,6 @@ function initBattleRoyale(mode) {
       // If round is higher than 50, kick players
       if(currentRound > 50) {
         socket.disconnect();
-        // if(mode === "public") {
-          
-        //   socket.emit("leaveUser", "battleRoyalePublic", roomId)
-        // } else if(mode === "private" || mode === "joinByLink") {
-        //   socket.emit("leaveUser", "battleRoyalePrivate", roomId)
-        // }
         mainPage();
         alert("Kicked for being AFK")
       }
@@ -769,7 +744,7 @@ function initBattleRoyale(mode) {
         for(let i = 0; i < playerQualified.length; i++) {
           if(playerQualified[i].dataset.id === "") {
             playerQualified[i].dataset.id = userSocketId;
-            playerQualifiedImg[i].src = `https://static-cdn.jtvnw.net/emoticons/v1/${image}/3.0`;
+            playerQualifiedImg[i].src = image;
             playerQualifiedImg[i].classList.add("fade-scale-animation")
             break;
           }
@@ -865,9 +840,6 @@ function initBattleRoyale(mode) {
       function setUserGuessed(userSocketId) {
         const userIndex = localUsers.findIndex(e => e.id === userSocketId)
         localUsers[userIndex].hasGuessed = true;
-        if(socket.id === userSocketId) {
-          hasGuessed = true;
-        } 
       }
 
       function setEliminatePlayer(userSocketId) {
@@ -1036,7 +1008,7 @@ function initBattleRoyale(mode) {
           outputEnd.classList.add("show-fade-next")
         }
         // Add player img to playersQualified if he is not there
-        if(playerQualified[0].dataset.id !== localUsers[0].id) playerQualifiedImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/1/3.0`
+        if(playerQualified[0].dataset.id !== localUsers[0].id) playerQualifiedImg[0].src = profileImg
       }
 
 
@@ -1307,8 +1279,10 @@ function initBattleRoyale(mode) {
 
     for(let button of brPlayAgainBtn) {
       button.addEventListener("click", function() {
+        // remove socket listener so we dont get duplicate when we load script again
         socket.removeAllListeners()
-        // Simple dom reset
+        
+        // DOM
         playerEliminatedContainer.innerHTML = "";
   
 
@@ -1317,31 +1291,25 @@ function initBattleRoyale(mode) {
 
           // Find/Create new public lobby
           initBattleRoyale("public")
-          // lobbyRoom("brPublic", roomId)
 
         } else if(mode === "private" || mode === "joinByLink") {
           socket.emit("leaveUser", "battleRoyalePrivate", roomId)
 
-          initBattleRoyale("joinByLink"); // Initialize socket connection & Battle Royale Game
-          // lobbyRoom(); // Redirects to lobby room
+          // Join same private room again
+          initBattleRoyale("joinByLink"); 
+  
         }
       });
     }
 
-
     for(let button of brMainMenuBtn) {
       button.addEventListener("click", function() {
-        // socket.removeAllListeners()
+        // Disconnect socket
         socket.disconnect();
         mainPage();
-        // if(mode === "public") {
-        //   socket.emit("leaveUser", "battleRoyalePublic", roomId)
-        // } else if(mode === "private" || mode === "joinByLink") {
-        //   socket.emit("leaveUser", "battleRoyalePrivate", roomId)
-        // }
+
       })
     }
-
 
     for(let button of outputExitBtn) {
       button.addEventListener("click", function() {
@@ -1368,13 +1336,3 @@ function initBattleRoyale(mode) {
 }
 
 
-// Generate random username
-function setUsername() {
-  let id = "";
-  let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let charactersLength = characters.length;
-  for (var i = 0; i < 6; i++) {
-    id += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return `Guest_${id}`;
-}

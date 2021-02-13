@@ -1,13 +1,25 @@
 
 
 function racerGameBattle(mode) {
+  // USER CONFIG 
+  const profileImg = "https://static-cdn.jtvnw.net/emoticons/v1/1/3.0"
+  const username = setUsername()
+  const nameColor = ""
+
+  // ROOM CONFIG
   let roomId = "";
   let currentPage = "1v1";
 
+  // GAME CONFIG
   let localUsers = [];
-  let emotesServer = [];
-  let localRandomEmoteIndex = [];
 
+  // GENERAL CONFIG
+  function configuration() {
+    inputEmote.focus(); // Automatically focus input text
+    gameUpperContent.style.clip = "rect(0px,0px,0px,0px)", gameUpperContent.style.position = "absolute";
+    if(mode === "public") racerStartGameLabel.style.display = "none"
+    navAside.style.display = "none";
+  }
 
 
   // Quickplay or Private lobby with friends
@@ -131,13 +143,13 @@ function racerGameBattle(mode) {
 
 
   function firstPlayerDom() {
-    battlePlayerImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
+    battlePlayerImg[0].src = profileImg
     battlePlayerName[0].innerText = username;
   }
 
   function bothPlayersDom(room) {
     for(let i = 0; i < 2; i++) {
-      battlePlayerImg[i].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
+      battlePlayerImg[i].src = profileImg
       battlePlayerName[i].innerText = localUsers[i].username
       if(room.isPrivate === true) {
         battlePlayerReady[i].innerText = "NOT READY"
@@ -263,7 +275,8 @@ function racerGameBattle(mode) {
   // ####################################
 
 
-  // --Stats--
+  // ##### STATS #####
+
   // Speed
   let speed = 0;
   // Accuracy
@@ -273,8 +286,11 @@ function racerGameBattle(mode) {
   let totalEmoteCharacters = 0;
   // Incorrect Guesses
   let incorrectGuesses = 0;
-  // Game
-  // let emotesClone = JSON.parse(JSON.stringify(emotes))
+
+
+  // ##### GAME #####
+
+  
   let currentScore = 0;
   let currentEmote = {};
   let gameStarted = false;
@@ -282,8 +298,6 @@ function racerGameBattle(mode) {
   let cycleBool = false;
   let currentEmoteFirst = {};
   let currentEmoteLast = {};
-  let randomEmoteIndex = 0;
-  let randomEmoteIndex2 = 0;
 
 
   function startCountdown() {
@@ -1014,19 +1028,12 @@ function racerGameBattle(mode) {
     });
   }
 
-  navAside.style.display = "none";
-
   originalGameHTML(); // Loads html
   pageTransition(); // Page transition
   originalGameDOM(); // Inits dom wiring
   originalGameEVENT(); // Inits event listeners
 
-  // configuration();
-
-  inputEmote.focus(); // Automatically focus input text
-  gameUpperContent.style.clip = "rect(0px,0px,0px,0px)", gameUpperContent.style.position = "absolute";
-  if(mode === "public") racerStartGameLabel.style.display = "none"
-
+  configuration()
 
 
   this.getCurrentPage = function() {

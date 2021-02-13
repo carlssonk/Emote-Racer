@@ -1,6 +1,9 @@
 function lobbyRoom(roomName, roomId, users) {
 
   function configuration() {
+    const profileImg = "https://static-cdn.jtvnw.net/emoticons/v1/1/3.0"
+    const username = setUsername()
+
     // DOM
     navAside.style.display = "none";
     battleRoyaleAside.style.display = "none";
@@ -45,7 +48,7 @@ function lobbyRoom(roomName, roomId, users) {
     function joinLobbyUser(users) {
       for(let i = 0; i < users.length; i++) {
         playerName[i].innerText = users[i].username
-        playerLobbyImg[i].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
+        playerLobbyImg[i].src = profileImg
         lobbyPlayer[i].classList.add("fade-scale-animation")
       }
     }
@@ -69,7 +72,7 @@ function lobbyRoom(roomName, roomId, users) {
       if(index !== users.length) {
         for(let i = 0; i < users.length; i++) {
           playerName[i].innerText = users[i].username
-          playerLobbyImg[i].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
+          playerLobbyImg[i].src = profileImg
         }
       }
 
@@ -116,7 +119,7 @@ function lobbyRoom(roomName, roomId, users) {
 
     function setDom() {
       playerName[0].innerText = username;
-      playerLobbyImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
+      playerLobbyImg[0].src = profileImg
     }
 
     // // Disconnect socket
