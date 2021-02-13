@@ -34,227 +34,11 @@ const {
   oneUserLeavePublic,
   oneGetRoomUsersPublic,
 } = require('./utils/users');
-// let reqStreamerData = require("./utils/data");
-// console.log(reqStreamerData.length)
+
 const emotesServer = require("./utils/emotes");
-const { Socket } = require("dgram");
 
 
 app.use(express.static(`${__dirname}/public`));
-
-
-
-// #################################################################################
-// ################################# CONFIGURATION #################################
-// #################################################################################
-
-
-const clientId = "qblw5u06par9cbf6ba5a3p0d5v0rjt";
-const clientSecret = "md9kdwjidh5wf5f1t7lejq6xbkhfuj";
-const token = "gt9v7snpiau3mymnnujobxw9bjex7c";
-
-// USE THIS FUNCTION TO GENERATE A NEW TOKEN
-async function generateToken() {
-  try {
-    // const res = await axios.post(`https://id.twitch.tv/oauth2/token?client_id=${clientId}&client_secret=${clientSecret}&grant_type=client_credentials`)
-    // const token = res.data.access_token;
-  } catch(err) {
-    console.error("ERROR!", err)
-  }
-}
-
-
-// #################################################################################
-// ##################################### DATA ######################################
-// #################################################################################
-
-
-const Streamers = [
-  "Ninja",
-  "Tfue",
-  "shroud",
-  "Myth",
-  "pokimane",
-  "xQcOW",
-  "sodapoppin",
-  "summit1g",
-  "NICKMERCS",
-  "TimTheTatman",
-  "loltyler1",
-  "Symfuhny",
-  "LIRIK",
-  "Anomaly",
-  "Asmongold",
-  "Mizkif",
-  "HasanAbi",
-  "ludwig",
-  "moistcr1tikal",
-  "MitchJones",
-  "Nmplol",
-  "jakenbakeLIVE",
-  "Maya",
-  "pokelawls",
-  "ItsSliker",
-  "EsfandTV",
-  "erobb221",
-  "forsen",
-  "Trainwreckstv",
-  "greekgodx",
-  "auronplay",
-  "Rubius",
-  "DrLupo",
-  "lilypichu",
-  "adeptthebest",
-  "TSM_Daequan",
-  "cloakzy",
-  "Sykkuno",
-  "dakotaz",
-  "Fresh",
-  "Nightblue3",
-  "NymN",
-]
-
-const emoteOfTheDay = [
-  "425618",
-  "30259",
-  "41",
-  "555555584",
-  "120232",
-  "25",
-  "555555560",
-  "58765",
-  "1",
-  "1035663",
-  "64138",
-  "304486301",
-  "28087",
-  "102242",
-  "52",
-  "555555589",
-  "425618",
-  "1035667",
-  "301361407",
-  "305362992",
-  "684863",
-  "302334335",
-  "354",
-  "123171",
-  "114836",
-  "354",
-  "116245",
-  "304412445",
-  "521050",
-  "715076",
-  "186328",
-  "301928407",
-  "117611",
-  "1678560",
-  "127061",
-  "1207074",
-  "303257423",
-  "205480",
-  "1559681",
-  "300502466",
-  "305240043",
-  "1949677",
-  "301662923",
-  "305146558",
-  "106925",
-  "125258",
-  "303371795",
-  "303607079",
-  "303607079",
-  "305288398",
-  "300290082",
-  "507931",
-  "38924",
-  "303119089",
-  "304507322",
-  "303706436",
-  "1646084",
-  "1722086",
-  "305260555",
-  "300183302",
-  "1166070",
-  "301874915",
-  "301611970",
-  "302341644",
-  "304133743",
-  "301120167",
-  "301613366",
-  "300272604",
-  "301229116",
-]
-
-const StreamerDataBackend = [];
-
-function returnStreamersList() {
-  let streamersList = "";
-  for(let user of Streamers) {
-    streamersList += `&login=${user}`
-  }
-  return streamersList
-}
-
-// Get StreamerId & StreamerProfileImg
-const getStreamerData = async () => {
-  try {
-    const config = {
-      headers:{
-        "Authorization": `Bearer ${token}`,
-        "Client-Id": clientId
-      }
-    }
-    const res = await axios.get(`https://api.twitch.tv/helix/users?login=Knut${returnStreamersList()}`, config)
-    for(let userData of res.data.data) {
-      StreamerDataBackend.push({name: userData.display_name, id: userData.id, img: userData.profile_image_url})
-    }
-    getStreamerEmotes()
-
-  } catch(err) {
-    console.error("ERROR!", err)
-  }
-}
-
-// Get streamers emotes
-const getStreamerEmotes = async () => {
-
-const timer = ms => new Promise(res => setTimeout(res, ms)) // Returns a Promise that resolves after "ms" Milliseconds
-
-async function fetchEmotes () { // We need to wrap the loop into an async function so we can pause loop for 1 second every fetch
-  for (var i = 0; i < StreamerDataBackend.length; i++) {
-    // Fetch data and add to StreamerDataBackedn array
-    await axios.get(`https://api.twitchemotes.com/api/v4/channels/${StreamerDataBackend[i].id}`)
-    .then(res => {
-      StreamerDataBackend[i].emotes = res.data.emotes
-    })
-    .catch(err => {
-      console.log("Oh no, we got an error: " + err)
-    })
-
-    await timer(1000); // Run loop every second
-    console.log("Fetch " + i)
-  }
-  console.log("GO!")
-  console.log(StreamerDataBackend)
-  writeDataFile() // Run this script when loop is done
-}
-
-fetchEmotes(); // Start loop
-}
-
-// Rewrite data.js so we know everything is up to date
-const writeDataFile = () => {
-  fs.writeFileSync(`${__dirname}\\public\\js/data.js`, `var StreamerData = ${JSON.stringify(StreamerDataBackend)}`);
-
-  fs.writeFileSync(`./utils/data`, `var StreamerData = ${JSON.stringify(StreamerDataBackend)} \n\n module.exports = StreamerData`);
-  reqStreamerData = require("./utils/data");
-}
-
-// Update data.js file once every 24 hours
-setInterval(function() {
-  getStreamerData()
-}, 1000 * 60 * 60 * 24)
 
 
 // #################################################################################
@@ -268,15 +52,8 @@ let brRoomsList = [];
 let oneRoomsList = [];
 let lobbyCountdownTimers = [];
 
-// setInterval(function() {
-//   console.log(brRoomsList)
-// }, 1000)
-
 
 io.on("connection", (socket) => {
-
-
-  // Send socketId to client
 
 
   // ########################################
@@ -338,13 +115,8 @@ io.on("connection", (socket) => {
 
   })
 
-  // // So game start automatically if lobby is not full
-  // socket.on("startLobbyTimer", (roomId, usersLength, socketId) => {
-  //   handleLobbyTimer(roomId, usersLength, socketId)
 
-  // })
-
-
+  // Starts a 20 seconds timer, so if lobby is not full, game will start automatically
   function startLobbyTimer(roomId) {
 
     this.clearTimeoutLobby = function(roomId) {
@@ -367,30 +139,6 @@ io.on("connection", (socket) => {
 
   }
 
-
-  // function handleLobbyTimer(roomId, usersLength, socketId) {
-  //   if(usersLength >= 2) {
-  //     io.to(socket.id).emit("startTimer", count)
-  //   }
-
-  //   function timer() {
-  //     // Timer logic
-  //     let count = 60;
-  //     let counter = setInterval(() => initLobbyTimer(), 1000); //10 will  run it every 100th of a second
-  //     function initLobbyTimer() {
-  //       count--;
-  //       if(count <= 0) {
-  //         clearInterval(counter)
-  //         return;
-  //       } 
-  //     }
-  //   }
-
-  // }
-  // socket.on("stopLobbyTimer", (roomId, usersLength) => {
-  //   console.log(roomId)
-  //   console.log(usersLength)
-  // })
 
   // ########################################
   // #### BATTLE ROYALE PRIVATE HANDLING ####
@@ -458,10 +206,6 @@ io.on("connection", (socket) => {
     io.to(roomId).emit("startGame", emotesServer, randomEmoteIndex, brGetRoomUsersPrivate(roomId));
   })
 
-  // // Send signal to all users
-  // socket.on("requestStartGamePublic", (roomId) => {
-  //   requestStartGamePublic(roomId);
-  // });
 
   function requestStartGamePublic(roomId) {
     clearTimeoutLobby(roomId); // Clear lobby timer since we are now gonna start game
@@ -647,10 +391,6 @@ io.on("connection", (socket) => {
 
   })
 
-  // function requestStartGamePublic1v1(roomId) {
-
-  // }
-
 
 
   socket.on("userCorrect1v1", (roomId, socketId) => {
@@ -659,13 +399,6 @@ io.on("connection", (socket) => {
 
 
 
-
-
-
-  // oneUserJoinPrivate,
-  // oneGetUserPrivate,
-  // oneUserLeavePrivate,
-  // oneGetRoomUsersPrivate,
 
   // ###########################
   // ### CLIENT DISCONNECTS ####
@@ -791,12 +524,6 @@ io.on("connection", (socket) => {
   }
 
 
-  // setInterval(function() {
-  //   console.log(io.sockets.adapter.rooms)
-  //   console.log(io.sockets.adapter.sids)
-  // }, 2000)
-
-
   // ##########################
   // ##### ADMIN COMMANDS #####
   // ##########################
@@ -810,8 +537,9 @@ io.on("connection", (socket) => {
 
 
 
-
-// EXTRAS
+// ##################
+// ##### EXTRAS #####
+// ##################
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -833,7 +561,7 @@ function garbageCollector() {
 }
 setInterval(() => garbageCollector(), 1000 * 60)
 
-// Performance BOOOST
+// Performance BOOSTED START SCRIPT
 // `node --nouse-idle-notification --expose-gc --max-old-space-size=8192 index.js`
 
 
