@@ -2,9 +2,7 @@ const express = require("express");
 const app = express();
 const server = require("http").createServer(app);
 const PORT = 8080;
-const axios = require("axios")
 const io = require("socket.io")(server, { perMessageDeflate: false });
-const fs = require('fs');
 const schedule = require("node-schedule");
 const { v4: uuidv4 } = require('uuid');
 const {
@@ -54,7 +52,6 @@ let lobbyCountdownTimers = [];
 
 
 io.on("connection", (socket) => {
-
 
   // ########################################
   // #### BATTLE ROYALE PUBLIC HANDLING #####
@@ -155,7 +152,6 @@ io.on("connection", (socket) => {
     app.get(`/battle-royale/?${room.id}`, (req, res) => {
       res.sendFile(`${__dirname}/public/index.html`);
     });
-    console.log(brGetRoomUsersPrivate(room.id))
     // Send room to client so it can generate a link for other people to join
     socket.emit('initPrivateLobby', room);
   })
@@ -169,8 +165,6 @@ io.on("connection", (socket) => {
         return
       }
     }
-
-    console.log(brGetRoomUsersPrivate(roomId))
 
     // Set room 
     const room = {id: roomId, isPrivate: true, isPlaying: false}
@@ -203,7 +197,7 @@ io.on("connection", (socket) => {
 
     const randomEmoteIndex = Math.floor(Math.random() * emotesServer.length);
 
-    io.to(roomId).emit("startGame", emotesServer, randomEmoteIndex, brGetRoomUsersPrivate(roomId));
+    io.to(roomId).emit("startGame", emotesServer, randomEmoteIndex, theRoom);
   })
 
 
@@ -218,7 +212,7 @@ io.on("connection", (socket) => {
 
     const randomEmoteIndex = Math.floor(Math.random() * emotesServer.length);
 
-    io.to(roomId).emit("startGame", emotesServer, randomEmoteIndex, brGetRoomUsersPublic(roomId));
+    io.to(roomId).emit("startGame", emotesServer, randomEmoteIndex, theRoom);
   }
 
 
