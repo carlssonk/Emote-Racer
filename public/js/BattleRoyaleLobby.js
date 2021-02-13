@@ -37,6 +37,8 @@ function lobbyRoom(roomName, roomId, users) {
         const startGameBtn = document.querySelector(".start-game-btn")
         startGameBtn.addEventListener("click", brStartGame)
       }
+      // LINK
+      inviteLinkInput.value = window.location.href;
     }
 
 

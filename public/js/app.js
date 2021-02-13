@@ -60,7 +60,8 @@ if(window.location.pathname === "/") {
 
 
 navLogo.addEventListener("click", function() {
-  const page = getCurrentPage();
+  let page;
+  if(typeof getCurrentPage === "function") page = getCurrentPage();
   pageChange(page);
   mainPage();
 });
@@ -318,6 +319,7 @@ function pageChange(page) {
     if(typeof stopProgressBar === "function") stopProgressBar();
     if(typeof stopNextRoundTimer === "function") stopNextRoundTimer();
   }
+  console.log(page)
   if(page === "lobby-page") {
     socket.disconnect();
   }
@@ -344,10 +346,6 @@ function pageTransitionTop() {
   main.style.animation = null;
 }
 
-// Prevents navlogo click currentPage error
-this.getCurrentPage = function() {
-  return null;
-}
 
 
 

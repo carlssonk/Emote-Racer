@@ -368,7 +368,6 @@ io.on("connection", (socket) => {
   })
 
 
-
   // Send signal to all users
   socket.on("requestStartGamePublic1v1", (roomId) => {
 
@@ -392,11 +391,9 @@ io.on("connection", (socket) => {
   })
 
 
-
   socket.on("userCorrect1v1", (roomId, socketId) => {
     io.to(roomId).emit("userCorrect1v1", socketId);
   })
-
 
 
 
@@ -445,7 +442,6 @@ io.on("connection", (socket) => {
 
   // If user click Play Again whilst being in a multiplayer room, leave the user from the room, dont remove the socket connection like we do above
   socket.on("leaveUser", (roomName, roomId) => {
-    console.log("LEAVE!")
 
     if(roomName === "battleRoyalePublic") {
       spliceBrPublic(roomId, socket.id);
@@ -471,10 +467,14 @@ io.on("connection", (socket) => {
 
 
   function spliceBrPrivate(roomId, socketId) {
+    const theRoom = brGetRoomUsersPrivate(roomId);
     // TO CLIENT
-    io.to(roomId).emit("userLeave", socketId, brGetRoomUsersPrivate(roomId))
+    io.to(roomId).emit("userLeave", socketId, theRoom)
     // SERVER
     brUserLeavePrivate(socketId)
+    // the room is declared before we remove the user, so 1 means that there is no one in the room
+    if(theRoom.length === 1) spliceRoute("/battle-royale/?", roomId)
+
   }
 
 
@@ -488,10 +488,13 @@ io.on("connection", (socket) => {
 
 
   function splice1v1Private(roomId, socketId) {
+    const theRoom = oneGetRoomUsersPrivate(roomId);
     // TO CLIENT
-    io.to(roomId).emit("userLeave1v1", socketId, oneGetRoomUsersPrivate(roomId), "private")    
+    io.to(roomId).emit("userLeave1v1", socketId, theRoom, "private")    
     // SERVER
     oneUserLeavePrivate(socketId)
+    // the room is declared before we remove the user, so 1 means that there is no one in the room
+    if(theRoom.length === 1) spliceRoute("/1v1/?", roomId)
   }
 
 
@@ -521,6 +524,21 @@ io.on("connection", (socket) => {
       }
     }
 
+  }
+
+
+  // Remove route when a private room is empty
+  function spliceRoute(pathname, roomId) {
+    const routes = [...app._router.stack].reverse();
+
+    for(let i = 0; i < routes.length; i++) {
+      if(typeof routes[i].route === "undefined") continue;
+      console.log(routes[i].route.path)
+      if(routes[i].route.path === `${pathname}${roomId}`) {
+        routes.splice(i, 1);
+        break;
+      }
+    }
   }
 
 
@@ -582,9 +600,12 @@ app.get('/solo', function (req, res) {
 app.get('/1v1', function (req, res) {
   res.sendFile(`${__dirname}/public/index.html`);
 });
-// app.get("*", function (req, res) {
-//   res.redirect("/");
-// });
+app.get('/1v1:id', function (req, res) {
+  res.sendFile(`${__dirname}/public/index.html`);
+});
+app.get("*", function (req, res) {
+  res.redirect("/");
+});
 
 server.listen(PORT, () => {
   console.log(`Listening on ${PORT}...`)

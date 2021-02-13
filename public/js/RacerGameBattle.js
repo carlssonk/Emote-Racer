@@ -91,7 +91,7 @@ function racerGameBattle(mode) {
 
 
   // Join Private Lobby
-  socket.on("joinPrivateLobby1v1", (users) => {
+  socket.on("joinPrivateLobby1v1", (users, room) => {
 
     // We need to set these icons because when pathname/link is not the origin we get an error and imgs wont load
     enterKey.src = `${window.location.origin}/imgs/EnterKey.svg`
