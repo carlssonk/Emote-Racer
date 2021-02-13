@@ -10,7 +10,6 @@ this.onmessage = (e) => {
     function initBattleRoyaleTimer() {
       // STOP TIMER IF USER EXITS PAGE
       this.stopCountdownClearInterval = function() {
-        console.log("CLEAR")
         clearInterval(counter);
       }
 
@@ -21,7 +20,6 @@ this.onmessage = (e) => {
 
       // UPDATE ON APP.JS + STOP TIMER
       if (count <= 0) {
-        console.log("DONT RUN")
         clearInterval(counter);
         this.postMessage("stopCountdown")
         return;
@@ -31,11 +29,21 @@ this.onmessage = (e) => {
   }
 
   if(e.data === "updateCountdown") {
-    updateTimerOnDom();
+    // Set timeout because setInterval starts after 100ms, before that the function is not defined
+    if(typeof updateTimerOnDom === "function") {
+      updateTimerOnDom();
+    } else {
+      setTimeout(() => updateTimerOnDom(), 150)
+    }
   }
   
   if(e.data === "clearCountdown") {
-    stopCountdownClearInterval();
+    // Set timeout because setInterval starts after 100ms, before that the function is not defined
+    if(typeof stopCountdownClearInterval === "function") {
+      stopCountdownClearInterval();
+    } else {
+      setTimeout(() => stopCountdownClearInterval(), 150)
+    }
   }
 
   // ########################
@@ -68,11 +76,21 @@ this.onmessage = (e) => {
   }
 
   if(e.data === "updateProgressBar") {
-    updateProgressOnDom();
+    // Set timeout because setInterval starts after 40ms, before that the function is not defined
+    if(typeof updateProgressOnDom === "function") {
+      updateProgressOnDom();
+    } else {
+      setTimeout(() => updateProgressOnDom(), 90)
+    }
   }
 
   if(e.data === "clarProgressBar") {
-    stopProgressClearInterval();
+    // Set timeout because setInterval starts after 40ms, before that the function is not defined
+    if(typeof stopProgressClearInterval === "function") {
+      stopProgressClearInterval();
+    } else {
+      setTimeout(() => stopProgressClearInterval(), 90)
+    }
   }
 
 
@@ -94,9 +112,9 @@ this.onmessage = (e) => {
         this.postMessage({name: "updateCountdown1v1", message: count})
       }
 
+      console.log(count)
       // UPDATE ON APP.JS + STOP TIMER
       if (count <= 0) {
-        console.log("DONT RUN")
         clearInterval(counter);
         this.postMessage("stopCountdown1v1")
         return;
@@ -106,11 +124,21 @@ this.onmessage = (e) => {
   }
 
   if(e.data === "updateCountdown1v1") {
-    updateTimerOnDom1v1();
+    // Set timeout because setInterval starts after 1000ms, before that the function is not defined
+    if(typeof updateTimerOnDom1v1 === "function") {
+      updateTimerOnDom1v1();
+    } else {
+      setTimeout(() => updateTimerOnDom1v1(), 1050)
+    }
   }
   
   if(e.data === "clearCountdown1v1") {
-    stopCountdownClearInterval1v1();
+    // Set timeout because setInterval starts after 1000ms, before that the function is not defined
+    if(typeof stopCountdownClearInterval1v1 === "function") {
+      stopCountdownClearInterval1v1();
+    } else {
+      setTimeout(() => stopCountdownClearInterval1v1(), 1050)
+    }
   }
 
 

@@ -14,23 +14,11 @@ let username = setUsername();
 let profileImg = "1";
 
 
-// Socket/Room config
-let socketId = "";
-let roomId = location.search.substring(1);
-
-
-
-let socket;
-initSocket = function() {
-  return socket = io();
-}
 
 function initBattleRoyale(mode) {
-  // Initialize socket conneciton
-  initSocket();
+  let roomId = "";
 
-  // Socket/Room config
-  let socketId = "";
+
   // Game data
   let localUsers = [];
   let localEmotes = [];
@@ -39,184 +27,99 @@ function initBattleRoyale(mode) {
   let gameEnded = false;
   let playerQualifiedCount = 0;
 
+  let currentPage = "";
 
-  // Set local socketId
-  socket.on("socketId", (id) => {
-    socketId = id;
-  });
 
+
+  console.log(mode)
   // Quickplay or Private lobby with friends
   if(mode === "public") socket.emit("quickPlay", username);
   if(mode === "private") socket.emit("createPrivateLobby", username);
 
   // Request join room by url
-  if(mode === "joinByLink") socket.emit("requestJoin", roomId, username);
+  if(mode === "joinByLink") {
+    roomId = location.search.substring(1); // Get room id from url
+    socket.emit("requestJoin", roomId, username);
+  } 
 
   socket.on("roomIsFull", () => {
-    mainPage();
-    // Send message to user that room is full
-    const roomIsFullLabel = document.querySelector(".room-is-full-label")
-    roomIsFullLabel.style.display = "block";
-    roomIsFullLabel.style.opacity = "1";
-    setTimeout(() => roomIsFullLabel.style.marginTop = "-100px", 50)
-    setTimeout(function() {
-      roomIsFullLabel.style.opacity = "0";
-    }, 700)
-    setTimeout(function() {
-      roomIsFullLabel.style.display = "none";
-      roomIsFullLabel.style.marginTop = "0";
-    }, 1700)
+    mainPage(); // Send user to mainPage
+    roomIsFullLabel(); // Send user message that room is full
   }) 
 
-  // Create and join unique PUBLIC room
-  socket.on("initLobby", (room) => {
-    // Join lobby room
-    lobbyRoom("public")
-    // Add start button
-    // const startGameBtnContainer = document.querySelector(".start-game-btn-container")
-    // startGameBtnContainer.innerHTML = `<button class="start-game-btn">Start Game!</button>`
-    // const startGameBtn = document.querySelector(".start-game-btn")
-    // startGameBtn.addEventListener("click", brStartGame)
-    const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
-    waitingForOtherPlayers.classList.add("waiting-label-show")
 
+  // Create and join unique PUBLIC room
+  socket.on("initPublicLobby", (room) => {
+    console.log("ONCE")
+    // Join lobby room
+    lobbyRoom("brPublic", room.id, []) // Empty Array here means that there are no users currently in this room
+
+    // DOM
+    // waitingForOtherPlayers() 
 
     roomId = room.id;
+    currentPage = "lobby-page";
   });
+
 
   // Create and join unique room
   socket.on("initPrivateLobby", (room) => {
+    console.log("ONCE")
     // Join lobby room
-    lobbyRoom(room.id)
-    // // Add start button
-    // const startGameBtnContainer = document.querySelector(".start-game-btn-container")
-    // startGameBtnContainer.innerHTML = `<button class="start-game-btn">Start Game!</button>`
-    // const startGameBtn = document.querySelector(".start-game-btn")
-    // startGameBtn.addEventListener("click", brStartGame)
+    lobbyRoom("brPrivate", room.id, []) // Empty Array here means that there are no users currently in this room
+
+    roomId = room.id;
+    currentPage = "lobby-page";
   });
+
 
   // Update lobby when player joins
-  socket.on("joinLobby", (users, room) => {
-    if(main.dataset.page === "battle-royale") return;
-    // LOBBY DOM
-    const lobbyPlayer = document.querySelectorAll(".lobby-player")
-    const playerName = document.querySelectorAll(".player-name")
-    const playerLobbyImg = document.querySelectorAll(".player-lobby-img")
-    // Set user name and image when players join
-    console.log(playerName)
-    for(let i = 0; i < users.length; i++) {
-      playerName[i].innerText = users[i].username
-      playerLobbyImg[i].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
-      lobbyPlayer[i].classList.add("fade-scale-animation")
-    }
-
-    if(users.length > 1) {
-      if(socketId === users[0].id && users[0].room.isPrivate === true) {
-      // Add start button
-      const startGameBtnContainer = document.querySelector(".start-game-btn-container")
-      startGameBtnContainer.innerHTML = `<button class="start-game-btn">Start Game!</button>`
-      const startGameBtn = document.querySelector(".start-game-btn")
-      startGameBtn.addEventListener("click", brStartGame)
-      }
-    }
-
-    // Waiting label...
-    if(users[0].room.isPrivate === false) {
-      if(users.length <= 2) {
-        const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
-        waitingForOtherPlayers.classList.add("waiting-label-show")
-      } else {
-        const gameStartingInShortly = document.querySelector(".game-starting-shortly-container")
-        const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
-        waitingForOtherPlayers.classList.remove("waiting-label-show")
-        gameStartingInShortly.classList.add("waiting-label-show")
-      }
-    }
-
-
-    roomId = room
-
-    if(users[0].room.isPrivate === true) {
-      main.dataset.isPrivate = "true"
-    } else {
-      main.dataset.isPrivate = "false"
-    }
+  socket.on("joinPublicLobby", (users, room, userSocketId) => {
+    console.log(users)
+    console.log("ONCE")
+    // Player that just JOINED gets sent to lobby room
+    if(socket.id === userSocketId) lobbyRoom("brPublic", room.id, users)
     
+    // DOM
+    joinLobbyUserPublic(users)
+    
+    roomId = room.id
+    currentPage = "lobby-page";
   });
 
-  // socket.on("startTimer", () => {
-  //   lobbyTimer();
-  // })
+  socket.on("joinPrivateLobby", (users, room, userSocketId) => {
+    console.log("-------roomid-------")
+    console.log(room.id)
+    console.log("-------roomid-------")
+    // console.log("ONCE")
+    // Player that just JOINED gets sent to lobby room
+    console.log(socket.id)
+    console.log(socket.id)
+    console.log(userSocketId)
+    if(socket.id === userSocketId) lobbyRoom("brPrivate", room.id, users)
 
-  // function lobbyTimer() {
-  //   let count = 5;
-  //   let counter = setInterval(() => initLobbyTimer(), 1000); //10 will  run it every 100th of a second
-  //   function initLobbyTimer() {
-  //     count--;
-  //     if(count <= 0) {
-  //       console.log("START GAME")
-  //       socket.emit("requestStartGamePublic", roomId)
-  //       clearInterval(counter)
-  //       return;
-  //     } 
-  //   }
-  // }
+    // DOM
+    joinLobbyUserPrivate(users)
+
+    roomId = room.id
+    currentPage = "lobby-page";
+  });
+
 
   // User Leave
   socket.on("userLeave", (userSocketId, users) => {
 
+    // if(socket.id === userSocketId) return;
     // ###########################
     // PLAYER LEAVES IN LOBBY ROOM
     // ###########################
+    // console.log(currentPage)
+    // console.log(typeof leaveLobbyUser === "function")
 
-    if(main.dataset.page === "lobby-room") {
-      
-      // LOBBY DOM
-      const lobbyPlayer = document.querySelectorAll(".lobby-player")
-      const playerName = document.querySelectorAll(".player-name")
-      const playerLobbyImg = document.querySelectorAll(".player-lobby-img")
-
-      // Find index in users array
-      const index = users.findIndex(e => e.id === userSocketId);
-
-      // Remove img and name for last position
-      playerName[users.length - 1].innerText = "";
-      playerLobbyImg[users.length - 1].src = "";
-      lobbyPlayer[users.length - 1].classList.remove("fade-scale-animation")
-
-      // Remove index from array
-      // -1 means "findIndex method" did not find matching
-      if(index !== -1) {
-        users.splice(index, 1)
-      }
-
-      // If not last person in array left, set new positions
-      if(index !== users.length) {
-        for(let i = 0; i < users.length; i++) {
-          playerName[i].innerText = users[i].username
-          playerLobbyImg[i].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
-        }
-      }
-
-      // If first user left, i.e. lobby leader, set new play button for new leader
-      if(index === 0)  {
-        if(socketId === users[0].id && users[0].room.isPrivate === true && users.length > 1) {
-        const startGameBtnContainer = document.querySelector(".start-game-btn-container")
-        startGameBtnContainer.innerHTML = `<button class="start-game-btn">Start Game!</button>`
-        const startGameBtn = document.querySelector(".start-game-btn")
-        startGameBtn.addEventListener("click", brStartGame)
-        }
-      }
-
-      // Waiting label...
-      if(users[0].room.isPrivate === false) {
-        if(users.length <= 2) {
-          const gameStartingInShortly = document.querySelector(".game-starting-shortly-container")
-          const waitingForOtherPlayers = document.querySelector(".waiting-for-other-players")
-          gameStartingInShortly.classList.remove("waiting-label-show")
-          waitingForOtherPlayers.classList.add("waiting-label-show")
-        }
-      }
+    if(currentPage === "lobby-page") {
+  
+      console.log(typeof leaveLobbyUser === "function")
+      if(typeof leaveLobbyUser === "function") leaveLobbyUser(userSocketId, users)
 
     }
 
@@ -224,14 +127,13 @@ function initBattleRoyale(mode) {
     // PLAYER LEAVES IN BATTLE ROYALE
     // ##############################
 
-    if(main.dataset.page === "battle-royale") {
+    if(currentPage === "battle-royale") {
       // Find index in users array
       const index = localUsers.findIndex(e => e.id === userSocketId);
       
       const playerAside = document.querySelectorAll(".player-aside")
       const playerQualified = document.querySelectorAll(".player-qualified")
       const playerQualifiedImg = document.querySelectorAll(".player-qualified-img")
-
 
       // Remove user from Aside
       for(let player of playerAside) {
@@ -257,7 +159,7 @@ function initBattleRoyale(mode) {
 
       
       // Remove index from array
-      // -1 means "findIndex method" did not find matching
+      // -1 means "findIndex method" did not find user
       if(index !== -1) {
         localUsers.splice(index, 1)
       }
@@ -294,7 +196,7 @@ function initBattleRoyale(mode) {
 
   function loadBattleRoyale() {
   // CONFIG
-  main.dataset.page = "battle-royale"
+  currentPage = "battle-royale";
 
   // GAME CONFIGURATION 
   let hasGuessed = false;
@@ -343,14 +245,14 @@ function initBattleRoyale(mode) {
       playerAsideName = document.querySelectorAll(".player-aside-name");
       playerAsideImg = document.querySelectorAll(".player-aside-img");
  
-      const socketIndex = localUsers.findIndex(x => x.id === socketId);
+      const socketIndex = localUsers.findIndex(x => x.id === socket.id);
 
-      const otherPlayers = localUsers.filter(x => x.id !== socketId);
+      const otherPlayers = localUsers.filter(x => x.id !== socket.id);
 
-      // Set username & socketId to DOM
+      // Set username & socket.id to DOM
       playerAsideName[0].innerText = localUsers[socketIndex].username;
       playerAsideImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
-      playerAside[0].dataset.id = socketId;
+      playerAside[0].dataset.id = socket.id;
       playerAside[0].style.display = "flex";
       for(let i = 0; i < otherPlayers.length; i++) {
         playerAsideName[i+1].innerText = otherPlayers[i].username;
@@ -450,7 +352,7 @@ function initBattleRoyale(mode) {
 
       // Update countdown timer in worker.js on window.onfocus (i.e if user switches tab and comes back)
       window.onfocus = function() {
-        if(main.dataset.page === "battle-royale") myWorker.postMessage("updateCountdown")
+        if(currentPage === "battle-royale") myWorker.postMessage("updateCountdown")
       };
 
       myWorker.onmessage = (e) => {
@@ -519,7 +421,7 @@ function initBattleRoyale(mode) {
       localEmotes.splice(localRandomEmoteIndex, 1)
 
       // Emit requestNextRound. Only 1 client need to make the request, we choose to set player[0] in array to send the emit message.
-      if(socketId === localUsers[0].id) setTimeout(() => socket.emit("requestNextRound", roomId, localEmotes), 200)
+      if(socket.id === localUsers[0].id) setTimeout(() => socket.emit("requestNextRound", roomId, localEmotes), 200)
 
     }
 
@@ -563,6 +465,12 @@ function initBattleRoyale(mode) {
       // If round is higher than 50, kick players
       if(currentRound > 50) {
         socket.disconnect();
+        // if(mode === "public") {
+          
+        //   socket.emit("leaveUser", "battleRoyalePublic", roomId)
+        // } else if(mode === "private" || mode === "joinByLink") {
+        //   socket.emit("leaveUser", "battleRoyalePrivate", roomId)
+        // }
         mainPage();
         alert("Kicked for being AFK")
       }
@@ -589,7 +497,7 @@ function initBattleRoyale(mode) {
 
         // Update countdown timer in worker.js on window.onfocus (i.e if user switches tab and comes back)
         window.onfocus = function() {
-          if(main.dataset.page === "battle-royale") myWorker.postMessage("updateCountdown")
+          if(currentPage === "battle-royale") myWorker.postMessage("updateCountdown")
         };
 
         myWorker.onmessage = (e) => {
@@ -691,7 +599,7 @@ function initBattleRoyale(mode) {
         myWorker.postMessage("startProgressBar")
 
         window.onfocus = function() {
-          if(main.dataset.page === "battle-royale") myWorker.postMessage("updateProgressBar")
+          if(currentPage === "battle-royale") myWorker.postMessage("updateProgressBar")
         };
 
         myWorker.onmessage = (e) => {
@@ -727,14 +635,14 @@ function initBattleRoyale(mode) {
           const emoteCode = currentEmote.name.toLowerCase();
           
           if(guess === emoteCode) {
-            socket.emit("userCorrect", roomId, socketId, profileImg);
+            socket.emit("userCorrect", roomId, socket.id, profileImg);
             handleRoundWin();
           } else {
             lives--
             wrongGuessAnimation();
-            if(lives > 0) socket.emit("userWrong", roomId, socketId);
+            if(lives > 0) socket.emit("userWrong", roomId, socket.id);
             if(lives <= 0) {
-              socket.emit("userEliminated", roomId, socketId, profileImg);
+              socket.emit("userEliminated", roomId, socket.id, profileImg);
               handleRoundLose();
             } 
           }
@@ -871,7 +779,7 @@ function initBattleRoyale(mode) {
       function setUserQualified(userSocketId) {
         const userIndex = localUsers.findIndex(e => e.id === userSocketId)
         localUsers[userIndex].hasQualified = true;
-        if(socketId === userSocketId) {
+        if(socket.id === userSocketId) {
           qualified = true;
           handleOutput("outputQualified")
         }
@@ -947,7 +855,7 @@ function initBattleRoyale(mode) {
       function setCanQualifyWrongGuess(userSocketId) {
         if(playerQualifiedCount === 0) playerAsideBackgroundColor("gold", userSocketId, "===")
 
-        if(playerQualifiedCount === 0 && socketId === userSocketId) {
+        if(playerQualifiedCount === 0 && socket.id === userSocketId) {
           canStillQualify = true;
           handleOutput("outputCanStillQualify")
         }
@@ -957,7 +865,7 @@ function initBattleRoyale(mode) {
       function setUserGuessed(userSocketId) {
         const userIndex = localUsers.findIndex(e => e.id === userSocketId)
         localUsers[userIndex].hasGuessed = true;
-        if(socketId === userSocketId) {
+        if(socket.id === userSocketId) {
           hasGuessed = true;
         } 
       }
@@ -965,7 +873,7 @@ function initBattleRoyale(mode) {
       function setEliminatePlayer(userSocketId) {
         if(playerQualifiedCount > 0) console.log("red")
         if(playerQualifiedCount > 0) playerAsideBackgroundColor("red", userSocketId, "===")
-        if(playerQualifiedCount > 0 && socketId === userSocketId) {
+        if(playerQualifiedCount > 0 && socket.id === userSocketId) {
           handleOutput("outputEliminated")
         }
       }
@@ -1056,13 +964,14 @@ function initBattleRoyale(mode) {
         // Some game configurations
         gameEnded = true;
         inputEmote.value = "";
+        inputEmote.readOnly = true;
         stopProgressBar();
 
-        if(socketId === playerQualified[0].dataset.id) {
+        if(socket.id === playerQualified[0].dataset.id) {
           qualified = true;
           handleWinnerLoserDom("winner")
         } 
-        if(socketId !== playerQualified[0].dataset.id) {
+        if(socket.id !== playerQualified[0].dataset.id) {
           handleWinnerLoserDom("loser")
         }
       }
@@ -1100,6 +1009,8 @@ function initBattleRoyale(mode) {
         nextRoundContainer.style.display = "none"
         gameUpperContent.classList.add("hide-fade")
         playersRemaining.innerText = "0";
+        inputEmote.value = "";
+        inputEmote.readOnly = true;
         // If player is not eliminated, give him WIN. (of all the players left, there can only be 1 of them that is not eliminated)
         if(eliminated === false) {
           gameEnded = true;
@@ -1219,10 +1130,15 @@ function initBattleRoyale(mode) {
 
 
 
-  // Disconnect socket
-  this.disconnectSocket = function() {
-    socket.disconnect()
-  }
+  // // Disconnect socket
+  // this.disconnectSocket = function() {
+  //   socket.removeAllListeners()
+  //   if(mode === "public") {
+  //     socket.emit("leaveUser", "battleRoyalePublic", roomId)
+  //   } else if(mode === "private" || mode === "joinByLink") {
+  //     socket.emit("leaveUser", "battleRoyalePrivate", roomId)
+  //   }
+  // }
 
   // HTML
   this.brGameHTML = function() {
@@ -1391,17 +1307,23 @@ function initBattleRoyale(mode) {
 
     for(let button of brPlayAgainBtn) {
       button.addEventListener("click", function() {
-        socket.disconnect();
+        socket.removeAllListeners()
         // Simple dom reset
         playerEliminatedContainer.innerHTML = "";
   
-        if(main.dataset.isPrivate === "true") {
-          initBattleRoyale("joinByLink"); // Initialize socket connection & Battle Royale Game
-          lobbyRoom(); // Redirects to lobby room
-        } else {
+
+        if(mode === "public") {
+          socket.emit("leaveUser", "battleRoyalePublic", roomId)
+
           // Find/Create new public lobby
           initBattleRoyale("public")
-          lobbyRoom("public")
+          // lobbyRoom("brPublic", roomId)
+
+        } else if(mode === "private" || mode === "joinByLink") {
+          socket.emit("leaveUser", "battleRoyalePrivate", roomId)
+
+          initBattleRoyale("joinByLink"); // Initialize socket connection & Battle Royale Game
+          // lobbyRoom(); // Redirects to lobby room
         }
       });
     }
@@ -1409,8 +1331,14 @@ function initBattleRoyale(mode) {
 
     for(let button of brMainMenuBtn) {
       button.addEventListener("click", function() {
+        // socket.removeAllListeners()
         socket.disconnect();
         mainPage();
+        // if(mode === "public") {
+        //   socket.emit("leaveUser", "battleRoyalePublic", roomId)
+        // } else if(mode === "private" || mode === "joinByLink") {
+        //   socket.emit("leaveUser", "battleRoyalePrivate", roomId)
+        // }
       })
     }
 
@@ -1432,7 +1360,13 @@ function initBattleRoyale(mode) {
   battleRoyaleGameContainer();
   }
 
+
+  this.getCurrentPage = function() {
+    return currentPage;
+  }
+
 }
+
 
 // Generate random username
 function setUsername() {

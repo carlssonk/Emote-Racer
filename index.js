@@ -3,7 +3,7 @@ const app = express();
 const server = require("http").createServer(app);
 const PORT = 8080;
 const axios = require("axios")
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, { perMessageDeflate: false });
 const fs = require('fs');
 const schedule = require("node-schedule");
 const { v4: uuidv4 } = require('uuid');
@@ -275,8 +275,8 @@ let lobbyCountdownTimers = [];
 
 io.on("connection", (socket) => {
 
+
   // Send socketId to client
-  socket.emit("socketId", socket.id)
 
 
   // ########################################
@@ -286,14 +286,13 @@ io.on("connection", (socket) => {
   socket.on("quickPlay", (username) => {
 
     // Check if there are any available empty slots in rooms
-    console.log(brRoomsList)
     if(brRoomsList.some(e => e.userLength < 12) && brRoomsList.some(e => e.isPlaying === false)) {
       // Sort rooms from high to low
       const roomsDescending = brRoomsList.sort((a, b) => b.userLength - a.userLength);
       // Loop through the array until we find an empty spot
-      console.log("search rooms")
       for(let room of roomsDescending) {
         if(room.userLength < 12 && room.isPlaying === false) {
+          console.log(1)
           room.userLength++;
           joinRoom(room.id, room.userLength);
           // Set timer
@@ -302,7 +301,6 @@ io.on("connection", (socket) => {
         }
       }
     } else {
-      console.log("create new room")
       createNewRoom();
     }
 
@@ -315,7 +313,7 @@ io.on("connection", (socket) => {
       // Join user to roomId
       socket.join(user.room.id)
       // Send all users currently in the room to client side
-      io.to(user.room.id).emit("joinLobby", brGetRoomUsersPublic(user.room.id), room.id); // True statement refers to that this is a public lobby
+      io.to(user.room.id).emit("joinPublicLobby", brGetRoomUsersPublic(user.room.id), room, socket.id); // True statement refers to that this is a public lobby
       // Start Lobby Timer
       if(userLength === 3) startLobbyTimer(roomId)
       // Start game if FULL
@@ -335,7 +333,7 @@ io.on("connection", (socket) => {
     // Join user to roomId
     socket.join(user.room.id);
     // Send room to client so it can generate a link for other people to join
-    socket.emit('initLobby', room);
+    socket.emit('initPublicLobby', room);
     }
 
   })
@@ -409,6 +407,7 @@ io.on("connection", (socket) => {
     app.get(`/battle-royale/?${room.id}`, (req, res) => {
       res.sendFile(`${__dirname}/public/index.html`);
     });
+    console.log(brGetRoomUsersPrivate(room.id))
     // Send room to client so it can generate a link for other people to join
     socket.emit('initPrivateLobby', room);
   })
@@ -423,6 +422,7 @@ io.on("connection", (socket) => {
       }
     }
 
+    console.log(brGetRoomUsersPrivate(roomId))
 
     // Set room 
     const room = {id: roomId, isPrivate: true, isPlaying: false}
@@ -431,7 +431,7 @@ io.on("connection", (socket) => {
     // Join user to roomId
     socket.join(user.room.id)
     // Send all users currently in the room to client side
-    io.to(user.room.id).emit("joinLobby", brGetRoomUsersPrivate(roomId), roomId);
+    io.to(user.room.id).emit("joinPrivateLobby", brGetRoomUsersPrivate(roomId), room, socket.id);
   })
 
   socket.on("gameEndPrivate", (roomId) => {
@@ -489,7 +489,6 @@ io.on("connection", (socket) => {
     io.to(roomId).emit("userCorrect", socketId, image);
   })
   socket.on("userWrong", (roomId, socketId) => {
-    console.log("USER WRONG")
     io.to(roomId).emit("userWrong", socketId);
   })
   socket.on("userEliminated", (roomId, socketId, image) => {
@@ -517,11 +516,11 @@ io.on("connection", (socket) => {
       }
 
     } else {
-      console.log("create new room")
       createNewRoom();
     }
 
     function joinRoom(roomId) {
+      console.log("ONCE")
       // Set room
       const room = {id: roomId, isPrivate: false}
       // Create new user
@@ -540,8 +539,6 @@ io.on("connection", (socket) => {
     // Set Public Room
     oneRoomsList.push({id: room.id, isPrivate: false, isPlaying: false, userLength: 1})
     // Join user to roomId
-    console.log(user)
-    console.log(user.room)
     socket.join(user.room.id);
     // Send room to client so it can generate a link for other people to join
     socket.emit('initPublicLobby1v1', room);
@@ -570,7 +567,6 @@ io.on("connection", (socket) => {
   })
 
   socket.on("requestJoin1v1", (roomId, username, image) => {
-    console.log("-------------")
     const theRoom = oneGetRoomUsersPrivate(roomId)
 
     if(theRoom.length > 0) {
@@ -588,7 +584,7 @@ io.on("connection", (socket) => {
     // Join user to roomId
     socket.join(user.room.id)
     // Send all users currently in the room to client side
-    io.to(user.room.id).emit("joinPrivateLobby1v1", oneGetRoomUsersPrivate(roomId));
+    io.to(user.room.id).emit("joinPrivateLobby1v1", oneGetRoomUsersPrivate(roomId), room);
   })
 
   socket.on("gameEndPrivate1v1", (roomId) => {
@@ -605,8 +601,6 @@ io.on("connection", (socket) => {
 
 
   socket.on("toggleReady1v1", (roomId) => {
-    console.log(roomId)
-    console.log("TOGGLE READYT")
     io.to(roomId).emit("toggleReady1v1", socket.id);
   });
 
@@ -633,16 +627,12 @@ io.on("connection", (socket) => {
 
   // Send signal to all users
   socket.on("requestStartGamePublic1v1", (roomId) => {
-    // console.log("REQUEST PUBLIX")
-    // requestStartGamePublic1v1(roomId);
 
     const theRoom = oneGetRoomUsersPublic(roomId)
     if(theRoom.length === 1) return;
 
     const room = oneRoomsList.findIndex(room => room.id === roomId)
     oneRoomsList[room].isPlaying = true;
-    console.log(oneRoomsList)
-    console.log("is it TRUE?!")
 
     let randomEmoteIndexArr = [];
 
@@ -664,7 +654,6 @@ io.on("connection", (socket) => {
 
 
   socket.on("userCorrect1v1", (roomId, socketId) => {
-    // console.log(socketId)
     io.to(roomId).emit("userCorrect1v1", socketId);
   })
 
@@ -682,60 +671,130 @@ io.on("connection", (socket) => {
   // ### CLIENT DISCONNECTS ####
   // ###########################
 
+  // If clicks on "NavLogo" or "Main Menu" whilst being in a multiplayer room
   socket.on('disconnect', () => {
-    // FIND WHAT ROOM THE USER WAS IN, WE HAVE 4 POSSIBILITIES, 1. BATTLE-ROYALE (PUBLIC), 2. BATTLE-ROYALE (PRIVATE), 3. 1VS1 (PUBLIC), 4. 1VS1 (PRIVATE)
-    let user;
-    let userRoom = "";
+
+    // Find what room the user is in, We have 4 possibilities, 1. BATTLE-ROYALE (PUBLIC), 2. BATTLE-ROYALE (PRIVATE), 3. 1VS1 (PUBLIC), 4. 1VS1 (PRIVATE)
+    let user = null;
+    let roomName = "";
     for(let i = 0; i < 1; i++) {
       user = brGetUserPublic(socket.id)
-      userRoom = "brGetUserPublic"
-      if(user !== undefined) break;
+      roomName = "battleRoyalePublic"
+      if(user !== undefined) break; // If user is in Battle Royale (Public) Break loop
       user = oneGetUserPublic(socket.id)
-      userRoom = "oneGetUserPublic"
-      if(user !== undefined) break;
+      roomName = "1v1Public"
+      if(user !== undefined) break; // If user is in 1vs1 (Public) Break loop
       user = oneGetUserPrivate(socket.id)
-      userRoom = "oneGetUserPrivate"
-      if(user !== undefined) break;
+      roomName = "1v1Private"
+      if(user !== undefined) break; // If user is in 1vs1 (Private) Break loop, else we know the user is in Battle Royale (Private)
       user = brGetUserPrivate(socket.id)
-      userRoom = "brGetUserPrivate"
+      roomName = "battleRoyalePrivate"
     }
-    
-    if(user !== undefined) {
 
-      // If user was in a public room, remove user count in that room
-      if(user.room.isPrivate === false && userRoom === "brGetUserPublic") {
-        for(let i = 0; i < brRoomsList; i++) {
-          if(brRoomsList[i].id === user.room.id) {
-            brRoomsList[i].userLength--;
-            if(brRoomsList[i].userLength === 0) brRoomsList.splice(i, 1)
-          } 
-        }
-      } else if(user.room.isPrivate === false && userRoom === "oneGetUserPublic") {
-        for(let i = 0; i < oneRoomsList; i++) {
-          if(oneRoomsList[i].id === user.room.id) {
-            oneRoomsList[i].userLength--;
-            if(oneRoomsList[i].userLength === 0) oneRoomsList.splice(i, 1)
-          }
-        }
-      }
+    if(user === undefined) return;
 
-      if(userRoom === "brGetUserPublic") {
-        io.to(user.room.id).emit("userLeave", socket.id, brGetRoomUsersPublic(user.room.id))
-        brUserLeavePublic(socket.id)
-      } else if(userRoom === "oneGetUserPublic") {
-        io.to(user.room.id).emit("userLeave1v1", socket.id, oneGetRoomUsersPublic(user.room.id), "public")
-        oneUserLeavePublic(socket.id)
-      } else if(userRoom === "oneGetUserPrivate") {
-        io.to(user.room.id).emit("userLeave1v1", socket.id, oneGetRoomUsersPrivate(user.room.id), "private")
-        oneUserLeavePrivate(socket.id)
-      } else if(userRoom === "brGetUserPrivate") {
-        io.to(user.room.id).emit("userLeave", socket.id, brGetRoomUsersPrivate(user.room.id))
-        brUserLeavePrivate(socket.id)
+    if(user !== null) {
+
+      if(roomName === "battleRoyalePublic") {
+        spliceBrPublic(user.room.id, socket.id);
+      } else if(roomName === "1v1Public") {
+        splice1v1Public(user.room.id, socket.id);
+      } else if(roomName === "1v1Private") {
+        splice1v1Private(user.room.id, socket.id);
+      } else if(roomName === "battleRoyalePrivate") {
+        spliceBrPrivate(user.room.id, socket.id);
       }
 
     }
 
- });
+  });
+
+
+  // If user click Play Again whilst being in a multiplayer room, leave the user from the room, dont remove the socket connection like we do above
+  socket.on("leaveUser", (roomName, roomId) => {
+    console.log("LEAVE!")
+
+    if(roomName === "battleRoyalePublic") {
+      spliceBrPublic(roomId, socket.id);
+    } else if(roomName === "1v1Public") {
+      splice1v1Public(roomId, socket.id);
+    } else if(roomName === "1v1Private") {
+      splice1v1Private(roomId, socket.id);
+    } else if(roomName === "battleRoyalePrivate") {
+      spliceBrPrivate(roomId, socket.id);
+    }
+
+  });
+
+  // Send to client first before removing him in servers array list.
+
+  function spliceBrPublic(roomId, socketId) {
+    // TO CLIENT
+    io.to(roomId).emit("userLeave", socketId, brGetRoomUsersPublic(roomId))
+    // SERVER
+    decrementUserLength("br", roomId) // This room is public & have a public roomsListArray. So Remove length for that room
+    brUserLeavePublic(socketId)
+  }
+
+
+  function spliceBrPrivate(roomId, socketId) {
+    // TO CLIENT
+    io.to(roomId).emit("userLeave", socketId, brGetRoomUsersPrivate(roomId))
+    // SERVER
+    brUserLeavePrivate(socketId)
+  }
+
+
+  function splice1v1Public(roomId, socketId) {
+    // TO CLIENT
+    io.to(roomId).emit("userLeave1v1", socketId, oneGetRoomUsersPublic(roomId), "public")
+    // SERVER
+    decrementUserLength("1v1", roomId) // This room is public & have a public roomsListArray. So Remove length for that room
+    oneUserLeavePublic(socketId)
+  }
+
+
+  function splice1v1Private(roomId, socketId) {
+    // TO CLIENT
+    io.to(roomId).emit("userLeave1v1", socketId, oneGetRoomUsersPrivate(roomId), "private")    
+    // SERVER
+    oneUserLeavePrivate(socketId)
+  }
+
+
+
+
+  function decrementUserLength(message, roomId) {
+
+    // Decrement userLength for thath room
+    // If userLength is 0, splice the room
+    if(message === "br") {
+      for(let i = 0; i < brRoomsList; i++) {
+        if(brRoomsList[i].id === roomId) {
+          brRoomsList[i].userLength--;
+          if(brRoomsList[i].userLength === 0) brRoomsList.splice(i, 1)
+        }
+      }
+    }
+
+    // Decrement userLength for thath room
+    // If userLength is 0, splice the room
+    if(message === "1v1") {
+      for(let i = 0; i < oneRoomsList; i++) {
+        if(oneRoomsList[i].id === roomId) {
+          oneRoomsList[i].userLength--;
+          if(oneRoomsList[i].userLength === 0) oneRoomsList.splice(i, 1)
+        }
+      }
+    }
+
+  }
+
+
+  // setInterval(function() {
+  //   console.log(io.sockets.adapter.rooms)
+  //   console.log(io.sockets.adapter.sids)
+  // }, 2000)
 
 
   // ##########################
@@ -760,6 +819,22 @@ function shuffleArray(array) {
       [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
+
+// Garbage collector
+
+function garbageCollector() {
+  if(global.gc) {
+    global.gc()
+  } else {
+    console.log("`node --expose-gc index.js`");
+    process.exit();
+  }
+}
+setInterval(() => garbageCollector(), 1000 * 60)
+
+// Performance BOOOST
+// `node --nouse-idle-notification --expose-gc --max-old-space-size=8192 index.js`
 
 
 // #################################################################################

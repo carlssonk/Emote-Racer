@@ -1,3 +1,7 @@
+let socket;
+initSocket = function() {
+  return socket = io();
+}
 // #################################################################################
 // ############################### DOM DECLARATION #################################
 // #################################################################################
@@ -24,16 +28,7 @@ const main = document.querySelector(".main");
 // ############################### PAGE INITIALIZATION #############################
 // #################################################################################
 
-// // let socket;
-// initSocket = function() {
-//   return socket = io();
-// }
 
-// setInterval(function() {
-//   console.log("go")
-//   initSocket()
-//   socket.disconnect();
-// }, 1000)
 
 
 // INIT PAGE
@@ -46,10 +41,11 @@ if(window.location.pathname === "/") {
 } else if(window.location.pathname === "/battle-royale") {
   battleRoyalePage();
 } else if(location.pathname === "/battle-royale/" && location.search.length > 0) { // I.E. if a battle royale link
+  initSocket();
   initBattleRoyale("joinByLink"); // Initialize socket connection & Battle Royale Game
-  lobbyRoom(); // Redirects to lobby room
+  // lobbyRoom("private"); // Redirects to lobby room
 } else if(location.pathname === "/1v1/" && location.search.length > 0) {
-  history.pushState({urlPath: ``},"",``)
+  initSocket();
   racerGameBattle("joinByLink") // Initialize socket connection & 1v1 Game
 } else if(window.location.pathname === "/solo") {
   soloPage();
@@ -64,8 +60,8 @@ if(window.location.pathname === "/") {
 
 
 navLogo.addEventListener("click", function() {
-  const prevPage = main.dataset.page;
-  pageChange(prevPage);
+  const page = getCurrentPage();
+  pageChange(page);
   mainPage();
 });
 
@@ -175,10 +171,13 @@ function battleRoyalePage() {
 
   this.battleRoyaleEVENT = function() {
     quickPlayBtn.addEventListener("click", () => {
+      initSocket();
       initBattleRoyale("public")
-      lobbyRoom("public")
     });
-    privateLobbyBtn.addEventListener("click", () => initBattleRoyale("private"))
+    privateLobbyBtn.addEventListener("click", () => {
+      initSocket();
+      initBattleRoyale("private")
+    });
   }
 
   battleRoyaleHTML(); // Loads html
@@ -228,9 +227,11 @@ function onePage() {
 
   this.oneEVENT = function() {
     play1v1Btn.addEventListener("click", function() {
+      initSocket();
       racerGameBattle("public");
     });
     play1v1PrivateBtn.addEventListener("click", function() {
+      initSocket();
       racerGameBattle("private");
     });
   }
@@ -306,23 +307,22 @@ function soloPage() {
 
 // When Nav-Logo is clicked
 function mainPageReset() {
-  main.dataset.page = "main-page"
   for(let e of playerAside) e.style.backgroundColor = "";
   navAside.style.display = "block";
 }
 
-function pageChange(prevPage) {
-  if(prevPage === "battle-royale") {
-    disconnectSocket();
+function pageChange(page) {
+  if(page === "battle-royale") {
+    socket.disconnect();
     if(typeof stopInitTimer === "function") stopInitTimer();
     if(typeof stopProgressBar === "function") stopProgressBar();
     if(typeof stopNextRoundTimer === "function") stopNextRoundTimer();
   }
-  if(prevPage === "lobby-room") {
-    disconnectSocket();
+  if(page === "lobby-page") {
+    socket.disconnect();
   }
-  if(prevPage === "1v1") {
-    disconnectSocket();
+  if(page === "1v1") {
+    socket.disconnect();
     if(typeof stopInitTimer === "function") stopInitTimer();
     if(typeof stop1v1Timer === "function") stop1v1Timer();
   }
@@ -342,6 +342,11 @@ function pageTransitionTop() {
   main.style.animation = "none";
   main.offsetHeight; // Trigger reflow
   main.style.animation = null;
+}
+
+// Prevents navlogo click currentPage error
+this.getCurrentPage = function() {
+  return null;
 }
 
 

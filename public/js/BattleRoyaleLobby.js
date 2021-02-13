@@ -1,50 +1,129 @@
-// #################################################################################
-// ########################## BATTLE ROYALE LOBBY ROOM #############################
-// #################################################################################
+function lobbyRoom(roomName, roomId, users) {
+
+  function configuration() {
+    // DOM
+    navAside.style.display = "none";
+    battleRoyaleAside.style.display = "none";
 
 
-// this.initSocket = function() {
-//   return socket = io();
-// }
+    if(users.length === 0) {
+      if(roomName === "brPrivate") initLobbyUserPrivate();
+      if(roomName === "brPublic") initLobbyUserPublic();
+    }
 
-// let socket;
-// this.initSocket = function() {
-//   return socket = io();
-// }
 
-function lobbyRoom(room) { // <--- room here refers to room.id
-  // CONFIG
-  main.dataset.page = "lobby-room"
+    this.joinLobbyUserPublic = function(users) {
+      // User Join DOM
+      joinLobbyUser(users)
 
-  // Remove aside
-  navAside.style.display = "none";
-  battleRoyaleAside.style.display = "none";
+      // Game Starting in/Waiting for players Label
+      if(users.length <= 2) {
+        waitingForOtherPlayers()
+      } else {
+        gameStartingInShortly()
+      }
 
-  function initLobbyUser() {
-    document.title = "PRIVATE LOBBY"
-    if(room !== undefined) playerName[0].innerText = username;
-    if(room !== undefined) playerLobbyImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
-    if(room !== undefined) history.pushState({urlPath: `/battle-royale/?${room}`},"",`/battle-royale/?${room}`)
-    inviteLinkInput.value = window.location.href;
-    roomId = location.search.substring(1);
-  }
-
-  function initLobbyUserPublic(room) {
-    document.title = "PUBLIC LOBBY"
-    playerName[0].innerText = username;
-    playerLobbyImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
-    // history.pushState({urlPath: `/battle-royale/?${room}`},"",`/battle-royale/?${room}`)
-    // inviteLinkInput.value = window.location.href;
-    // roomId = location.search.substring(1);
-    if(room === "public") {
       inviteLinkBox.style.display = "none";
     }
-  }
 
 
-  // Disconnect socket
-  this.disconnectSocket = function() {
-    socket.disconnect()
+    this.joinLobbyUserPrivate = function(users) {
+      // User Join DOM
+      joinLobbyUser(users)
+
+      // Start Game Button
+      if(users.length > 1 && socket.id === users[0].id) {
+        startGameBtnContainer.innerHTML = `<button class="start-game-btn">Start Game!</button>`
+        const startGameBtn = document.querySelector(".start-game-btn")
+        startGameBtn.addEventListener("click", brStartGame)
+      }
+    }
+
+
+    function joinLobbyUser(users) {
+      for(let i = 0; i < users.length; i++) {
+        playerName[i].innerText = users[i].username
+        playerLobbyImg[i].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
+        lobbyPlayer[i].classList.add("fade-scale-animation")
+      }
+    }
+
+    this.leaveLobbyUser = function(userSocketId, users) {
+
+      const index = users.findIndex(e => e.id === userSocketId);
+
+      // console.log(users)
+
+      // Remove img and name for last position
+      playerName[users.length - 1].innerText = "";
+      playerLobbyImg[users.length - 1].src = "";
+      lobbyPlayer[users.length - 1].classList.remove("fade-scale-animation")
+
+      if(index !== -1) {
+        users.splice(index, 1)
+      }
+
+      // If not last person in array left, set new positions
+      if(index !== users.length) {
+        for(let i = 0; i < users.length; i++) {
+          playerName[i].innerText = users[i].username
+          playerLobbyImg[i].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
+        }
+      }
+
+
+      // Below code depends if lobby is private or public
+
+      // If first user left, i.e. lobby leader, set new play button for new leader
+      if(index === 0 && users[0].room.isPrivate === true)  {
+        if(socket.id === users[0].id && users.length > 1) {
+          startGameBtnContainer.innerHTML = `<button class="start-game-btn">Start Game!</button>`
+          const startGameBtn = document.querySelector(".start-game-btn")
+          startGameBtn.addEventListener("click", brStartGame)
+        }
+      }
+
+      // Waiting label...
+      if(users[0].room.isPrivate === false) {
+        if(users.length <= 2) {
+          waitingForOtherPlayers()
+        }
+      }
+
+    }
+
+  
+
+    function initLobbyUserPrivate() {
+      document.title = "PRIVATE LOBBY"
+      // DOM
+      setDom();
+      // LINK
+      history.pushState({urlPath: `/battle-royale/?${roomId}`},"",`/battle-royale/?${roomId}`)
+      inviteLinkInput.value = window.location.href;
+    }
+
+    function initLobbyUserPublic() {
+      document.title = "PUBLIC LOBBY"
+      // DOM
+      setDom();
+      waitingForOtherPlayers();
+
+      inviteLinkBox.style.display = "none";
+    }
+
+    function setDom() {
+      playerName[0].innerText = username;
+      playerLobbyImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${profileImg}/3.0`
+    }
+
+    // // Disconnect socket
+    // this.disconnectSocket = function() {
+    //   socket.removeAllListeners()
+    //   if(roomName === "brPublic") socket.emit("leaveUser", "battleRoyalePublic", roomId)
+    //   if(roomName === "brPrivate") socket.emit("leaveUser", "battleRoyalePrivate", roomId)
+    // }
+
   }
 
   this.lobbyHTML = function() {
@@ -139,6 +218,8 @@ function lobbyRoom(room) { // <--- room here refers to room.id
   let playerLobbyImg = null; 
   let lobbyTimer = null;
   let inviteCopyBtn = null;
+  let lobbyPlayer = null
+  let startGameBtnContainer = null;
   this.lobbyDOM = function() {
     playerName = document.querySelectorAll(".player-name");
     inviteLinkInput = document.querySelector(".invite-link-input");
@@ -146,24 +227,30 @@ function lobbyRoom(room) { // <--- room here refers to room.id
     inviteLinkBox = document.querySelector(".invite-link-box");
     lobbyTimer = document.querySelector(".lobby-timer")
     inviteCopyBtn = document.querySelector(".invite-copy-btn");
+    lobbyPlayer = document.querySelectorAll(".lobby-player")
+    startGameBtnContainer =  document.querySelector(".start-game-btn-container")
+  }
+
+  this.lobbyEVENT = function() {
+    // INVITE LINK COPY
+    inviteCopyBtn.addEventListener("click", function() {
+      /* Select the text field */
+      inviteLinkInput.select();
+      inviteLinkInput.setSelectionRange(0, 99999); /*For mobile devices*/
+      document.execCommand("copy");
+
+      inviteCopyBtn.innerText = "COPIED!"
+      inviteCopyBtn.classList.add("copied-animation")
+    });
   }
 
   lobbyHTML(); // Loads html
   if(transition === true) pageTransition(); // Page transition
   lobbyDOM(); // Inits dom wiring
-  if(room !== "public") initLobbyUser();
-  if(room === "public") initLobbyUserPublic(room);
+  lobbyEVENT(); // Inits event listeners
 
-
-  // INVITE COPY
-  inviteCopyBtn.addEventListener("click", function() {
-    /* Select the text field */
-    inviteLinkInput.select();
-    inviteLinkInput.setSelectionRange(0, 99999); /*For mobile devices*/
-    document.execCommand("copy");
-
-    inviteCopyBtn.innerText = "COPIED!"
-    inviteCopyBtn.classList.add("copied-animation")
-  });
+  configuration();
 
 }
+
+
