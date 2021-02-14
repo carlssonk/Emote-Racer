@@ -107,14 +107,10 @@ function racerGame() {
 
   function setImg(cycleBool) {
     if(cycleBool === true) {
-      if(currentEmoteFirst.provider === "twitch") emoteImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmoteFirst.id}/4.0`
-      if(currentEmoteFirst.provider === "bttv") emoteImg[0].src = `https://cdn.betterttv.net/emote/${currentEmoteFirst.id}/3x`
-      if(currentEmoteFirst.provider === "ffz") emoteImg[0].src = `https://cdn.frankerfacez.com/emoticon/${currentEmoteFirst.id}/4`
+      setEmoteFirst()
       currentEmote = currentEmoteFirst;
     } else {
-      if(currentEmoteLast.provider === "twitch") emoteImg[1].src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmoteLast.id}/4.0`
-      if(currentEmoteLast.provider === "bttv") emoteImg[1].src = `https://cdn.betterttv.net/emote/${currentEmoteLast.id}/3x`
-      if(currentEmoteLast.provider === "ffz") emoteImg[1].src = `https://cdn.frankerfacez.com/emoticon/${currentEmoteLast.id}/4`
+      setEmoteLast();
       currentEmote = currentEmoteLast;
     }
   }
@@ -124,23 +120,29 @@ function racerGame() {
       randomEmoteIndex2 = Math.floor(Math.random() * emotesClone.length)
       currentEmoteLast = emotesClone[randomEmoteIndex2]
 
-      if(currentEmoteLast.provider === "twitch") emoteImg[1].src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmoteLast.id}/4.0`
-      if(currentEmoteLast.provider === "bttv") emoteImg[1].src = `https://cdn.betterttv.net/emote/${currentEmoteLast.id}/3x`
-      if(currentEmoteLast.provider === "ffz") emoteImg[1].src = `https://cdn.frankerfacez.com/emoticon/${currentEmoteLast.id}/4`
+      setEmoteLast();
 
       emotesClone.splice(randomEmoteIndex2, 1)
-      console.log(emotesClone)
     } else {
       randomEmoteIndex = Math.floor(Math.random() * emotesClone.length)
       currentEmoteFirst = emotesClone[randomEmoteIndex]
   
-      if(currentEmoteFirst.provider === "twitch") emoteImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmoteFirst.id}/4.0`
-      if(currentEmoteFirst.provider === "bttv") emoteImg[0].src = `https://cdn.betterttv.net/emote/${currentEmoteFirst.id}/3x`
-      if(currentEmoteFirst.provider === "ffz") emoteImg[0].src = `https://cdn.frankerfacez.com/emoticon/${currentEmoteFirst.id}/4`
-  
+      setEmoteFirst();
+
       emotesClone.splice(randomEmoteIndex, 1)
-      console.log(emotesClone)
     }
+  }
+
+  function setEmoteFirst() {
+    if(currentEmoteFirst.provider === "twitch") emoteImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmoteFirst.id}/4.0`
+    if(currentEmoteFirst.provider === "bttv") emoteImg[0].src = `https://cdn.betterttv.net/emote/${currentEmoteFirst.id}/3x`
+    if(currentEmoteFirst.provider === "ffz") emoteImg[0].src = `https://cdn.frankerfacez.com/emoticon/${currentEmoteFirst.id}/4`
+  }
+
+  function setEmoteLast() {
+    if(currentEmoteLast.provider === "twitch") emoteImg[1].src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmoteLast.id}/4.0`
+    if(currentEmoteLast.provider === "bttv") emoteImg[1].src = `https://cdn.betterttv.net/emote/${currentEmoteLast.id}/3x`
+    if(currentEmoteLast.provider === "ffz") emoteImg[1].src = `https://cdn.frankerfacez.com/emoticon/${currentEmoteLast.id}/4`
   }
 
 

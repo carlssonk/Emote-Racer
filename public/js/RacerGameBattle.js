@@ -464,65 +464,53 @@ function racerGameBattle(mode) {
 
   function setImg(cycleBool) {
     if(cycleBool === true) {
-      if(currentEmoteFirst.provider === "twitch") emoteImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmoteFirst.id}/4.0`
-      if(currentEmoteFirst.provider === "bttv") emoteImg[0].src = `https://cdn.betterttv.net/emote/${currentEmoteFirst.id}/3x`
-      if(currentEmoteFirst.provider === "ffz") emoteImg[0].src = `https://cdn.frankerfacez.com/emoticon/${currentEmoteFirst.id}/4`
+      setEmoteFirst();
       currentEmote = currentEmoteFirst;
     } else {
-      if(currentEmoteLast.provider === "twitch") emoteImg[1].src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmoteLast.id}/4.0`
-      if(currentEmoteLast.provider === "bttv") emoteImg[1].src = `https://cdn.betterttv.net/emote/${currentEmoteLast.id}/3x`
-      if(currentEmoteLast.provider === "ffz") emoteImg[1].src = `https://cdn.frankerfacez.com/emoticon/${currentEmoteLast.id}/4`
+      setEmoteLast();
       currentEmote = currentEmoteLast;
     }
   }
 
   function generateImg(cycleBool, data) {
-    console.log("---------------------")
-    console.log(localRandomEmoteIndexArr)
-    console.log("---------------------")
-    // currentEmoteFirst = localEmotes[localRandomEmoteIndexArr[0]]
-    // localRandomEmoteIndexArr.splice(0, 1)
+
     if(cycleBool === true) {
-      // randomEmoteIndex2 = localEmotes[localRandomEmoteIndexArr[0]]
+
       currentEmoteLast = localEmotes[localRandomEmoteIndexArr[0]]
 
-      if(currentEmoteLast.provider === "twitch") emoteImg[1].src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmoteLast.id}/4.0`
-      if(currentEmoteLast.provider === "bttv") emoteImg[1].src = `https://cdn.betterttv.net/emote/${currentEmoteLast.id}/3x`
-      if(currentEmoteLast.provider === "ffz") emoteImg[1].src = `https://cdn.frankerfacez.com/emoticon/${currentEmoteLast.id}/4`
+      setEmoteLast();
 
-      if(data === "skip") {
-        const element = localRandomEmoteIndexArr[0]; // save element
-        // console.log(localRandomEmoteIndexArr)
-        localRandomEmoteIndexArr.splice(0, 1); // remove element
-        localRandomEmoteIndexArr.push(element); // put it back at end of array
-        // console.log(localRandomEmoteIndexArr)
-      } else {
-      //   console.log("NOT SKIP")
-        localRandomEmoteIndexArr.splice(0, 1);
-        // localEmotes.splice(localRandomEmoteIndexArr[0], 1)
-      }
+      dataSkipSplice(data);
     } else {
-      // randomEmoteIndex = Math.floor(Math.random() * emotesClone.length)
       currentEmoteFirst = localEmotes[localRandomEmoteIndexArr[0]]
   
-      if(currentEmoteFirst.provider === "twitch") emoteImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmoteFirst.id}/4.0`
-      if(currentEmoteFirst.provider === "bttv") emoteImg[0].src = `https://cdn.betterttv.net/emote/${currentEmoteFirst.id}/3x`
-      if(currentEmoteFirst.provider === "ffz") emoteImg[0].src = `https://cdn.frankerfacez.com/emoticon/${currentEmoteFirst.id}/4`
+      setEmoteFirst();
   
-      if(data === "skip") {
-        const element = localRandomEmoteIndexArr[0]; // save element
-        // console.log(localRandomEmoteIndexArr)
-        localRandomEmoteIndexArr.splice(0, 1); // remove element
-        localRandomEmoteIndexArr.push(element); // put it back at end of array
-        // console.log(localRandomEmoteIndexArr)
-      } else {
-        console.log("NOT SKIP")
-        localRandomEmoteIndexArr.splice(0, 1)
-        // localEmotes.splice(localRandomEmoteIndexArr[0], 1)
-      }
+      dataSkipSplice(data);
     }
   }
 
+  function setEmoteFirst() {
+    if(currentEmoteFirst.provider === "twitch") emoteImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmoteFirst.id}/4.0`
+    if(currentEmoteFirst.provider === "bttv") emoteImg[0].src = `https://cdn.betterttv.net/emote/${currentEmoteFirst.id}/3x`
+    if(currentEmoteFirst.provider === "ffz") emoteImg[0].src = `https://cdn.frankerfacez.com/emoticon/${currentEmoteFirst.id}/4`
+  }
+
+  function setEmoteLast() {
+    if(currentEmoteLast.provider === "twitch") emoteImg[1].src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmoteLast.id}/4.0`
+    if(currentEmoteLast.provider === "bttv") emoteImg[1].src = `https://cdn.betterttv.net/emote/${currentEmoteLast.id}/3x`
+    if(currentEmoteLast.provider === "ffz") emoteImg[1].src = `https://cdn.frankerfacez.com/emoticon/${currentEmoteLast.id}/4`
+  }
+
+  function dataSkipSplice(data) {
+    if(data === "skip") {
+      const element = localRandomEmoteIndexArr[0]; // save element
+      localRandomEmoteIndexArr.splice(0, 1); // remove element
+      localRandomEmoteIndexArr.push(element); // put it back at end of array
+    } else {
+      localRandomEmoteIndexArr.splice(0, 1)
+    }
+  }
 
   const initRoundDOM = () => {
     gameUpperContent.style.marginTop = "80px"
