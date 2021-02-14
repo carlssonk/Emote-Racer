@@ -425,6 +425,7 @@ function racerGame() {
   }
 
   navAside.style.display = "none";
+  infoAside.style.display = "none";
 
   originalGameHTML(); // Loads html
   pageTransition(); // Page transition

@@ -19,6 +19,7 @@ function racerGameBattle(mode) {
     gameUpperContent.style.clip = "rect(0px,0px,0px,0px)", gameUpperContent.style.position = "absolute";
     if(mode === "public") racerStartGameLabel.style.display = "none"
     navAside.style.display = "none";
+    infoAside.style.display = "none";
   }
 
 

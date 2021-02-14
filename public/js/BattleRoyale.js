@@ -194,6 +194,12 @@ function initBattleRoyale(mode) {
   let lives = 3;
   let waitSubmit = true;
 
+  // Set user properties
+  for(let i = 0; i < localUsers.length; i++) {
+    localUsers[i].hasQualified = false
+    localUsers[i].hasGuessed = false
+  }
+
   
   function resetGameSettings() {
     canStillQualify = false;
@@ -1015,6 +1021,11 @@ function initBattleRoyale(mode) {
       function prepNextRound() {
 
         const eliminatedPlayers = localUsers.filter(e => e.hasQualified === false)
+        console.log(eliminatedPlayers)
+        console.log(localUsers[0])
+        console.log(localUsers[1])
+        console.log(localUsers[2])
+        console.log(localUsers[3])
 
         // Set Aside DOM for eliminated players
         eliminatedPlayersDom(eliminatedPlayers);
@@ -1121,7 +1132,7 @@ function initBattleRoyale(mode) {
       <div class="user-output-container">
         <div class="output-eliminated output-exit">
           <div class="output-exit-btn"><i class="fas fa-times"></i></div>
-          <h1>YOU'RE ELIMINATED</h1>
+          <h1>ELIMINATED</h1>
           <div class="output-buttons-container">
             <button class="br-play-again-btn result-btn-style">Play Again</button>
             <button class="br-main-menu-btn result-btn-style">Main Menu</button>
@@ -1134,7 +1145,7 @@ function initBattleRoyale(mode) {
         </div>
         <div class="output-qualified output-exit">
           <div class="output-exit-btn"><i class="fas fa-times"></i></div>
-          <h1>YOU QUALIFIED!</h1>
+          <h1>QUALIFIED</h1>
         </div>
         <div class="output-end output-exit" style="display: none">
           <h1 class="output-win-lose-label"></h1>
@@ -1171,7 +1182,7 @@ function initBattleRoyale(mode) {
         </div>
       </div>
       <div class="game-upper">
-        <h2 class="players-qualified-label">PLAYERS QUALIFIED:</h2>
+        <h2 class="players-qualified-label">PLAYERS QUALIFIED</h2>
         <div class="players-qualified-container">
         </div>
          <div class="game-upper-content-container">

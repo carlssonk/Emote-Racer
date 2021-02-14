@@ -15,6 +15,7 @@ const asideIcon4 = document.querySelector(".aside-icon-4")
 // Header and Aside nav.
 const navLogo = document.querySelector("#nav-logo");
 const navAside = document.querySelector(".nav-aside");
+const infoAside = document.querySelector(".info-aside-container");
 const playerAside = document.querySelectorAll(".player-aside");
 const battleRoyaleAside = document.querySelector(".battle-royale-aside");
 const battleRoyaleBtn = document.querySelector(".battle-royale-btn");
@@ -89,9 +90,9 @@ function mainPage() {
   document.title = "MAIN PAGE"
   history.pushState({urlPath:'/'},"",'/')
 
-  function profileSettings() {
-    if(profileNameInput.value !== "") username = profileNameInput.value;
-  }
+  // function profileSettings() {
+  //   if(profileNameInput.value !== "") username = profileNameInput.value;
+  // }
 
   loadMainImgs();
 
@@ -99,27 +100,98 @@ function mainPage() {
     return (
       main.innerHTML =
       `
-      <h1>This is the main page!</h1>
-      <div class="profile-name-container">
-        <label for="profile-name">USERNAME</label>
-        <input id="profile-name" type="text">
-        <button class="save-profile-btn">SAVE</button>
+      <div class="landing-container">
+        <div class="title-container">
+          <h1>EMOTE RACER</h1>
+        </div>
+        <div class="games-container">
+          <div class="game-box">
+            <div>
+              <h1>Battle Royale</h1>
+              <p>Last man standing, up to 12 players. Match up against random players or challenge your friends.</p>
+            </div>
+            <div class="play-box">
+              <button class="play-btn br-play-btn">Play</button>
+            </div>
+            <div class="game-icon"><img class="main-br-img main-game-icon" src="imgs/crown-fill.svg"></div>
+          </div>
+          <div class="game-box">
+            <div>
+              <h1>1 VS 1</h1>
+              <p>Match up against another player or challenge your friend</p>
+            </div>
+            <div class="play-box">
+              <button class="play-btn one-play-btn">Play</button>
+            </div>
+            <div class="game-icon"><img class="main-one-img main-game-icon" src="imgs/1v1-swords-fill.svg"></div>
+          </div>
+          <div class="game-box">
+            <div>
+              <h1>PRACTICE SOLO</h1>
+              <p>Practice by yourself, imporve your emote guessing skills</p>
+            </div>
+            <div class="play-box">
+              <button class="play-btn solo-play-btn">Play</button>
+            </div>
+            <div class="game-icon"><img class="main-solo-img main-game-icon" src="imgs/solo-fill.svg"></div>
+          </div>
+        </div>
       </div>
+      
       `
     )
   }
   
+  let playBtn = null;
   let saveProfileBtn = null;
   let profileNameInput = null;
   let roomIsFullLabel = null;
+  let brPlayBtn = null;
+  let onePlayBtn = null;
+  let soloPlayBtn = null;
+
+  let mainBrImg = null;
+  let mainOneImg = null;
+  let mainSoloImg = null;
+  let mainGameIcon = null;
   this.mainPageDOM = function() {
     saveProfileBtn = document.querySelector(".save-profile-btn");
     profileNameInput = document.querySelector("#profile-name");
     roomIsFullLabel = document.querySelector(".room-is-full-label");
+    playBtn = document.querySelectorAll(".play-btn")
+    mainBrImg = document.querySelector(".main-br-img")
+    mainOneImg = document.querySelector(".main-one-img")
+    mainSoloImg = document.querySelector(".main-solo-img")
+    mainGameIcon = document.querySelectorAll(".main-game-icon")
+    brPlayBtn = document.querySelector(".br-play-btn")
+    onePlayBtn = document.querySelector(".one-play-btn")
+    soloPlayBtn = document.querySelector(".solo-play-btn")
   }
   
   this.mainPageEVENT = function() {
-    saveProfileBtn.addEventListener("click", profileSettings);
+    // saveProfileBtn.addEventListener("click", profileSettings);
+    for(let i = 0; i < playBtn.length; i++) {
+      playBtn[i].addEventListener("mouseover", function() {
+        mainGameIcon[i].classList.add("grayscale-zero")
+      })
+      playBtn[i].addEventListener("mouseleave", function() {
+        mainGameIcon[i].classList.remove("grayscale-zero")
+      })
+    }
+
+    brPlayBtn.addEventListener("click", function() {
+      battleRoyalePage();
+    });
+    
+    onePlayBtn.addEventListener("click", function() {
+      soloPage();
+    });
+    
+    soloPlayBtn.addEventListener("click", function() {
+      onePage();
+    });
+    
+
   }
 
   mainPageHTML(); // Loads html
@@ -137,6 +209,11 @@ function loadMainImgs() {
   asideIcon4.src = "imgs/user.svg"
 }
 
+{/* <div class="profile-name-container">
+<label for="profile-name">USERNAME</label>
+<input id="profile-name" type="text">
+<button class="save-profile-btn">SAVE</button>
+</div> */}
 
 // #################################################################################
 // ############################### BATTLE ROYALE PAGE ##############################
@@ -154,9 +231,12 @@ function battleRoyalePage() {
     return (
       main.innerHTML =
       `
+      <div>
       <h1>BATTLE ROYALE PAGE!</h1>
       <button class="quick-play-btn">QUICK PLAY</button>
       <button class="private-lobby-btn">PRIVATE LOBBY</button>
+      </div>
+
       `
     )
   }
@@ -308,6 +388,7 @@ function soloPage() {
 function mainPageReset() {
   for(let e of playerAside) e.style.backgroundColor = "";
   navAside.style.display = "block";
+  infoAside.style.display = "block";
 }
 
 function pageChange(page) {
@@ -343,6 +424,7 @@ function pageTransitionTop() {
   main.offsetHeight; // Trigger reflow
   main.style.animation = null;
 }
+
 
 
 

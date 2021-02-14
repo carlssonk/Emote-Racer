@@ -6,6 +6,7 @@ function lobbyRoom(roomName, roomId, users) {
 
     // DOM
     navAside.style.display = "none";
+    infoAside.style.display = "none";
     battleRoyaleAside.style.display = "none";
 
 
