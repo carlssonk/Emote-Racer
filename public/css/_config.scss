@@ -1,5 +1,5 @@
 $font-stack: Arial, Helvetica, sans-serif;
-$light-color: #dbdbdb;
+// $light-color: #dbdbdb;
 $dark-color: rgb(45, 45, 45);
 $secondary-dark-color: rgb(55, 55, 55);
 $primary-color: #0e6cff;
@@ -18,6 +18,17 @@ $properties-width: 350px;
   padding: 0;
 }
 
+
+
+:root {
+  --background: rgb(225, 227, 235);
+  --card-box: rgb(250, 250, 250);
+  --card-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  --card-border: #c8c8c8;
+  --text: rgb(0, 0, 0);
+  --icon: #555;
+}
+
 body {
-  background-color: rgb(225, 230, 235);
+  background-color: var(--background)
 }

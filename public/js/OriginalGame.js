@@ -231,7 +231,7 @@ function originalGame() {
     });
   }
 
-  navAside.style.display = "none";
+  pageChangeDisplay("game")
 
   originalGameHTML(); // Loads html
   pageTransition(); // Page transition

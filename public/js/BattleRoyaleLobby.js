@@ -134,7 +134,7 @@ function lobbyRoom(roomName, roomId, users) {
 
   this.lobbyHTML = function() {
     return (
-      main.innerHTML =
+      game.innerHTML =
       `
       <div class="lobby-container">
       <div class="lobby-players-container">
@@ -250,8 +250,11 @@ function lobbyRoom(roomName, roomId, users) {
     });
   }
 
+  pageChangeDisplay("game")
+
   lobbyHTML(); // Loads html
-  if(transition === true) pageTransition(); // Page transition
+  console.log(transition)
+  if(transition === true) pageTransition("game"); // Page transition
   lobbyDOM(); // Inits dom wiring
   lobbyEVENT(); // Inits event listeners
 

@@ -1126,7 +1126,7 @@ function initBattleRoyale(mode) {
   // HTML
   this.brGameHTML = function() {
     return (
-      main.innerHTML =
+      game.innerHTML =
       `
       <div class="original-game">
       <div class="user-output-container">
@@ -1332,6 +1332,8 @@ function initBattleRoyale(mode) {
 
   }
 
+  pageChangeDisplay("game")
+  battleRoyaleAside.style.display = "block";
 
   brGameHTML();
   brGameDOM();

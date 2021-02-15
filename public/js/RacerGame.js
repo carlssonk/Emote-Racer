@@ -304,7 +304,7 @@ function racerGame() {
 
   this.originalGameHTML = function() {
     return (
-      main.innerHTML =
+      game.innerHTML =
       `
       <div class="original-game">
       <div class="game-results animate__animated animate__faster" style="display: none">
@@ -424,11 +424,10 @@ function racerGame() {
     });
   }
 
-  navAside.style.display = "none";
-  infoAside.style.display = "none";
+  pageChangeDisplay("game")
 
   originalGameHTML(); // Loads html
-  pageTransition(); // Page transition
+  pageTransition("game"); // Page transition
   originalGameDOM(); // Inits dom wiring
   originalGameEVENT(); // Inits event listeners
 

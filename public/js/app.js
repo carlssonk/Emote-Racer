@@ -23,7 +23,9 @@ const soloBtn = document.querySelector(".solo-btn");
 const oneVsOneBtn = document.querySelector(".one-vs-one-btn");
 
 // HTML APPEND ELEMENT´S
+const mainContainer = document.querySelector(".main-container");
 const main = document.querySelector(".main");
+const game = document.querySelector(".game");
 
 // #################################################################################
 // ############################### PAGE INITIALIZATION #############################
@@ -102,7 +104,7 @@ function mainPage() {
       `
       <div class="landing-container">
         <div class="title-container">
-          <h1>EMOTE RACER</h1>
+          <img class="landing-logo" src="imgs/EmoteRacer_Logo_v0.7.png">
         </div>
         <div class="games-container">
           <div class="game-box">
@@ -117,7 +119,7 @@ function mainPage() {
           </div>
           <div class="game-box">
             <div>
-              <h1>1 VS 1</h1>
+              <h1>1 vs 1</h1>
               <p>Match up against another player or challenge your friend</p>
             </div>
             <div class="play-box">
@@ -127,7 +129,7 @@ function mainPage() {
           </div>
           <div class="game-box">
             <div>
-              <h1>PRACTICE SOLO</h1>
+              <h1>Solo Practice</h1>
               <p>Practice by yourself, imporve your emote guessing skills</p>
             </div>
             <div class="play-box">
@@ -194,8 +196,10 @@ function mainPage() {
 
   }
 
+  pageChangeDisplay("main")
+
   mainPageHTML(); // Loads html
-  if(transition === true) pageTransitionTop(); // Page transition
+  if(transition === true) pageTransitionTop("main"); // Page transition
   mainPageDOM(); // Inits dom wiring
   mainPageEVENT(); // Inits event listeners
 
@@ -231,10 +235,20 @@ function battleRoyalePage() {
     return (
       main.innerHTML =
       `
-      <div>
-      <h1>BATTLE ROYALE PAGE!</h1>
-      <button class="quick-play-btn">QUICK PLAY</button>
-      <button class="private-lobby-btn">PRIVATE LOBBY</button>
+      <div class="landing-container">
+        <div class="title-container">
+          <h1><img class="title-icon" src="imgs/crown-fill.svg">BATTLE ROYALE<img class="title-icon" src="imgs/crown-fill.svg"></h1>
+        </div>
+        <div class="buttons-play-container">
+          <button class="button-card-box quick-play-btn">
+            <div class="button-card-label">Quick Play</div>
+            <i class="fas fa-random play-icon"></i>
+          </button>
+          <button class="button-card-box private-lobby-btn">
+            <div class="button-card-label">Private Lobby</div>
+            <i class="fas fa-users play-icon"></i>
+          </button>
+        </div>
       </div>
 
       `
@@ -259,8 +273,10 @@ function battleRoyalePage() {
     });
   }
 
+  pageChangeDisplay("main")
+
   battleRoyaleHTML(); // Loads html
-  if(transition === true) pageTransitionTop(); // Page transition
+  if(transition === true) pageTransitionTop("main"); // Page transition
   battleRoyaleDOM(); // Inits dom wiring
   battleRoyaleEVENT(); // Inits event listeners
 
@@ -315,8 +331,10 @@ function onePage() {
     });
   }
 
+  pageChangeDisplay("main")
+
   oneHTML(); // Loads html
-  if(transition === true) pageTransitionTop(); // Page transition
+  if(transition === true) pageTransitionTop("main"); // Page transition
   oneDOM(); // Inits dom wiring
   oneEVENT(); // Inits event listeners
 
@@ -371,8 +389,10 @@ function soloPage() {
     });
   }
 
+  pageChangeDisplay("main")
+
   soloHTML(); // Loads html
-  if(transition === true) pageTransitionTop(); // Page transition
+  if(transition === true) pageTransitionTop("main"); // Page transition
   soloDOM(); // Inits dom wiring
   soloEVENT(); // Inits event listeners
 
@@ -409,20 +429,54 @@ function pageChange(page) {
   }
 }
 
-function pageTransition() {
-  main.classList.remove("page-transition-top")
-  main.classList.add("page-transition")
-  main.style.animation = "none";
-  main.offsetHeight; // Trigger reflow
-  main.style.animation = null;
+function pageChangeDisplay(page) {
+  battleRoyaleAside.style.display = "none";
+
+  if(page === "main") {
+    game.style.display = "none";
+    mainContainer.style.display = "flex";
+    navAside.style.display = "block";
+  }
+  if(page === "game") {
+    game.style.display = "block";
+    mainContainer.style.display = "none";
+    navAside.style.display = "none";
+  }
 }
 
-function pageTransitionTop() {
-  main.classList.add("page-transition")
-  main.classList.add("page-transition-top")
-  main.style.animation = "none";
-  main.offsetHeight; // Trigger reflow
-  main.style.animation = null;
+function pageTransition(page) {
+  if(page === "main") {
+    main.classList.remove("page-transition-top")
+    main.classList.add("page-transition")
+    main.style.animation = "none";
+    main.offsetHeight; // Trigger reflow
+    main.style.animation = null;
+  }
+  if(page === "game") {
+    game.classList.remove("page-transition-top")
+    game.classList.add("page-transition")
+    game.style.animation = "none";
+    game.offsetHeight; // Trigger reflow
+    game.style.animation = null;
+  }
+}
+
+function pageTransitionTop(page) {
+  if(page === "main") {
+    main.classList.add("page-transition")
+    main.classList.add("page-transition-top")
+    main.style.animation = "none";
+    main.offsetHeight; // Trigger reflow
+    main.style.animation = null;
+  }
+  if(page === "game") {
+    game.classList.add("page-transition")
+    game.classList.add("page-transition-top")
+    game.style.animation = "none";
+    game.offsetHeight; // Trigger reflow
+    game.style.animation = null;
+  }
+
 }
 
 
