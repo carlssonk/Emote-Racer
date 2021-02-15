@@ -26,6 +26,7 @@ const oneVsOneBtn = document.querySelector(".one-vs-one-btn");
 const mainContainer = document.querySelector(".main-container");
 const main = document.querySelector(".main");
 const game = document.querySelector(".game");
+let mainLower = null;
 
 // #################################################################################
 // ############################### PAGE INITIALIZATION #############################
@@ -106,7 +107,7 @@ function mainPage() {
         <div class="title-container">
           <img class="landing-logo" src="imgs/EmoteRacer_Logo_v0.7.png">
         </div>
-        <div class="games-container">
+        <div class="games-container main-lower">
           <div class="game-box">
             <div>
               <h1>Battle Royale</h1>
@@ -168,6 +169,7 @@ function mainPage() {
     brPlayBtn = document.querySelector(".br-play-btn")
     onePlayBtn = document.querySelector(".one-play-btn")
     soloPlayBtn = document.querySelector(".solo-play-btn")
+    mainLower = document.querySelector(".main-lower");
   }
   
   this.mainPageEVENT = function() {
@@ -200,8 +202,8 @@ function mainPage() {
   pageChangeDisplay("main")
 
   mainPageHTML(); // Loads html
-  if(transition === true) pageTransitionTop("main"); // Page transition
   mainPageDOM(); // Inits dom wiring
+  if(transition === true) pageTransitionTop("main"); // Page transition
   mainPageEVENT(); // Inits event listeners
 
 
@@ -240,7 +242,7 @@ function battleRoyalePage() {
         <div class="title-container">
           <h1><img class="title-icon" src="imgs/crown-fill.svg">BATTLE ROYALE<img class="title-icon" src="imgs/crown-fill.svg"></h1>
         </div>
-        <div class="buttons-play-container">
+        <div class="buttons-play-container main-lower">
           <button class="button-card-box quick-play-btn">
             <div class="button-card-label">Quick Play</div>
             <i class="fas fa-random play-icon"></i>
@@ -261,6 +263,7 @@ function battleRoyalePage() {
   this.battleRoyaleDOM = function() {
     quickPlayBtn = document.querySelector(".quick-play-btn")
     privateLobbyBtn = document.querySelector(".private-lobby-btn")
+    mainLower = document.querySelector(".main-lower");
   }
 
   this.battleRoyaleEVENT = function() {
@@ -277,8 +280,8 @@ function battleRoyalePage() {
   pageChangeDisplay("main")
 
   battleRoyaleHTML(); // Loads html
-  if(transition === true) pageTransitionTop("main"); // Page transition
   battleRoyaleDOM(); // Inits dom wiring
+  if(transition === true) pageTransitionTop("main"); // Page transition
   battleRoyaleEVENT(); // Inits event listeners
 
 }
@@ -302,7 +305,7 @@ function onePage() {
         <div class="title-container">
           <h1><img class="title-icon" src="imgs/1v1-swords-fill.svg">1 VS 1<img class="title-icon" src="imgs/1v1-swords-fill.svg"></h1>
         </div>
-        <div class="buttons-play-container">
+        <div class="buttons-play-container main-lower">
           <button class="button-card-box play-1v1-btn">
             <div class="button-card-label">Quick Play</div>
             <i class="fas fa-random play-icon"></i>
@@ -322,6 +325,7 @@ function onePage() {
   this.oneDOM = function() {
     play1v1Btn = document.querySelector(".play-1v1-btn");
     play1v1PrivateBtn = document.querySelector(".play-1v1-private-btn");
+    mainLower = document.querySelector(".main-lower");
   }
 
   this.oneEVENT = function() {
@@ -338,8 +342,8 @@ function onePage() {
   pageChangeDisplay("main")
 
   oneHTML(); // Loads html
-  if(transition === true) pageTransitionTop("main"); // Page transition
   oneDOM(); // Inits dom wiring
+  if(transition === true) pageTransitionTop("main"); // Page transition
   oneEVENT(); // Inits event listeners
 
 }
@@ -364,7 +368,7 @@ function soloPage() {
       <div class="title-container">
         <h1><img class="title-icon" src="imgs/solo-fill.svg">SOLO PRACTICE<img class="title-icon" src="imgs/solo-fill.svg"></h1>
       </div>
-      <div class="buttons-play-container">
+      <div class="buttons-play-container main-lower">
         <button class="button-card-box play-racer-solo-btn">
           <div class="button-card-label">Racer Mode</div>
           <i class="fas fa-tachometer-alt play-icon"></i>
@@ -384,6 +388,7 @@ function soloPage() {
   this.soloDOM = function() {
     playOriginalSoloBtn = document.querySelector(".play-original-solo-btn");
     playRacerSoloBtn = document.querySelector(".play-racer-solo-btn");
+    mainLower = document.querySelector(".main-lower");
   }
 
   this.soloEVENT = function() {
@@ -399,8 +404,8 @@ function soloPage() {
   pageChangeDisplay("main")
 
   soloHTML(); // Loads html
-  if(transition === true) pageTransitionTop("main"); // Page transition
   soloDOM(); // Inits dom wiring
+  if(transition === true) pageTransitionTop("main"); // Page transition
   soloEVENT(); // Inits event listeners
 
 }
@@ -470,11 +475,12 @@ function pageTransition(page) {
 
 function pageTransitionTop(page) {
   if(page === "main") {
-    main.classList.add("page-transition")
-    main.classList.add("page-transition-top")
-    main.style.animation = "none";
-    main.offsetHeight; // Trigger reflow
-    main.style.animation = null;
+    console.log(mainLower)
+    mainLower.classList.add("page-transition")
+    mainLower.classList.add("page-transition-top")
+    mainLower.style.animation = "none";
+    mainLower.offsetHeight; // Trigger reflow
+    mainLower.style.animation = null;
   }
   if(page === "game") {
     game.classList.add("page-transition")

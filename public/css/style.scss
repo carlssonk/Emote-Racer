@@ -1429,6 +1429,7 @@ body {
       // transform: translate(0,-50%);
       // left: 0;
     }
+    z-index: 5;
   }
   .games-container {
     position: relative;
@@ -1550,6 +1551,16 @@ body {
       margin-left: 16px;
     }
   }
+}
+.landing-container::before {
+  position: absolute;
+  content: "";
+  width: calc(100% + 40px);
+  height: 40px;
+  background-color: var(--background);
+  top: 0;
+  left: -20px;
+  z-index: 4;
 }
 
 .grayscale-zero {
