@@ -140,7 +140,7 @@ function originalGame() {
 
   this.originalGameHTML = function() {
     return (
-      main.innerHTML =
+      game.innerHTML =
       `
       <div class="original-game">
       <div class="game-results animate__animated animate__faster hide">

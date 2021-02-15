@@ -186,11 +186,12 @@ function mainPage() {
     });
     
     onePlayBtn.addEventListener("click", function() {
-      soloPage();
+      onePage();
+      
     });
     
     soloPlayBtn.addEventListener("click", function() {
-      onePage();
+      soloPage();
     });
     
 
@@ -297,16 +298,19 @@ function onePage() {
     return (
       main.innerHTML =
       `
-      <div class="solo-page-container">
-        <div class="solo-page-left">
-          <div class="solo-left-card">
-            <button class="play-1v1-btn">Quick Play</button>
-          </div>
+      <div class="landing-container">
+        <div class="title-container">
+          <h1><img class="title-icon" src="imgs/1v1-swords-fill.svg">1 VS 1<img class="title-icon" src="imgs/1v1-swords-fill.svg"></h1>
         </div>
-        <div class="solo-page-right">
-          <div class="solo-right-card">
-            <button class="play-1v1-private-btn">Challenge a Friend</button>
-          </div>
+        <div class="buttons-play-container">
+          <button class="button-card-box play-1v1-btn">
+            <div class="button-card-label">Quick Play</div>
+            <i class="fas fa-random play-icon"></i>
+          </button>
+          <button class="button-card-box play-1v1-private-btn">
+            <div class="button-card-label">Challenge a Friend</div>
+            <i class="fas fa-user-plus play-icon"></i>
+          </button>
         </div>
       </div>
       `
@@ -340,7 +344,6 @@ function onePage() {
 
 }
 
-
 // #################################################################################
 // ############################ GUESS THE EMOTE PAGE ###############################
 // #################################################################################
@@ -357,18 +360,21 @@ function soloPage() {
     return (
       main.innerHTML =
       `
-      <div class="solo-page-container">
-        <div class="solo-page-left">
-          <div class="solo-left-card">
-            <button class="play-racer-solo-btn">RACER MODE</button>
-          </div>
-        </div>
-        <div class="solo-page-right">
-          <div class="solo-right-card">
-            <button class="play-original-solo-btn">CLASSIC MODE</button>
-          </div>
-        </div>
+      <div class="landing-container">
+      <div class="title-container">
+        <h1><img class="title-icon" src="imgs/solo-fill.svg">SOLO PRACTICE<img class="title-icon" src="imgs/solo-fill.svg"></h1>
       </div>
+      <div class="buttons-play-container">
+        <button class="button-card-box play-racer-solo-btn">
+          <div class="button-card-label">Racer Mode</div>
+          <i class="fas fa-tachometer-alt play-icon"></i>
+        </button>
+        <button class="button-card-box play-original-solo-btn">
+          <div class="button-card-label">Classic Mode</div>
+          <i class="fas fa-angle-double-right play-icon"></i>
+        </button>
+      </div>
+    </div>
       `
     )
   }
@@ -382,6 +388,7 @@ function soloPage() {
 
   this.soloEVENT = function() {
     playOriginalSoloBtn.addEventListener("click", function() {
+      console.log("ORIGINAL GAME")
       originalGame();
     });
     playRacerSoloBtn.addEventListener("click", function() {
