@@ -461,3 +461,35 @@ span[class^="mini-dot-"] {
     opacity: 0.1;
   }
 }
+
+
+
+
+.admin-message {
+  position: absolute;
+  width: 80px;
+  z-index: 100;
+  top: 25%;
+  right: 100%;
+  display: none;
+  transform: translate(0,-50%);
+}
+
+.admin-message-animation {
+  display: block !important;
+  animation: adminMessage 10s linear;
+}
+
+
+
+
+@keyframes adminMessage {
+  from {
+    transform: translate(0,-50%) rotate(0deg);
+    right: 100%
+  }
+  to {
+    transform: translate(0,-50%) rotate(400deg);
+    right: -10%
+  }
+}

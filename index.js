@@ -11,6 +11,8 @@ const {
   brGetUserPrivate,
   brUserLeavePrivate,
   brGetRoomUsersPrivate,
+  // Admin
+  brGetClientsByNamePrivate,
 
   // Battle Royale Public
   brUserJoinPublic,
@@ -401,6 +403,8 @@ io.on("connection", (socket) => {
   // If clicks on "NavLogo" or "Main Menu" whilst being in a multiplayer room
   socket.on('disconnect', () => {
 
+    console.log(io.sockets.adapter.sids)
+
     // Find what room the user is in, We have 4 possibilities, 1. BATTLE-ROYALE (PUBLIC), 2. BATTLE-ROYALE (PRIVATE), 3. 1VS1 (PUBLIC), 4. 1VS1 (PRIVATE)
     let user = null;
     let roomName = "";
@@ -506,7 +510,9 @@ io.on("connection", (socket) => {
       for(let i = 0; i < brRoomsList.length; i++) {
         if(brRoomsList[i].id === roomId) {
           brRoomsList[i].userLength--;
-          if(brRoomsList[i].userLength < 3) clearTimeoutLobby(roomId) // Clear possible lobby timers
+          if(brRoomsList[i].userLength < 3) {
+            if(typeof clearTimeoutLobby === "function") clearTimeoutLobby(roomId) // Clear possible lobby timers
+          } 
           if(brRoomsList[i].userLength === 0) brRoomsList.splice(i, 1) // Lastly, if userLength === 0, splice room
         }
       }
@@ -532,7 +538,6 @@ io.on("connection", (socket) => {
 
     for(let i = 0; i < routes.length; i++) {
       if(typeof routes[i].route === "undefined") continue;
-      console.log(routes[i].route.path)
       if(routes[i].route.path === `${pathname}${roomId}`) {
         routes.splice(i, 1);
         break;
@@ -545,9 +550,14 @@ io.on("connection", (socket) => {
   // ##### ADMIN COMMANDS #####
   // ##########################
 
-  socket.on("getClientByName", (passcode) => {
+  socket.on("getClientsByName", (username, passcode) => {
     console.log("You accessed getClientByName")
     console.log(`Passcode ${passcode}`)
+    if(passcode === "123") io.to(socket.id).emit("getClientsByName", brGetClientsByNamePrivate(username))
+  })
+
+  socket.on("sendToClient", (socketId, emote) => {
+    io.to(socketId).emit("emoteFlyby", emote)
   })
 
 })

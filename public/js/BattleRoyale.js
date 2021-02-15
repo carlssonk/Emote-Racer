@@ -32,7 +32,7 @@ function initBattleRoyale(mode) {
   let localEmotes = [];
   let localRandomEmoteIndex = 0;
 
-
+  funMessages();
 
   // Quickplay or Private lobby with friends
   if(mode === "public") socket.emit("quickPlay", username);

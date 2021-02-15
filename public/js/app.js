@@ -21,12 +21,16 @@ const battleRoyaleAside = document.querySelector(".battle-royale-aside");
 const battleRoyaleBtn = document.querySelector(".battle-royale-btn");
 const soloBtn = document.querySelector(".solo-btn");
 const oneVsOneBtn = document.querySelector(".one-vs-one-btn");
+const myProfileBtn = document.querySelector(".my-profile-btn");
 
 // HTML APPEND ELEMENT´S
 const mainContainer = document.querySelector(".main-container");
 const main = document.querySelector(".main");
 const game = document.querySelector(".game");
 let mainLower = null;
+
+// Extras
+const adminMessage = document.querySelector(".admin-message")
 
 // #################################################################################
 // ############################### PAGE INITIALIZATION #############################
@@ -80,6 +84,10 @@ oneVsOneBtn.addEventListener("click", function() {
   onePage();
 });
 
+myProfileBtn.addEventListener("click", function() {
+  profilePage();
+});
+
 // #################################################################################
 // ############################### MAIN PAGE #######################################
 // #################################################################################
@@ -92,10 +100,6 @@ function mainPage() {
   battleRoyaleAside.style.display = "none";
   document.title = "MAIN PAGE"
   history.pushState({urlPath:'/'},"",'/')
-
-  // function profileSettings() {
-  //   if(profileNameInput.value !== "") username = profileNameInput.value;
-  // }
 
   loadMainImgs();
 
@@ -230,7 +234,6 @@ function loadMainImgs() {
 function battleRoyalePage() {
 
   // CONFIG
-  battleRoyaleAside.style.display = "none";
   document.title = "BATTLE ROYALE"
   history.pushState({urlPath:'/battle-royale'},"",'/battle-royale')
 
@@ -356,7 +359,6 @@ function onePage() {
 function soloPage() {
 
   // CONFIG
-  battleRoyaleAside.style.display = "none";
   document.title = "GUESS THE EMOTE"
   history.pushState({urlPath:'/solo'},"",'/solo')
 
@@ -365,20 +367,20 @@ function soloPage() {
       main.innerHTML =
       `
       <div class="landing-container">
-      <div class="title-container">
-        <h1><img class="title-icon" src="imgs/solo-fill.svg">SOLO PRACTICE<img class="title-icon" src="imgs/solo-fill.svg"></h1>
+        <div class="title-container">
+          <h1><img class="title-icon" src="imgs/solo-fill.svg">SOLO PRACTICE<img class="title-icon" src="imgs/solo-fill.svg"></h1>
+        </div>
+        <div class="buttons-play-container main-lower">
+          <button class="button-card-box play-racer-solo-btn">
+            <div class="button-card-label">Racer Mode</div>
+            <i class="fas fa-tachometer-alt play-icon"></i>
+          </button>
+          <button class="button-card-box play-original-solo-btn">
+            <div class="button-card-label">Classic Mode</div>
+            <i class="fas fa-angle-double-right play-icon"></i>
+          </button>
+        </div>
       </div>
-      <div class="buttons-play-container main-lower">
-        <button class="button-card-box play-racer-solo-btn">
-          <div class="button-card-label">Racer Mode</div>
-          <i class="fas fa-tachometer-alt play-icon"></i>
-        </button>
-        <button class="button-card-box play-original-solo-btn">
-          <div class="button-card-label">Classic Mode</div>
-          <i class="fas fa-angle-double-right play-icon"></i>
-        </button>
-      </div>
-    </div>
       `
     )
   }
@@ -407,6 +409,71 @@ function soloPage() {
   soloDOM(); // Inits dom wiring
   if(transition === true) pageTransitionTop("main"); // Page transition
   soloEVENT(); // Inits event listeners
+
+}
+
+// #################################################################################
+// ################################ PROFILE PAGE ###################################
+// #################################################################################
+
+function profilePage() {
+  // CONFIG
+  document.title = "PROFILE"
+  history.pushState({urlPath:'/profile'},"",'/profile')
+
+  this.profileHTML = function() {
+    return (
+      main.innerHTML =
+      `
+      <div class="landing-container">
+        <div class="profile-label-container">
+          <h1>My Profile</h1>
+        </div>
+        <div class="profile-card-box">
+          <div class="profile-container">
+            <div class="profile-img-box">
+              <img class="profile-img" src="https://static-cdn.jtvnw.net/emoticons/v1/1/3.0">
+            </div>
+            <div class="profile-name-box">
+              <input type="text" class="profile-name" value="Plexer">
+            </div>
+          </div>
+          <div class="customize-container">
+            <div>Name Colors</div>
+            <div class="text-color-container">
+              <div class="color-box"></div>
+              <div class="color-box"></div>
+              <div class="color-box"></div>
+            </div>
+            <div>Profile Images</div>
+            <div class="emote-img-container">
+              <div class="emote-box"></div>
+              <div class="emote-box"></div>
+              <div class="emote-box"></div>
+            </div>
+          </div>
+        </div>
+        <button class="profile-save-btn">SAVE</button>
+      </div>
+      `
+    )
+  }
+
+
+  this.profileDOM = function() {
+
+  }
+
+  this.profileEVENT = function() {
+
+  }
+
+  pageChangeDisplay("main")
+
+  profileHTML(); // Loads html
+  profileDOM(); // Inits dom wiring
+  if(transition === true) pageTransitionTop("main"); // Page transition
+  profileEVENT(); // Inits event listeners
 
 }
 
@@ -492,6 +559,32 @@ function pageTransitionTop(page) {
 
 }
 
+
+
+// Admin message
+
+function emoteFlyby(emote) {
+  console.log(emote)
+  adminMessage.classList.remove("admin-message-animation")
+  setTimeout(function() {
+    adminMessage.src = emote
+    adminMessage.classList.add("admin-message-animation")
+  }, 100)
+  
+}
+
+
+function funMessages() {
+
+  if(typeof socket === "object") {
+
+    socket.on("emoteFlyby", (emote) => {
+      emoteFlyby(emote)
+    });
+
+  }
+
+}
 
 
 

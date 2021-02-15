@@ -25,6 +25,11 @@ function brGetUserPrivate(id) {
   return brUsersPrivate.find(user => user.id === id);
 }
 
+// Get ALL users with a specific USERNAME
+function brGetClientsByNamePrivate(username) {
+  return brUsersPrivate.filter(user => user.username === username);
+}
+
 // Leave user from a room
 function brUserLeavePrivate(id) {
   const index = brUsersPrivate.findIndex(user => user.id === id);
@@ -152,6 +157,8 @@ module.exports = {
   brGetUserPrivate,
   brUserLeavePrivate,
   brGetRoomUsersPrivate,
+  // Admin
+  brGetClientsByNamePrivate,
 
   // Battle Royale Public
   brUserJoinPublic,

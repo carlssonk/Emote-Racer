@@ -6,11 +6,13 @@
 
 // players
 .layout {
+  position: relative;
   display: grid;
   grid-template-areas: "header header header" "aside main aside2";
   grid-template-columns: fit-content(300px) 1fr;
   grid-template-rows: 50px 1fr;
   height: 100%;
+  overflow: hidden;
   // grid-template-rows: var(#{$headerHeight}) 1fr;
   // position: relative;
   // display: flex;
@@ -1566,3 +1568,108 @@ body {
 .grayscale-zero {
   filter: grayscale(0%) !important;
 }
+
+
+
+.profile-label-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 140px;
+  margin: 32px 0;
+  background-color: #333235;
+  background: #281c3f;
+  background: linear-gradient(to bottom, #201329, #281c3f);
+  border-radius: 8px;
+  z-index: 5;
+  h1 {
+    color: white;
+  }
+}
+.profile-card-box {
+  position: relative;
+  width: 100%;
+  background-color: var(--card-box);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  .profile-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .profile-img-box {
+      width: 120px;
+      height: 120px;
+      border: 3px solid #1d1d1d;
+      border-radius: 100%;
+      margin: 12px 12px 6px 12px;
+      padding: 12px;
+      display: grid;
+      place-items: center;
+      // background-color: rgba(179, 179, 179, 0.3);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) inset;
+      .profile-img {
+        width: 100%;
+      }
+    }
+    .profile-name-box {
+      .profile-name {
+        width: 350px;
+        height: 60px;
+        // box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) inset;
+        background: rgb(0,0,0);
+        background: linear-gradient(0deg, rgba(0,0,0,0.1) 0%, rgba(255, 255, 255, 0) 30%);
+        outline: none;
+        border: none;
+        font-size: 3rem;
+        border-radius: 6px;
+        padding: 6px;
+        transition: 150ms;
+        border: 3px solid var(--card-box);
+        border-bottom: 3px solid #1d1d1d;
+        &:focus {
+          border: 3px solid #1d1d1d;
+        }
+      }
+    }
+  }
+}
+.customize-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border: 1px solid black;
+  .text-color-container {
+    display: flex;
+    border: 1px solid black;
+    .color-box {
+      margin: 8px;
+      width: 30px;
+      height: 30px;
+      border: 1px solid black;
+      border-radius: 3px;
+    }
+  }
+  .emote-img-container {
+    display: flex;
+    border: 1px solid black;
+    .emote-box {
+      margin: 8px;
+      width: 30px;
+      height: 30px;
+      border: 1px solid black;
+      border-radius: 3px;
+    }
+  }
+}
+
+
+// .profile-container {
+  
+// }
