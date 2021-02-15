@@ -77,7 +77,8 @@ function lobbyRoom(roomName, roomId, users) {
         }
       }
 
-
+      console.log(index)
+      console.log(users)
       // Below code depends if lobby is private or public
 
       // If first user left, i.e. lobby leader, set new play button for new leader
@@ -87,6 +88,9 @@ function lobbyRoom(roomName, roomId, users) {
           const startGameBtn = document.querySelector(".start-game-btn")
           startGameBtn.addEventListener("click", brStartGame)
         }
+      }
+      if(users[0].room.isPrivate === true && users.length === 1) {
+        startGameBtnContainer.innerHTML = ""
       }
 
       // Waiting label...

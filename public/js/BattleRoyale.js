@@ -106,7 +106,6 @@ function initBattleRoyale(mode) {
 
     if(currentPage === "lobby-page") {
   
-      console.log(typeof leaveLobbyUser === "function")
       if(typeof leaveLobbyUser === "function") leaveLobbyUser(userSocketId, users)
 
     }

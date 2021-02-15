@@ -119,6 +119,9 @@ io.on("connection", (socket) => {
     this.clearTimeoutLobby = function(roomId) {
 
       for(let i = 0; i < lobbyCountdownTimers.length; i++) {
+        console.log(lobbyCountdownTimers[i])
+        console.log(lobbyCountdownTimers[i]._timerArgs[0])
+        console.log(roomId)
         if(lobbyCountdownTimers[i]._timerArgs[0] === roomId) {
 
           clearTimeout(lobbyCountdownTimers[i])
@@ -456,6 +459,7 @@ io.on("connection", (socket) => {
     io.to(roomId).emit("userLeave", socketId, brGetRoomUsersPublic(roomId))
     // SERVER
     decrementUserLength("br", roomId) // This room is public & have a public roomsListArray. So Remove length for that room
+
     brUserLeavePublic(socketId)
   }
 
@@ -499,10 +503,11 @@ io.on("connection", (socket) => {
     // Decrement userLength for thath room
     // If userLength is 0, splice the room
     if(message === "br") {
-      for(let i = 0; i < brRoomsList; i++) {
+      for(let i = 0; i < brRoomsList.length; i++) {
         if(brRoomsList[i].id === roomId) {
           brRoomsList[i].userLength--;
-          if(brRoomsList[i].userLength === 0) brRoomsList.splice(i, 1)
+          if(brRoomsList[i].userLength < 3) clearTimeoutLobby(roomId) // Clear possible lobby timers
+          if(brRoomsList[i].userLength === 0) brRoomsList.splice(i, 1) // Lastly, if userLength === 0, splice room
         }
       }
     }
@@ -510,7 +515,7 @@ io.on("connection", (socket) => {
     // Decrement userLength for thath room
     // If userLength is 0, splice the room
     if(message === "1v1") {
-      for(let i = 0; i < oneRoomsList; i++) {
+      for(let i = 0; i < oneRoomsList.length; i++) {
         if(oneRoomsList[i].id === roomId) {
           oneRoomsList[i].userLength--;
           if(oneRoomsList[i].userLength === 0) oneRoomsList.splice(i, 1)
