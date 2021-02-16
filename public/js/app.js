@@ -421,6 +421,11 @@ function profilePage() {
   document.title = "PROFILE"
   history.pushState({urlPath:'/profile'},"",'/profile')
 
+  function configuration() {
+    profileImg.src = getProfileImg();
+    profileName.value = getUsername();
+  }
+
   this.profileHTML = function() {
     return (
       main.innerHTML =
@@ -432,36 +437,118 @@ function profilePage() {
         <div class="profile-card-box">
           <div class="profile-container">
             <div class="profile-img-box">
-              <img class="profile-img" src="https://static-cdn.jtvnw.net/emoticons/v1/1/3.0">
+              <img class="profile-img" src="">
             </div>
             <div class="profile-name-box">
-              <input type="text" class="profile-name" value="Plexer">
+              <input type="text" class="profile-name" value="" maxlength="16">
             </div>
+          </div>
+          <div class="customize-label-container">
+            <div>Name Colors</div>
+            <div>Profile Images</div>
           </div>
           <div class="customize-container">
-            <div>Name Colors</div>
-            <div class="text-color-container">
-              <div class="color-box"></div>
-              <div class="color-box"></div>
-              <div class="color-box"></div>
+            <div class="custom-text-color-container">
+              <div class="customize-column">
+                <div class="color-box">
+                <div>RED</div>
+                <div class="name-color" style="color: red;">Plexer</div>
+                <button class="buy-emote-btn">100</button>
+                </div>
+                <div class="color-box">
+                <div>BLUE</div>
+                <div class="name-color" style="color: blue;">Plexer</div>
+                <button class="buy-emote-btn">100</button>
+                </div>
+                <div class="color-box">
+                <div>CYAN</div>
+                <div class="name-color" style="color: cyan;">Plexer</div>
+                <button class="buy-emote-btn">100</button>
+                </div>                                
+              </div>
+              <div class="customize-column">
+                <div class="color-box">
+                <div>ORANGE</div>
+                <div class="name-color" style="color: orange;">Plexer</div>
+                <button class="buy-emote-btn">100</button>
+                </div>
+                <div class="color-box">
+                  <div>GOLD</div>
+                  <div class="name-color" style="color: gold;">Plexer</div>
+                  <button class="buy-emote-btn">100</button>
+                </div>
+                <div class="color-box">
+                <div>BROWN</div>
+                <div class="name-color" style="color: brown;">Plexer</div>
+                <button class="buy-emote-btn">100</button>
+                </div>                
+              </div>
             </div>
-            <div>Profile Images</div>
-            <div class="emote-img-container">
-              <div class="emote-box"></div>
-              <div class="emote-box"></div>
-              <div class="emote-box"></div>
+            <div class="custom-emote-img-container">
+              <div class="customize-column">
+                <div class="emote-box">
+                  <div>POGGERS</div>
+                  <div class="emote-box-img">
+                    <img src="https://cdn.betterttv.net/emote/58ae8407ff7b7276f8e594f2/3x">
+                  </div>
+                  <button class="buy-emote-btn">100</button>
+                </div>
+                <div class="emote-box">
+                  <div>POGGERS</div>
+                  <div class="emote-box-img">
+                    <img src="https://cdn.betterttv.net/emote/5590b223b344e2c42a9e28e3/3x">
+                  </div>
+                  <button class="buy-emote-btn">100</button>
+                </div>
+                <div class="emote-box">
+                  <div>POGGERS</div>
+                  <div class="emote-box-img">
+                    <img src="https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x">
+                  </div>
+                  <button class="buy-emote-btn">100</button>
+                </div>
+              </div>
+              <div class="customize-column">
+                <div class="emote-box">
+                  <div>POGGERS</div>
+                  <div class="emote-box-img">
+                    <img src="https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x">
+                  </div>
+                  <button class="buy-emote-btn">100</button>
+                </div>
+                <div class="emote-box">
+                  <div>POGGERS</div>
+                  <div class="emote-box-img">
+                    <img src="https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x">
+                  </div>
+                  <button class="buy-emote-btn">100</button>
+                </div>
+                <div class="emote-box">
+                  <div>POGGERS</div>
+                  <div class="emote-box-img">
+                    <img src="https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x">
+                  </div>
+                  <button class="buy-emote-btn">100</button>
+                </div>
+              </div>                                        
             </div>
           </div>
+          <div class="profile-save-box">
+            <button class="profile-save-btn">SAVE</button>
+          </div>
+
         </div>
-        <button class="profile-save-btn">SAVE</button>
       </div>
       `
     )
   }
 
+  let profileImg = null;
+  let profileName = null;
 
   this.profileDOM = function() {
-
+    profileImg = document.querySelector(".profile-img")
+    profileName = document.querySelector(".profile-name")
   }
 
   this.profileEVENT = function() {
@@ -474,6 +561,8 @@ function profilePage() {
   profileDOM(); // Inits dom wiring
   if(transition === true) pageTransitionTop("main"); // Page transition
   profileEVENT(); // Inits event listeners
+
+  configuration();
 
 }
 

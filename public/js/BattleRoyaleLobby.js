@@ -1,8 +1,8 @@
 function lobbyRoom(roomName, roomId, users) {
 
   function configuration() {
-    const profileImg = "https://static-cdn.jtvnw.net/emoticons/v1/1/3.0"
-    const username = setUsername()
+    const profileImg = getProfileImg();
+    const username = getUsername();
 
     // DOM
     navAside.style.display = "none";

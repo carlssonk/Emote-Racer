@@ -16,8 +16,8 @@ if(window.Worker) {
 
 function initBattleRoyale(mode) {
   // USER CONFIG
-  const profileImg = "https://static-cdn.jtvnw.net/emoticons/v1/1/3.0"
-  const username = setUsername()
+  const profileImg = getProfileImg();
+  const username = getUsername();
 
   // ROOM CONFIG
   let roomId = "";
@@ -1017,6 +1017,8 @@ function initBattleRoyale(mode) {
       }
 
 
+
+
       function prepNextRound() {
 
         const eliminatedPlayers = localUsers.filter(e => e.hasQualified === false)
@@ -1346,5 +1348,3 @@ function initBattleRoyale(mode) {
   }
 
 }
-
-
