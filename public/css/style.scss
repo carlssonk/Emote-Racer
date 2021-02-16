@@ -1606,7 +1606,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
+    margin-top: 6px;
     .profile-img-box {
       width: 100px;
       height: 100px;
@@ -1623,41 +1624,58 @@ body {
       }
     }
     .profile-name-box {
+      position: relative;
+      border: 2px solid transparent;
+      border-bottom: 2px solid #1d1d1d;
+      cursor: default;
+      display: flex;
+      align-items: center;
+      transition: 100ms;
+      
+      // border: 3px solid var(--card-box);
+      // background: rgb(0,0,0);
+      // background: linear-gradient(0deg, rgba(0,0,0,0.1) 0%, rgba(255, 255, 255, 0) 30%);
       .profile-name {
-        width: 400px;
+        width: 300px;
         height: 50px;
         // box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) inset;
-        background: rgb(0,0,0);
-        background: linear-gradient(0deg, rgba(0,0,0,0.1) 0%, rgba(255, 255, 255, 0) 30%);
+        background-color: var(--card-box);
+        border-radius: 6px;
+
         outline: none;
         border: none;
-        font-size: 1.8rem;
-        border-radius: 6px;
+        font-size: 1.5rem;
         padding: 6px;
-        transition: 150ms;
-        border: 3px solid var(--card-box);
-        border-bottom: 3px solid #1d1d1d;
-        &:focus {
-          border: 3px solid #1d1d1d;
+        cursor: default;
+
+        // &:focus {
+        //   border: 3px solid #1d1d1d;
+        // }
+      }
+      .profile-edit-btn {
+        width: 55px;
+        height: 30px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        background-color: rgb(240, 240, 240);
+        outline: none;
+        margin-right: 6px;
+        border: 1px solid black;
+        border-radius: 4px;
+        cursor: pointer;
+        &:active {
+          transform: scale(0.98)
         }
       }
     }
   }
-  .profile-save-box {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 26px;
-    .profile-save-btn {
-      width: 200px;
-      height: 40px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      background-color: rgb(231, 231, 231);
-      outline: none;
-      border: 2px solid black;
-    }
-  }
+  // .profile-save-box {
+  //   width: 100%;
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  //   margin-top: 26px;
+
+  // }
 
 }
 
@@ -1676,7 +1694,7 @@ body {
   position: relative;
   display: flex;
   justify-content: space-between;
-  height: 400px;
+  height: 452px;
   border-top: 1px solid #c8c8c8;
   border-bottom: 1px solid #c8c8c8;
 
@@ -1742,6 +1760,7 @@ body {
         padding: 12px 0;
         text-align: center;
         border-radius: 6px;
+        overflow: hidden;
       }
     }
   }
@@ -1755,6 +1774,7 @@ body {
     width: 50%;
     margin-bottom: 20px;
     .emote-box {
+      transition: 100ms;
       position: relative;
       height: 140px;
       max-width: 140px;
@@ -1775,7 +1795,15 @@ body {
         color: white;
         width: 100%;
         height: 30px;
+        padding: 6px;
         cursor:  pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+          height: 100%;
+          margin-left: 4px;
+        }
         &:hover {
           background-color: rgb(0, 200, 0);
         }
@@ -1787,6 +1815,7 @@ body {
         border: 2px solid black;
         background-color: #353535;
         padding: 4px;
+        border-radius: 6px;
         img {
           width: 100%;
         }

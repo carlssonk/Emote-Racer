@@ -424,6 +424,10 @@ function profilePage() {
   function configuration() {
     profileImg.src = getProfileImg();
     profileName.value = getUsername();
+
+    for(let name of nameColor) {
+      name.innerText = profileName.value
+    }
   }
 
   this.profileHTML = function() {
@@ -440,7 +444,8 @@ function profilePage() {
               <img class="profile-img" src="">
             </div>
             <div class="profile-name-box">
-              <input type="text" class="profile-name" value="" maxlength="16">
+              <input type="text" class="profile-name" value="" maxlength="16" readonly>
+              <button class="profile-edit-btn">EDIT</button>
             </div>
           </div>
           <div class="customize-label-container">
@@ -491,21 +496,21 @@ function profilePage() {
                   <div class="emote-box-img">
                     <img src="https://cdn.betterttv.net/emote/58ae8407ff7b7276f8e594f2/3x">
                   </div>
-                  <button class="buy-emote-btn">100</button>
+                  <button class="buy-emote-btn">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>
                 <div class="emote-box">
                   <div>POGGERS</div>
                   <div class="emote-box-img">
                     <img src="https://cdn.betterttv.net/emote/5590b223b344e2c42a9e28e3/3x">
                   </div>
-                  <button class="buy-emote-btn">100</button>
+                  <button class="buy-emote-btn">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>
                 <div class="emote-box">
                   <div>POGGERS</div>
                   <div class="emote-box-img">
                     <img src="https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x">
                   </div>
-                  <button class="buy-emote-btn">100</button>
+                  <button class="buy-emote-btn">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>
               </div>
               <div class="customize-column">
@@ -514,29 +519,25 @@ function profilePage() {
                   <div class="emote-box-img">
                     <img src="https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x">
                   </div>
-                  <button class="buy-emote-btn">100</button>
+                  <button class="buy-emote-btn">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>
                 <div class="emote-box">
                   <div>POGGERS</div>
                   <div class="emote-box-img">
                     <img src="https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x">
                   </div>
-                  <button class="buy-emote-btn">100</button>
+                  <button class="buy-emote-btn">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>
                 <div class="emote-box">
                   <div>POGGERS</div>
                   <div class="emote-box-img">
                     <img src="https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x">
                   </div>
-                  <button class="buy-emote-btn">100</button>
+                  <button class="buy-emote-btn">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>
               </div>                                        
             </div>
           </div>
-          <div class="profile-save-box">
-            <button class="profile-save-btn">SAVE</button>
-          </div>
-
         </div>
       </div>
       `
@@ -545,13 +546,57 @@ function profilePage() {
 
   let profileImg = null;
   let profileName = null;
+  // 
+  let profileEditBtn = null;
+  let profileNameBox = null;
+  let emoteBox = null;
+  let nameColor = null;
 
   this.profileDOM = function() {
     profileImg = document.querySelector(".profile-img")
     profileName = document.querySelector(".profile-name")
+    profileEditBtn = document.querySelector(".profile-edit-btn")
+    profileNameBox = document.querySelector(".profile-name-box")
+    emoteBox = document.querySelectorAll(".emote-box")
+    nameColor = document.querySelectorAll(".name-color")
   }
 
   this.profileEVENT = function() {
+    let bool = true;
+    profileEditBtn.addEventListener("click", function() {
+      if(bool === true) {
+        bool = !bool;
+        profileEditBtn.innerText = "SAVE"
+        profileName.focus();
+
+        profileName.readOnly = false;
+        profileName.style.cursor = "auto";
+        profileNameBox.style.border = "2px solid black";
+        profileNameBox.style.borderRadius = "6px";
+
+      } else {
+        if(profileName.value === "") return
+        bool = !bool;
+        setUsername(profileName.value)
+        profileEditBtn.innerText = "EDIT"
+
+        profileName.readOnly = true;
+        profileName.style.cursor = "";
+        profileNameBox.style.border = "";
+        profileNameBox.style.borderRadius = "";
+
+        for(let name of nameColor) {
+          name.innerText = profileName.value
+        }
+      }
+    });
+
+    for(let emote of emoteBox) {
+      emote.addEventListener("click", function() {
+        for(let i = 0; i < emoteBox.length; i++) emoteBox[i].classList.remove("highlight-box")
+        emote.classList.add("highlight-box")
+      });
+    }
 
   }
 
