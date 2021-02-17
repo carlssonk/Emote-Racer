@@ -497,5 +497,18 @@ span[class^="mini-dot-"] {
 
 .highlight-box {
   border: 3px solid black !important;
-  // transform: scale(0.99)
+}
+
+.highlight-box-color {
+  border: 3px solid black !important;
+}
+
+
+@function set-color($color) {
+  @if (lightness($color) > 40) {
+    @return #000;
+  }
+  @else {
+    @return #FFF;
+  }
 }

@@ -425,39 +425,64 @@ function profilePage() {
   function configuration() {
     profileImg.src = getProfileImg();
     profileName.value = getUsername();
+    profileName.style.color = getUsernameColorV2()
+    nameColorOwned[0].innerText = getUsername();
 
     // Color name to username
     setUsernameColorBox()
 
     // Set Owned Avatars
-    console.log(emoteBoxUrl)
-    console.log(emoteBoxUrl.length)
     for(let i = 0; i < emoteBoxUrl.length; i++) {
       for(let a = 1; a < getOwnedAvatars().length; a++) { // Start loop at 1, because First emote is already owned
 
         if(getOwnedAvatars()[a] === emoteBoxUrl[i].src) {
-          console.log("OWNED")
-          console.log(i)
-          console.log("OWNED")
           // Set dom wiring
           setDomWiring(i)
         }
       }
     }
+
+    // Set Owned Colors
+    for(let i = 0; i < nameColor.length; i++) {
+      for(let a = 1; a < getOwnedColors().length; a++) { // Start loop at 1, because First emote is already owned
+
+        if(getOwnedColors()[a] === nameColor[i].style.color) {
+          // Set dom wiring
+          setDomWiringColor(i)
+        }
+      }
+    }    
+
     // Reset Button Styling
     for(let btn of selectEmoteBtn) {
+      btn.innerHTML = "OWNED"
+    }
+
+    // Reset Color Button Styling
+    for(let btn of selectColorBtn) {
       btn.innerHTML = "OWNED"
     }
 
     // Set event listener for selecting emotes
     selectedEmoteListener()
 
+    // Set event listener for selecting emotes
+    selectedColorListener()    
+
 
     // Highlight current profileImg
-    for(let i = 0; i  < emoteBoxOwned.length; i++) {
+    for(let i = 0; i < emoteBoxOwned.length; i++) {
       if(getProfileImg() === emoteBoxOwnedUrl[i].src) {
         emoteBoxOwned[i].classList.add("highlight-box")
         selectEmoteBtn[i].innerText = "SELECTED"
+      } 
+    }
+
+    // Highlight current color
+    for(let i = 0; i < colorBoxOwned.length; i++) {
+      if(getUsernameColor() === nameColorOwned[i].style.color) {
+        colorBoxOwned[i].classList.add("highlight-box-color")
+        selectColorBtn[i].innerText = "SELECTED"
       } 
     }
 
@@ -469,19 +494,20 @@ function profilePage() {
     }
   }
 
+
   // Change dom when user buys an emote
   function setBuyEmoteDom(i) {
     setDomWiring(i)
-
     // Clear highlight
     clearEmoteBoxOwnedHighlight()
-    // Set New highlight
-    // console.log(i)
-    // console.log(emoteBoxOwned)
-    // emoteBoxOwned[i-1].classList.add("highlight-box") // -1 because first emote is always owned
-    // selectEmoteBtn[i-1].innerText = "SELECTED" // -1 because first emote is always owned
-    // Reset DOM LISTENER
   }
+
+  // Change dom when user buys an color
+  function setBuyColorDom(i) {
+    setDomWiringColor(i)
+    // Clear highlight
+    clearColorBoxOwnedHighlight()
+  }  
 
 
   function setDomWiring(i) {
@@ -495,6 +521,19 @@ function profilePage() {
     selectEmoteBtn = document.querySelectorAll(".select-emote-btn")
 
     emoteBoxUrl = document.querySelectorAll(".emote-box-url")
+  }
+
+  function setDomWiringColor(i) {
+    colorBox[i+1].classList.add("color-box-owned") // +1 because first emote is always owned
+    colorBoxOwned = document.querySelectorAll(".color-box-owned")
+
+    nameColor[i].classList.add("name-color-owned")
+    nameColorOwned = document.querySelectorAll(".name-color-owned")
+
+    buyColorBtn[i].className = "select-color-btn"
+    selectColorBtn = document.querySelectorAll(".select-color-btn")
+
+    nameColor = document.querySelectorAll(".name-color")
   }
 
   this.profileHTML = function() {
@@ -522,37 +561,37 @@ function profilePage() {
           <div class="customize-container">
             <div class="custom-text-color-container">
               <div class="customize-column">
-                <div class="color-box">
-                <div>RED</div>
-                <div class="name-color" style="color: red;">Plexer</div>
-                <button class="buy-color-btn">100</button>
+                <div class="color-box color-box-owned animate__animated animate__faster">
+                  <div>BLACK/WHITE</div>
+                  <div class="name-color-owned" style="color: white;"></div>
+                  <button class="select-color-btn" data-name="white">100</button>
                 </div>
-                <div class="color-box">
-                <div>BLUE</div>
-                <div class="name-color" style="color: blue;">Plexer</div>
-                <button class="buy-color-btn">100</button>
+                <div class="color-box animate__animated animate__faster">
+                  <div>BLUE</div>
+                  <div class="name-color" style="color: blue;"></div>
+                  <button class="buy-color-btn" data-value="100" data-name="blue">100</button>
                 </div>
-                <div class="color-box">
-                <div>CYAN</div>
-                <div class="name-color" style="color: cyan;">Plexer</div>
-                <button class="buy-color-btn">100</button>
+                <div class="color-box animate__animated animate__faster">
+                  <div>CYAN</div>
+                  <div class="name-color" style="color: cyan;"></div>
+                  <button class="buy-color-btn" data-value="100" data-name="cyan">100</button>
                 </div>                                
               </div>
               <div class="customize-column">
-                <div class="color-box">
-                <div>ORANGE</div>
-                <div class="name-color" style="color: orange;">Plexer</div>
-                <button class="buy-color-btn">100</button>
+                <div class="color-box animate__animated animate__faster">
+                  <div>ORANGE</div>
+                  <div class="name-color" style="color: orange;"></div>
+                  <button class="buy-color-btn" data-value="100" data-name="orange">100</button>
                 </div>
-                <div class="color-box">
+                <div class="color-box animate__animated animate__faster">
                   <div>GOLD</div>
-                  <div class="name-color" style="color: gold;">Plexer</div>
-                  <button class="buy-color-btn">100</button>
+                  <div class="name-color" style="color: gold;"></div>
+                  <button class="buy-color-btn" data-value="100" data-name="gold">100</button>
                 </div>
-                <div class="color-box">
-                <div>BROWN</div>
-                <div class="name-color" style="color: brown;">Plexer</div>
-                <button class="buy-color-btn">100</button>
+                <div class="color-box animate__animated animate__faster">
+                  <div>BROWN</div>
+                  <div class="name-color" style="color: brown;"></div>
+                  <button class="buy-color-btn" data-value="100" data-name="brown">100</button>
                 </div>                
               </div>
             </div>
@@ -563,7 +602,7 @@ function profilePage() {
                   <div class="emote-box-img">
                     <img class="emote-box-owned-url" src="https://static-cdn.jtvnw.net/emoticons/v1/1/3.0">
                   </div>
-                  <button class="select-emote-btn emote-selected">SELECT</button>
+                  <button class="select-emote-btn">SELECT</button>
                 </div>
                 <div class="emote-box animate__animated animate__faster">
                   <div>EZ</div>
@@ -611,29 +650,6 @@ function profilePage() {
     )
   }
 
-  this.buyEmoteHTML = function() {
-    return (
-      mainFull.innerHTML = 
-      `
-      <div class="buy-container">
-        <div class="buy-box">
-          <div class="profile-img-box">
-            <img class="profile-img" src="">
-          </div>
-          <div class="emote-box">
-            <div>POGGERS</div>
-            <div class="emote-box-img">
-              <img src="https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x">
-            </div>
-            <button class="buy-emote-btn">100<img src="imgs/YEP_COIN.svg"></button>
-          </div>
-        </div>
-      </div>
-
-      `
-    )
-  }
-
   let profileImg = null;
   let profileName = null;
   // 
@@ -642,11 +658,17 @@ function profilePage() {
   let emoteBox = null;
   let emoteBoxOwned = null;
   let emoteBoxOwnedUrl = null;
-  let nameColor = null;
   let selectEmoteBtn = null;
   let emoteSelected = null;
   let buyEmoteBtn = null;
   let emoteBoxUrl = null;
+  // 
+  let colorBox = null;
+  let nameColor = null;
+  let buyColorBtn = null;
+  let selectColorBtn = null;
+  let colorBoxOwned = null;
+
 
   this.profileDOM = function() {
     profileImg = document.querySelector(".profile-img")
@@ -656,11 +678,18 @@ function profilePage() {
     emoteBox = document.querySelectorAll(".emote-box")
     emoteBoxOwned = document.querySelectorAll(".emote-box-owned")
     emoteBoxOwnedUrl = document.querySelectorAll(".emote-box-owned-url")
-    nameColor = document.querySelectorAll(".name-color")
     selectEmoteBtn = document.querySelectorAll(".select-emote-btn")
     emoteSelected = document.querySelectorAll(".emote-selected")
     buyEmoteBtn = document.querySelectorAll(".buy-emote-btn")
     emoteBoxUrl = document.querySelectorAll(".emote-box-url")
+    // 
+    nameColor = document.querySelectorAll(".name-color")
+    nameColorOwned = document.querySelectorAll(".name-color-owned")
+    buyColorBtn = document.querySelectorAll(".buy-color-btn")
+    colorBox = document.querySelectorAll(".color-box")
+    selectColorBtn = document.querySelectorAll(".select-color-btn")
+    colorBoxOwned = document.querySelectorAll(".color-box-owned")
+
   }
 
   this.profileEVENT = function() {
@@ -697,6 +726,8 @@ function profilePage() {
     });
   }
 
+   // AVATAR
+
   function buyEmoteBtnListener(e) {
     const btn = e.target
     for(let i = 0; i < emoteAvatars.length; i++) {
@@ -731,7 +762,6 @@ function profilePage() {
         clearEmoteBoxOwnedHighlight()
 
         // Set New highlight
-        console.log(emoteBoxOwned[i])
         emoteBoxOwned[i].classList.add("highlight-box") // -1 because first emote is always owned
         selectEmoteBtn[i].innerText = "SELECTED" // -1 because first emote is always owned
 
@@ -749,6 +779,60 @@ function profilePage() {
     }
   }
 
+  // COLOR
+
+  function buyColorBtnListener(e) {
+    const btn = e.target
+    for(let i = 0; i < nameColors.length; i++) {
+      // Check if DOM matches the code
+      if(btn.dataset.name === nameColors[i].name && btn.dataset.value === nameColors[i].price.toString()){
+        
+        // Buy Avatar if he has enough coins
+        if(getCoins() >= nameColors[i].price) {
+          buyColor(nameColors[i].name, nameColors[i].code)
+          setBuyColorDom(i);
+          selectedColorListener();
+        } else {
+          if(btn.className === "select-color-btn") return
+
+          colorBox[i+1].classList.add("input-wrong");
+          colorBox[i+1].classList.add("animate__headShake");
+          setTimeout(() => {
+            colorBox[i+1].classList.remove("input-wrong");
+            colorBox[i+1].classList.remove("animate__headShake");
+          }, 300)
+        }
+
+      }
+    }
+  } 
+
+  function selectedColorListener() {
+    colorBoxOwned = document.querySelectorAll(".color-box-owned")
+    for(let i = 0; i < colorBoxOwned.length; i++) {
+      colorBoxOwned[i].addEventListener("click", function() {
+        // Clear highlight
+        clearColorBoxOwnedHighlight()
+
+        // Set New highlight
+        colorBoxOwned[i].classList.add("highlight-box-color") // -1 because first emote is always owned
+        selectColorBtn[i].innerText = "SELECTED" // -1 because first emote is always owned
+
+        // Set Profile Img
+        setUsernameColor(selectColorBtn[i].dataset.name);
+        // Set Profile Img DOM
+        profileName.style.color = getUsernameColorV2();
+      })
+    }
+  }
+  function clearColorBoxOwnedHighlight() {
+    for(let x = 0; x < colorBoxOwned.length; x++) {
+      colorBoxOwned[x].classList.remove("highlight-box-color") 
+      selectColorBtn[x].innerText = "OWNED"
+    }
+  }
+
+  // INIT FUNCITONS
 
   pageChangeDisplay("main")
 
@@ -758,6 +842,9 @@ function profilePage() {
   profileEVENT(); // Inits event listeners
   for(let btn of buyEmoteBtn) {
     btn.addEventListener("click", buyEmoteBtnListener)
+  }
+  for(let btn of buyColorBtn) {
+    btn.addEventListener("click", buyColorBtnListener)
   }
 
   configuration();
@@ -784,7 +871,6 @@ function pageChange(page) {
     if(typeof stopProgressBar === "function") stopProgressBar();
     if(typeof stopNextRoundTimer === "function") stopNextRoundTimer();
   }
-  console.log(page)
   if(page === "lobby-page") {
     socket.disconnect();
   }
@@ -829,7 +915,6 @@ function pageTransition(page) {
 
 function pageTransitionTop(page) {
   if(page === "main") {
-    console.log(mainLower)
     mainLower.classList.add("page-transition")
     mainLower.classList.add("page-transition-top")
     mainLower.style.animation = "none";
@@ -846,12 +931,18 @@ function pageTransitionTop(page) {
 
 }
 
+function getUsernameColorV2() {
+  let color = getUsernameColor();
+
+  if(color === "white") color = "";
+  
+  return color
+}
 
 
 // Admin message
 
 function emoteFlyby(emote) {
-  console.log(emote)
   adminMessage.classList.remove("admin-message-animation")
   setTimeout(function() {
     adminMessage.src = emote

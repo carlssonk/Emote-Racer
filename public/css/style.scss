@@ -1728,7 +1728,7 @@ body {
       padding: 4px;
       border-radius: 6px;
       border: 1px solid rgba(0, 0, 0, 0.5);
-      button {
+      .buy-color-btn {
         background-color: rgb(0, 170, 0);
         margin: 0 4px;
         outline: none;
@@ -1740,8 +1740,31 @@ body {
         &:hover {
           background-color: rgb(0, 200, 0);
         }
+
+      }
+      .select-color-btn {
+        background-color: rgb(185, 185, 185);
+        margin: 0 4px;
+        outline: none;
+        border: none;
+        color: white;
+        width: 100%;
+        height: 30px;
+        padding: 6px;
+        cursor:  pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       .name-color {
+        background-color: #353535;
+        width: 100%;
+        padding: 12px 0;
+        text-align: center;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .name-color-owned {
         background-color: #353535;
         width: 100%;
         padding: 12px 0;

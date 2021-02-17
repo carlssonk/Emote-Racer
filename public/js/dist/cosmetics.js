@@ -34,20 +34,28 @@ const emoteAvatars = [
 
 const nameColors = [
   {
-    name: "red",
-    css: "name-color-red",
-    code: "123",
-    price: 100,
-  },
-  {
     name: "blue",
-    css: "name-color-blue",
     code: "456",
     price: 100,
   },
   {
-    name: "green",
-    css: "name-color-green",
+    name: "cyan",
+    code: "789",
+    price: 100,
+  },
+  {
+    name: "orange",
+    code: "123",
+    price: 100,
+  },
+  {
+    name: "gold",
+    code: "789",
+    price: 100,
+  },
+
+  {
+    name: "brown",
     code: "789",
     price: 100,
   },

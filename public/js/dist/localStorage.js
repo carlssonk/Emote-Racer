@@ -91,10 +91,9 @@ const buyAvatar = (newImg, code) => {
   // Find matching names and set new profile img
   for(let emote of emoteAvatars) {
     if(emote.name === newImg && emote.code === code) {
-      console.log("gogo")
+
       if(ownedAvatars.some(e => e === emote.url)) return // IF USER ALREADY OWNS THIS EMOTE, RETURN
       // Remove money from user
-      console.log(-emote.price)
       setCoins(-emote.price, superSecretKeyToAccessUnlimitedAmountOfMoney.code)
       // Add avatar to owned avatars
       ownedAvatars.push(emote.url)
@@ -125,12 +124,14 @@ const buyColor = (newColor, code) => {
   for(let color of nameColors) {
     if(color.name === newColor && color.code === code) {
 
-      if(ownedColors.some(e => e === color.css)) return // IF USER ALREADY OWNS THIS EMOTE, RETURN
+      if(ownedColors.some(e => e === color.name)) return // IF USER ALREADY OWNS THIS EMOTE, RETURN
+      // Remove money from user
+      setCoins(-color.price, superSecretKeyToAccessUnlimitedAmountOfMoney.code)
       // Add avatar to owned avatars
-      ownedColors.push(color.css)
+      ownedColors.push(color.name)
       localStorage.setItem("ownedColors", JSON.stringify(ownedColors))
       // Set avatar as new profile img
-      setUsernameColor(color.css)
+      setUsernameColor(color.name)
 
     } 
   }
@@ -144,14 +145,14 @@ if(getCoins() === null) localStorage.setItem("coins", JSON.stringify(0));
 
 if(getUsername() === null) localStorage.setItem("username", generateUsername());
 
-if(getUsernameColor() === null) localStorage.setItem("usernameColor", "black&white");
+if(getUsernameColor() === null) localStorage.setItem("usernameColor", "white");
 
 if(getProfileImg() === null) localStorage.setItem("profileImg", "https://static-cdn.jtvnw.net/emoticons/v1/1/3.0");
 
 const initOwnedAvatars = ["https://static-cdn.jtvnw.net/emoticons/v1/1/3.0"]
 if(getOwnedAvatars() === null) localStorage.setItem("ownedAvatars", JSON.stringify(initOwnedAvatars));
 
-const initOwnedColors = ["black&white"] // Default refers to none
+const initOwnedColors = ["white"] // Default refers to none
 if(getOwnedColors() === null) localStorage.setItem("ownedColors", JSON.stringify(initOwnedColors));
 
 

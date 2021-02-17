@@ -59,7 +59,7 @@ io.on("connection", (socket) => {
   // #### BATTLE ROYALE PUBLIC HANDLING #####
   // ########################################
 
-  socket.on("quickPlay", (username, profileImg) => {
+  socket.on("quickPlay", (username, nameColor, profileImg) => {
 
     // Check if there are any available empty slots in rooms
     if(brRoomsList.some(e => e.userLength < 12) && brRoomsList.some(e => e.isPlaying === false)) {
@@ -85,7 +85,7 @@ io.on("connection", (socket) => {
       // Set room
       const room = {id: roomId, isPrivate: false}
       // Create new user
-      const user = brUserJoinPublic(socket.id, username, profileImg, room)
+      const user = brUserJoinPublic(socket.id, username, nameColor, profileImg, room)
       // Join user to roomId
       socket.join(user.room.id)
       // Send all users currently in the room to client side
@@ -103,7 +103,7 @@ io.on("connection", (socket) => {
     // Create new room
     const room = {id: uuidv4(), isPrivate: false}
     // Create new user
-    const user = brUserJoinPublic(socket.id, username, profileImg, room)
+    const user = brUserJoinPublic(socket.id, username, nameColor, profileImg, room)
     // Set Public Room
     brRoomsList.push({id: room.id, isPrivate: false, isPlaying: false, userLength: 1})
     // Join user to roomId
@@ -146,11 +146,11 @@ io.on("connection", (socket) => {
   // #### BATTLE ROYALE PRIVATE HANDLING ####
   // ########################################
 
-  socket.on("createPrivateLobby", (username, profileImg) => {
+  socket.on("createPrivateLobby", (username, nameColor, profileImg) => {
     // Create new room
     const room = {id: uuidv4(), isPrivate: true, isPlaying: false}
     // Create new user
-    const user = brUserJoinPrivate(socket.id, username, profileImg, room)
+    const user = brUserJoinPrivate(socket.id, username, nameColor, profileImg, room)
     // Join user to roomId
     socket.join(user.room.id);
     // Create a route for that room so people can join it by link
@@ -161,7 +161,7 @@ io.on("connection", (socket) => {
     socket.emit('initPrivateLobby', room);
   })
 
-  socket.on("requestJoin", (roomId, username, profileImg) => {
+  socket.on("requestJoin", (roomId, username, nameColor, profileImg) => {
     const theRoom = brGetRoomUsersPrivate(roomId);
     if(theRoom.length > 0) {
       if(theRoom.length >= 12 || theRoom[0].room.isPlaying === true) {
@@ -174,7 +174,7 @@ io.on("connection", (socket) => {
     // Set room 
     const room = {id: roomId, isPrivate: true, isPlaying: false}
     // Create new user
-    const user = brUserJoinPrivate(socket.id, username, profileImg, room)
+    const user = brUserJoinPrivate(socket.id, username, nameColor, profileImg, room)
     // Join user to roomId
     socket.join(user.room.id)
     // Send all users currently in the room to client side
@@ -243,7 +243,7 @@ io.on("connection", (socket) => {
   // ####### 1 VS 1 PUBLIC HANDLING #########
   // ########################################
 
-  socket.on("quickPlay1v1", (username, profileImg) => {
+  socket.on("quickPlay1v1", (username, nameColor, profileImg) => {
 
     // Check if there are any available empty slots in rooms
     if(oneRoomsList.some(e => e.userLength < 2) && oneRoomsList.some(e => e.isPlaying === false)) {
@@ -267,7 +267,7 @@ io.on("connection", (socket) => {
       // Set room
       const room = {id: roomId, isPrivate: false}
       // Create new user
-      const user = oneUserJoinPublic(socket.id, username, profileImg, room)
+      const user = oneUserJoinPublic(socket.id, username, nameColor, profileImg, room)
       // Join user to roomId
       socket.join(user.room.id)
       // Send all users currently in the room to client side
@@ -278,10 +278,11 @@ io.on("connection", (socket) => {
     // Create new room
     const room = {id: uuidv4(), isPrivate: false}
     // Create new user
-    const user = oneUserJoinPublic(socket.id, username, profileImg, room)
+    const user = oneUserJoinPublic(socket.id, username, nameColor, profileImg, room)
     // Set Public Room
     oneRoomsList.push({id: room.id, isPrivate: false, isPlaying: false, userLength: 1})
     // Join user to roomId
+    console.log(user)
     socket.join(user.room.id);
     // Send room to client so it can generate a link for other people to join
     socket.emit('initPublicLobby1v1', room);
@@ -294,11 +295,11 @@ io.on("connection", (socket) => {
   // ####### 1 VS 1 PRIVATE HANDLING ########
   // ########################################
 
-  socket.on("createPrivateLobby1v1", (username, profileImg) => {
+  socket.on("createPrivateLobby1v1", (username, nameColor, profileImg) => {
     // Create new room
     const room = {id: uuidv4(), isPrivate: true, isPlaying: false}
     // Create new user
-    const user = oneUserJoinPrivate(socket.id, username, profileImg, room)
+    const user = oneUserJoinPrivate(socket.id, username, nameColor, profileImg, room)
     // Join user to roomId
     socket.join(user.room.id);
     // Create a route for that room so people can join it by link
@@ -309,7 +310,7 @@ io.on("connection", (socket) => {
     socket.emit('initPrivateLobby1v1', room);
   })
 
-  socket.on("requestJoin1v1", (roomId, username, profileImg) => {
+  socket.on("requestJoin1v1", (roomId, username, nameColor, profileImg) => {
     const theRoom = oneGetRoomUsersPrivate(roomId)
 
     if(theRoom.length > 0) {
@@ -323,7 +324,7 @@ io.on("connection", (socket) => {
     // Set room 
     const room = {id: roomId, isPrivate: true, isPlaying: false}
     // Create new user
-    const user = oneUserJoinPrivate(socket.id, username, profileImg, room)
+    const user = oneUserJoinPrivate(socket.id, username, nameColor, profileImg, room)
     // Join user to roomId
     socket.join(user.room.id)
     // Send all users currently in the room to client side

@@ -3,6 +3,7 @@ function lobbyRoom(roomName, roomId, users) {
   function configuration() {
     const profileImg = getProfileImg();
     const username = getUsername();
+    const nameColor = getUsernameColorV2();
 
     // DOM
     navAside.style.display = "none";
@@ -49,6 +50,7 @@ function lobbyRoom(roomName, roomId, users) {
     function joinLobbyUser(users) {
       for(let i = 0; i < users.length; i++) {
         playerName[i].innerText = users[i].username
+        playerName[i].style.color = users[i].nameColor
         playerLobbyImg[i].src = users[i].profileImg
         console.log(users[i].profileImg)
         console.log(users[i])
@@ -75,6 +77,7 @@ function lobbyRoom(roomName, roomId, users) {
       if(index !== users.length) {
         for(let i = 0; i < users.length; i++) {
           playerName[i].innerText = users[i].username
+          playerName[i].style.color = users[i].nameColor
           playerLobbyImg[i].src = users[i].profileImg
           console.log(users[i].profileImg)
         }
@@ -127,6 +130,7 @@ function lobbyRoom(roomName, roomId, users) {
 
     function setDom() {
       playerName[0].innerText = username;
+      playerName[0].style.color = nameColor;
       playerLobbyImg[0].src = profileImg
     }
 

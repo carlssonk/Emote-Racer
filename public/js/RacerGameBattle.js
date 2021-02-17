@@ -4,7 +4,7 @@ function racerGameBattle(mode) {
   // USER CONFIG
   const profileImg = getProfileImg();
   const username = getUsername();
-  const nameColor = ""
+  const nameColor = getUsernameColorV2();
 
   // ROOM CONFIG
   let roomId = "";
@@ -24,13 +24,13 @@ function racerGameBattle(mode) {
 
 
   // Quickplay or Private lobby with friends
-  if(mode === "public") socket.emit("quickPlay1v1", username, profileImg);
-  if(mode === "private") socket.emit("createPrivateLobby1v1", username, profileImg);
+  if(mode === "public") socket.emit("quickPlay1v1", username, nameColor , profileImg);
+  if(mode === "private") socket.emit("createPrivateLobby1v1", username, nameColor, profileImg);
 
   // Request join room by url
   if(mode === "joinByLink") {
     roomId = location.search.substring(1); // Get room id from url
-    socket.emit("requestJoin1v1", roomId, username, profileImg);
+    socket.emit("requestJoin1v1", roomId, username, nameColor, profileImg);
   } 
 
   socket.on("roomIsFull", () => {
@@ -146,12 +146,14 @@ function racerGameBattle(mode) {
   function firstPlayerDom() {
     battlePlayerImg[0].src = profileImg
     battlePlayerName[0].innerText = username;
+    battlePlayerName[0].style.color = nameColor;
   }
 
   function bothPlayersDom(room) {
     for(let i = 0; i < 2; i++) {
       battlePlayerImg[i].src = localUsers[i].profileImg
       battlePlayerName[i].innerText = localUsers[i].username
+      battlePlayerName[i].style.color = localUsers[i].nameColor
       if(room.isPrivate === true) {
         battlePlayerReady[i].innerText = "NOT READY"
         battlePlayerReady[i].classList.remove("color-green") // Reset classname for player [0]
@@ -718,7 +720,9 @@ function racerGameBattle(mode) {
     boardImg1v1[0].src = usersSorted[0].profileImg;
     boardImg1v1[1].src = usersSorted[1].profileImg;
     battlePlayerNameBoard[0].innerText = usersSorted[0].username;
+    battlePlayerNameBoard[0].style.color = usersSorted[0].nameColor;
     battlePlayerNameBoard[1].innerText = usersSorted[1].username;
+    battlePlayerNameBoard[1].style.color = usersSorted[1].nameColor;
   }
 
   function forceWin() {
@@ -729,6 +733,7 @@ function racerGameBattle(mode) {
 
     boardImg1v1[0].src = localUsers[0].profileImg;
     battlePlayerNameBoard[0].innerText = localUsers[0].username;
+    battlePlayerNameBoard[0].style.color = localUsers[0].nameColor;
 
     winLoseLabel1v1.innerText = "YOU WIN"
     gameResults.classList.add("game-results-win")

@@ -12,8 +12,8 @@ const oneUsersPublic = []; // <--- All the players that are in a PUBLIC 1 vs 1 G
 
 
 // Join user to room
-function brUserJoinPrivate(id, username, profileImg, room) {
-  const user = { id, username, profileImg, room };
+function brUserJoinPrivate(id, username, nameColor, profileImg, room) {
+  const user = { id, username, nameColor, profileImg, room };
 
   brUsersPrivate.push(user);
 
@@ -51,8 +51,8 @@ function brGetRoomUsersPrivate(room) {
 
 
 // Join user to room
-function brUserJoinPublic(id, username, profileImg, room) {
-  const user = { id, username, profileImg, room };
+function brUserJoinPublic(id, username, nameColor, profileImg, room) {
+  const user = { id, username, nameColor, profileImg, room };
 
   brUsersPublic.push(user);
 
@@ -85,8 +85,8 @@ function brGetRoomUsersPublic(room) {
 
 
 // Join user to room
-function oneUserJoinPrivate(id, username, profileImg, image, room) {
-  const user = { id, username, profileImg, image, room };
+function oneUserJoinPrivate(id, username, nameColor, profileImg, room) {
+  const user = { id, username, nameColor, profileImg, room };
 
   oneUsersPrivate.push(user);
 
@@ -120,8 +120,8 @@ function oneGetRoomUsersPrivate(room) {
 
 
 // Join user to room
-function oneUserJoinPublic(id, username, profileImg, image, room) {
-  const user = { id, username, profileImg, image, room };
+function oneUserJoinPublic(id, username, nameColor, profileImg, room) {
+  const user = { id, username, nameColor, profileImg, room };
 
   oneUsersPublic.push(user);
 
