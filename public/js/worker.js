@@ -51,7 +51,7 @@ this.onmessage = (e) => {
   // ########################
 
   if(e.data === "startProgressBar") {
-    let barPercentage = 400
+    let barPercentage = 430
     const counter = setInterval(() => progress(), 40); // update progress bar once every 40ms
 
     function progress() {

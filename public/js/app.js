@@ -569,29 +569,29 @@ function profilePage() {
                 <div class="color-box animate__animated animate__faster">
                   <div>BLUE</div>
                   <div class="name-color" style="color: blue;"></div>
-                  <button class="buy-color-btn" data-value="100" data-name="blue">100</button>
+                  <button class="buy-color-btn" data-value="100" data-name="blue">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>
                 <div class="color-box animate__animated animate__faster">
                   <div>CYAN</div>
                   <div class="name-color" style="color: cyan;"></div>
-                  <button class="buy-color-btn" data-value="100" data-name="cyan">100</button>
+                  <button class="buy-color-btn" data-value="100" data-name="cyan">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>                                
               </div>
               <div class="customize-column">
                 <div class="color-box animate__animated animate__faster">
                   <div>ORANGE</div>
                   <div class="name-color" style="color: orange;"></div>
-                  <button class="buy-color-btn" data-value="100" data-name="orange">100</button>
+                  <button class="buy-color-btn" data-value="100" data-name="orange">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>
                 <div class="color-box animate__animated animate__faster">
                   <div>GOLD</div>
                   <div class="name-color" style="color: gold;"></div>
-                  <button class="buy-color-btn" data-value="100" data-name="gold">100</button>
+                  <button class="buy-color-btn" data-value="100" data-name="gold">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>
                 <div class="color-box animate__animated animate__faster">
                   <div>BROWN</div>
                   <div class="name-color" style="color: brown;"></div>
-                  <button class="buy-color-btn" data-value="100" data-name="brown">100</button>
+                  <button class="buy-color-btn" data-value="100" data-name="brown">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>                
               </div>
             </div>

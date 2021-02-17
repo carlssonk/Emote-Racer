@@ -221,6 +221,10 @@ io.on("connection", (socket) => {
   }
 
 
+  socket.on("handleEndRound", (roomId) => {
+    io.to(roomId).emit("handleEndRound");
+  });
+
 
   socket.on("requestNextRound", (roomId, localEmotes) => {
     const randomEmoteIndex = Math.floor(Math.random() * localEmotes.length);

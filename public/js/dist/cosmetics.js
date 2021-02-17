@@ -1,4 +1,8 @@
 
+
+
+// IMPORTANT! ARRAY ORDER MUST BE SAME AS THE NODE LIST!
+
 const emoteAvatars = [
   {
     name: "EZ",
@@ -31,6 +35,8 @@ const emoteAvatars = [
     price: 100,
   },
 ]
+
+// IMPORTANT! ARRAY ORDER MUST BE SAME AS THE NODE LIST!
 
 const nameColors = [
   {

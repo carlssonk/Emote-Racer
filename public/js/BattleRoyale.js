@@ -193,6 +193,9 @@ function initBattleRoyale(mode) {
   let qualified = false;
   let lives = 3;
   let waitSubmit = true;
+  let mostActiveUser = localUsers[0]  // Most active user is the last person that typed something in the output, he will also emit messages for next round,
+                                      // If we set some random person to emit message like localUsers[0] & he is outtabbed from site, there is a risk he is not in sync,
+                                      // mostActiveUser is highly likely that he's in sync with the timers.
 
   // Set user properties
   for(let i = 0; i < localUsers.length; i++) {
@@ -207,6 +210,7 @@ function initBattleRoyale(mode) {
     qualified = false;
     lives = 3;
     waitSubmit = true;
+    mostActiveUser = localUsers[0]
 
     // DOM
     gameUpperContent.style.display = "none";
@@ -328,6 +332,7 @@ function initBattleRoyale(mode) {
       socket.removeListener("userCorrect");
       socket.removeListener("userWrong");
       socket.removeListener("userEliminated");
+      socket.removeListener("handleEndRound");
 
       // If user leaves page by clicking on the navLogo we need to clear timer so we dont get any errors
       this.stopNextRoundTimer = function() {
@@ -404,12 +409,13 @@ function initBattleRoyale(mode) {
       socket.removeListener("userCorrect");
       socket.removeListener("userWrong");
       socket.removeListener("userEliminated");
+      socket.removeListener("handleEndRound");
 
       // Remove emote from array
       localEmotes.splice(localRandomEmoteIndex, 1)
 
       // Emit requestNextRound. Only 1 client need to make the request, we choose to set player[0] in array to send the emit message.
-      if(socket.id === localUsers[0].id) setTimeout(() => socket.emit("requestNextRound", roomId, localEmotes), 200)
+      if(socket.id === mostActiveUser.id) setTimeout(() => socket.emit("requestNextRound", roomId, localEmotes), 200)
 
     }
 
@@ -572,6 +578,7 @@ function initBattleRoyale(mode) {
           barPercentage--
         };
 
+
         // If user leaves page by clicking on the navLogo we need to clear timer so we dont get any errors
         this.stopProgressBar = function() {
           myWorker.postMessage("clarProgressBar")
@@ -591,7 +598,10 @@ function initBattleRoyale(mode) {
           }
     
           if(e.data === "stopProgressBar") {
-            handleEndRound();
+            // Emit message to Server that emits message to Everyone,
+            // This because we want handleEndRound() be executed exactly the same time,
+            // And for some reason even with webworkers the clients can be out of sync with this timer.
+            if(socket.id === mostActiveUser.id) socket.emit("handleEndRound", roomId)
           }
     
         }
@@ -599,6 +609,12 @@ function initBattleRoyale(mode) {
 
         initRound()
       }
+
+
+      socket.on("handleEndRound", () => {
+        console.log("handleEndRonud")
+        handleEndRound();
+      });
 
 
       // ########################
@@ -709,6 +725,7 @@ function initBattleRoyale(mode) {
       // #### SOCKET CORRECT ####
       // ########################
       socket.on("userCorrect", (userSocketId, image) => {
+        mostActiveUser = localUsers.filter(e => e.id === userSocketId)[0]
         // Set Qualified in localUsers
         const userIndex = localUsers.findIndex(e => e.id === userSocketId)
         localUsers[userIndex].hasQualified = true;
@@ -802,6 +819,8 @@ function initBattleRoyale(mode) {
 
 
       socket.on("userEliminated", (userSocketId, image) => {
+        mostActiveUser = localUsers.filter(e => e.id === userSocketId)[0]
+
         const userIndex = localUsers.findIndex(e => e.id === userSocketId)
         localUsers[userIndex].hasQualified = false;
 
@@ -939,7 +958,9 @@ function initBattleRoyale(mode) {
         eliminatedPlayersDom(eliminatedPlayers);
 
         // Send gameEndPrivate to server so other players can now join the private room
-        if(localUsers[0].room.isPrivate === true) socket.emit("gameEndPrivate", roomId)
+        if(socket.id === mostActiveUser.id) {
+          if(localUsers[0].room.isPrivate === true) socket.emit("gameEndPrivate", roomId)
+        }
 
         // Some game configurations
         gameEnded = true;
@@ -1052,7 +1073,7 @@ function initBattleRoyale(mode) {
           if(eliminatedPlayers.some(e => e.id === playerAside[i].dataset.id)) {
             console.log("FADE SCALE ANIMATION")
             // playerEliminatedContainer.innerHTML += `<li class="player-aside-eliminated fade-scale-animation"><img class="player-aside-img" src='${playerAsideImg[i].src}' alt=""><span class="player-aside-name">${playerAsideName[i].innerText}</span><span class="player-heart-eliminated-container"><i class="far fa-heart"></i><i class="far fa-heart"></i><i class="far fa-heart"></i></span></li>`
-            playerEliminatedContainer.insertAdjacentHTML('beforeend', `<li class="player-aside-eliminated fade-scale-animation"><img class="player-aside-img" src='${playerAsideImg[i].src}' alt=""><span class="player-aside-name">${playerAsideName[i].innerText}</span><span class="player-heart-eliminated-container"><i class="far fa-heart"></i><i class="far fa-heart"></i><i class="far fa-heart"></i></span></li>`)
+            playerEliminatedContainer.insertAdjacentHTML('beforeend', `<li class="player-aside-eliminated fade-scale-animation"><img class="player-aside-img" src='${playerAsideImg[i].src}' alt=""><span class="player-aside-name" style="color: ${playerAsideName[i].style.color};">${playerAsideName[i].innerText}</span><span class="player-heart-eliminated-container"><i class="far fa-heart"></i><i class="far fa-heart"></i><i class="far fa-heart"></i></span></li>`)
             playerAside[i].remove();
           }
           if(playerAside[i].dataset.disconnected === "true") playerAside[i].remove();
