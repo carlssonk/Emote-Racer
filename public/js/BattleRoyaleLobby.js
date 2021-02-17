@@ -49,7 +49,9 @@ function lobbyRoom(roomName, roomId, users) {
     function joinLobbyUser(users) {
       for(let i = 0; i < users.length; i++) {
         playerName[i].innerText = users[i].username
-        playerLobbyImg[i].src = profileImg
+        playerLobbyImg[i].src = users[i].profileImg
+        console.log(users[i].profileImg)
+        console.log(users[i])
         lobbyPlayer[i].classList.add("fade-scale-animation")
       }
     }
@@ -73,7 +75,8 @@ function lobbyRoom(roomName, roomId, users) {
       if(index !== users.length) {
         for(let i = 0; i < users.length; i++) {
           playerName[i].innerText = users[i].username
-          playerLobbyImg[i].src = profileImg
+          playerLobbyImg[i].src = users[i].profileImg
+          console.log(users[i].profileImg)
         }
       }
 

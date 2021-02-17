@@ -35,13 +35,13 @@ function initBattleRoyale(mode) {
   funMessages();
 
   // Quickplay or Private lobby with friends
-  if(mode === "public") socket.emit("quickPlay", username);
-  if(mode === "private") socket.emit("createPrivateLobby", username);
+  if(mode === "public") socket.emit("quickPlay", username, profileImg);
+  if(mode === "private") socket.emit("createPrivateLobby", username, profileImg);
 
   // Request join room by url
   if(mode === "joinByLink") {
     roomId = location.search.substring(1); // Get room id from url
-    socket.emit("requestJoin", roomId, username);
+    socket.emit("requestJoin", roomId, username, profileImg);
   } 
 
   socket.on("roomIsFull", () => {
@@ -239,12 +239,12 @@ function initBattleRoyale(mode) {
 
       // Set username & socket.id to DOM
       playerAsideName[0].innerText = localUsers[socketIndex].username;
-      playerAsideImg[0].src = profileImg
+      playerAsideImg[0].src = localUsers[socketIndex].profileImg;
       playerAside[0].dataset.id = socket.id;
       playerAside[0].style.display = "flex";
       for(let i = 0; i < otherPlayers.length; i++) {
         playerAsideName[i+1].innerText = otherPlayers[i].username;
-        playerAsideImg[i+1].src = profileImg
+        playerAsideImg[i+1].src = otherPlayers[i].profileImg;
         playerAside[i+1].dataset.id = otherPlayers[i].id;
         playerAside[i+1].style.display = "flex";
       }

@@ -26,6 +26,7 @@ const myProfileBtn = document.querySelector(".my-profile-btn");
 // HTML APPEND ELEMENT´S
 const mainContainer = document.querySelector(".main-container");
 const main = document.querySelector(".main");
+const mainFull = document.querySelector(".main-full");
 const game = document.querySelector(".game");
 let mainLower = null;
 
@@ -425,9 +426,75 @@ function profilePage() {
     profileImg.src = getProfileImg();
     profileName.value = getUsername();
 
+    // Color name to username
+    setUsernameColorBox()
+
+    // Set Owned Avatars
+    console.log(emoteBoxUrl)
+    console.log(emoteBoxUrl.length)
+    for(let i = 0; i < emoteBoxUrl.length; i++) {
+      for(let a = 1; a < getOwnedAvatars().length; a++) { // Start loop at 1, because First emote is already owned
+
+        if(getOwnedAvatars()[a] === emoteBoxUrl[i].src) {
+          console.log("OWNED")
+          console.log(i)
+          console.log("OWNED")
+          // Set dom wiring
+          setDomWiring(i)
+        }
+      }
+    }
+    // Reset Button Styling
+    for(let btn of selectEmoteBtn) {
+      btn.innerHTML = "OWNED"
+    }
+
+    // Set event listener for selecting emotes
+    selectedEmoteListener()
+
+
+    // Highlight current profileImg
+    for(let i = 0; i  < emoteBoxOwned.length; i++) {
+      if(getProfileImg() === emoteBoxOwnedUrl[i].src) {
+        emoteBoxOwned[i].classList.add("highlight-box")
+        selectEmoteBtn[i].innerText = "SELECTED"
+      } 
+    }
+
+  }
+
+  function setUsernameColorBox() {
     for(let name of nameColor) {
       name.innerText = profileName.value
     }
+  }
+
+  // Change dom when user buys an emote
+  function setBuyEmoteDom(i) {
+    setDomWiring(i)
+
+    // Clear highlight
+    clearEmoteBoxOwnedHighlight()
+    // Set New highlight
+    // console.log(i)
+    // console.log(emoteBoxOwned)
+    // emoteBoxOwned[i-1].classList.add("highlight-box") // -1 because first emote is always owned
+    // selectEmoteBtn[i-1].innerText = "SELECTED" // -1 because first emote is always owned
+    // Reset DOM LISTENER
+  }
+
+
+  function setDomWiring(i) {
+    emoteBox[i+1].classList.add("emote-box-owned") // +1 because first emote is always owned
+    emoteBoxOwned = document.querySelectorAll(".emote-box-owned")
+
+    emoteBoxUrl[i].classList.add("emote-box-owned-url")
+    emoteBoxOwnedUrl = document.querySelectorAll(".emote-box-owned-url")
+
+    buyEmoteBtn[i].className = "select-emote-btn"
+    selectEmoteBtn = document.querySelectorAll(".select-emote-btn")
+
+    emoteBoxUrl = document.querySelectorAll(".emote-box-url")
   }
 
   this.profileHTML = function() {
@@ -458,82 +525,82 @@ function profilePage() {
                 <div class="color-box">
                 <div>RED</div>
                 <div class="name-color" style="color: red;">Plexer</div>
-                <button class="buy-emote-btn">100</button>
+                <button class="buy-color-btn">100</button>
                 </div>
                 <div class="color-box">
                 <div>BLUE</div>
                 <div class="name-color" style="color: blue;">Plexer</div>
-                <button class="buy-emote-btn">100</button>
+                <button class="buy-color-btn">100</button>
                 </div>
                 <div class="color-box">
                 <div>CYAN</div>
                 <div class="name-color" style="color: cyan;">Plexer</div>
-                <button class="buy-emote-btn">100</button>
+                <button class="buy-color-btn">100</button>
                 </div>                                
               </div>
               <div class="customize-column">
                 <div class="color-box">
                 <div>ORANGE</div>
                 <div class="name-color" style="color: orange;">Plexer</div>
-                <button class="buy-emote-btn">100</button>
+                <button class="buy-color-btn">100</button>
                 </div>
                 <div class="color-box">
                   <div>GOLD</div>
                   <div class="name-color" style="color: gold;">Plexer</div>
-                  <button class="buy-emote-btn">100</button>
+                  <button class="buy-color-btn">100</button>
                 </div>
                 <div class="color-box">
                 <div>BROWN</div>
                 <div class="name-color" style="color: brown;">Plexer</div>
-                <button class="buy-emote-btn">100</button>
+                <button class="buy-color-btn">100</button>
                 </div>                
               </div>
             </div>
             <div class="custom-emote-img-container">
               <div class="customize-column">
-                <div class="emote-box">
-                  <div>POGGERS</div>
+                <div class="emote-box emote-box-owned animate__animated animate__faster">
+                  <div>:)</div>
                   <div class="emote-box-img">
-                    <img src="https://cdn.betterttv.net/emote/58ae8407ff7b7276f8e594f2/3x">
+                    <img class="emote-box-owned-url" src="https://static-cdn.jtvnw.net/emoticons/v1/1/3.0">
                   </div>
-                  <button class="buy-emote-btn">100<img src="imgs/YEP_COIN.svg"></button>
+                  <button class="select-emote-btn emote-selected">SELECT</button>
                 </div>
-                <div class="emote-box">
-                  <div>POGGERS</div>
+                <div class="emote-box animate__animated animate__faster">
+                  <div>EZ</div>
                   <div class="emote-box-img">
-                    <img src="https://cdn.betterttv.net/emote/5590b223b344e2c42a9e28e3/3x">
+                    <img class="emote-box-url" src="https://cdn.betterttv.net/emote/5590b223b344e2c42a9e28e3/3x">
                   </div>
-                  <button class="buy-emote-btn">100<img src="imgs/YEP_COIN.svg"></button>
+                  <button class="buy-emote-btn" data-value="100" data-name="EZ">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>
-                <div class="emote-box">
-                  <div>POGGERS</div>
+                <div class="emote-box animate__animated animate__faster">
+                  <div>Pepega</div>
                   <div class="emote-box-img">
-                    <img src="https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x">
+                    <img class="emote-box-url" src="https://cdn.betterttv.net/emote/5aca62163e290877a25481ad/3x">
                   </div>
-                  <button class="buy-emote-btn">100<img src="imgs/YEP_COIN.svg"></button>
+                  <button class="buy-emote-btn" data-value="100" data-name="Pepega">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>
               </div>
               <div class="customize-column">
-                <div class="emote-box">
-                  <div>POGGERS</div>
+                <div class="emote-box animate__animated animate__faster">
+                  <div>pepeHands</div>
                   <div class="emote-box-img">
-                    <img src="https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x">
+                    <img class="emote-box-url" src="https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x">
                   </div>
-                  <button class="buy-emote-btn">100<img src="imgs/YEP_COIN.svg"></button>
+                  <button class="buy-emote-btn" data-value="100" data-name="pepeHands">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>
-                <div class="emote-box">
-                  <div>POGGERS</div>
+                <div class="emote-box animate__animated animate__faster">
+                  <div>OMEGALUL</div>
                   <div class="emote-box-img">
-                    <img src="https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x">
+                    <img class="emote-box-url" src="https://cdn.betterttv.net/emote/583089f4737a8e61abb0186b/3x">
                   </div>
-                  <button class="buy-emote-btn">100<img src="imgs/YEP_COIN.svg"></button>
+                  <button class="buy-emote-btn" data-value="100" data-name="OMEGALUL">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>
-                <div class="emote-box">
-                  <div>POGGERS</div>
+                <div class="emote-box animate__animated animate__faster">
+                  <div>5Head</div>
                   <div class="emote-box-img">
-                    <img src="https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x">
+                    <img class="emote-box-url" src="https://cdn.betterttv.net/emote/5d6096974932b21d9c332904/3x">
                   </div>
-                  <button class="buy-emote-btn">100<img src="imgs/YEP_COIN.svg"></button>
+                  <button class="buy-emote-btn" data-value="100" data-name="5Head">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>
               </div>                                        
             </div>
@@ -544,13 +611,42 @@ function profilePage() {
     )
   }
 
+  this.buyEmoteHTML = function() {
+    return (
+      mainFull.innerHTML = 
+      `
+      <div class="buy-container">
+        <div class="buy-box">
+          <div class="profile-img-box">
+            <img class="profile-img" src="">
+          </div>
+          <div class="emote-box">
+            <div>POGGERS</div>
+            <div class="emote-box-img">
+              <img src="https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x">
+            </div>
+            <button class="buy-emote-btn">100<img src="imgs/YEP_COIN.svg"></button>
+          </div>
+        </div>
+      </div>
+
+      `
+    )
+  }
+
   let profileImg = null;
   let profileName = null;
   // 
   let profileEditBtn = null;
   let profileNameBox = null;
   let emoteBox = null;
+  let emoteBoxOwned = null;
+  let emoteBoxOwnedUrl = null;
   let nameColor = null;
+  let selectEmoteBtn = null;
+  let emoteSelected = null;
+  let buyEmoteBtn = null;
+  let emoteBoxUrl = null;
 
   this.profileDOM = function() {
     profileImg = document.querySelector(".profile-img")
@@ -558,18 +654,26 @@ function profilePage() {
     profileEditBtn = document.querySelector(".profile-edit-btn")
     profileNameBox = document.querySelector(".profile-name-box")
     emoteBox = document.querySelectorAll(".emote-box")
+    emoteBoxOwned = document.querySelectorAll(".emote-box-owned")
+    emoteBoxOwnedUrl = document.querySelectorAll(".emote-box-owned-url")
     nameColor = document.querySelectorAll(".name-color")
+    selectEmoteBtn = document.querySelectorAll(".select-emote-btn")
+    emoteSelected = document.querySelectorAll(".emote-selected")
+    buyEmoteBtn = document.querySelectorAll(".buy-emote-btn")
+    emoteBoxUrl = document.querySelectorAll(".emote-box-url")
   }
 
   this.profileEVENT = function() {
+    // HANDLE PROFILE USERNAME
     let bool = true;
     profileEditBtn.addEventListener("click", function() {
       if(bool === true) {
         bool = !bool;
-        profileEditBtn.innerText = "SAVE"
         profileName.focus();
-
         profileName.readOnly = false;
+
+        // Styling
+        profileEditBtn.innerText = "SAVE"
         profileName.style.cursor = "auto";
         profileNameBox.style.border = "2px solid black";
         profileNameBox.style.borderRadius = "6px";
@@ -577,28 +681,74 @@ function profilePage() {
       } else {
         if(profileName.value === "") return
         bool = !bool;
-        setUsername(profileName.value)
-        profileEditBtn.innerText = "EDIT"
-
+        setUsername(profileName.value) // Set new username in localStorage
         profileName.readOnly = true;
+
+         // Styling
+        profileEditBtn.innerText = "EDIT"
         profileName.style.cursor = "";
         profileNameBox.style.border = "";
         profileNameBox.style.borderRadius = "";
 
-        for(let name of nameColor) {
-          name.innerText = profileName.value
-        }
+        // Color name to username
+        setUsernameColorBox()
+
       }
     });
-
-    for(let emote of emoteBox) {
-      emote.addEventListener("click", function() {
-        for(let i = 0; i < emoteBox.length; i++) emoteBox[i].classList.remove("highlight-box")
-        emote.classList.add("highlight-box")
-      });
-    }
-
   }
+
+  function buyEmoteBtnListener(e) {
+    const btn = e.target
+    for(let i = 0; i < emoteAvatars.length; i++) {
+      // Check if DOM matches the code
+      if(btn.dataset.name === emoteAvatars[i].name && btn.dataset.value === emoteAvatars[i].price.toString()){
+        
+        // Buy Avatar if he has enough coins
+        if(getCoins() >= emoteAvatars[i].price) {
+          buyAvatar(emoteAvatars[i].name, emoteAvatars[i].code)
+          setBuyEmoteDom(i);
+          selectedEmoteListener();
+        } else {
+          if(btn.className === "select-emote-btn") return
+
+          emoteBox[i+1].classList.add("input-wrong");
+          emoteBox[i+1].classList.add("animate__headShake");
+          setTimeout(() => {
+            emoteBox[i+1].classList.remove("input-wrong");
+            emoteBox[i+1].classList.remove("animate__headShake");
+          }, 300)
+        }
+
+      }
+    }
+  }
+
+  function selectedEmoteListener() {
+    emoteBoxOwned = document.querySelectorAll(".emote-box-owned")
+    for(let i = 0; i < emoteBoxOwned.length; i++) {
+      emoteBoxOwned[i].addEventListener("click", function() {
+        // Clear highlight
+        clearEmoteBoxOwnedHighlight()
+
+        // Set New highlight
+        console.log(emoteBoxOwned[i])
+        emoteBoxOwned[i].classList.add("highlight-box") // -1 because first emote is always owned
+        selectEmoteBtn[i].innerText = "SELECTED" // -1 because first emote is always owned
+
+        // Set Profile Img
+        setProfileImg(emoteBoxOwnedUrl[i].src)
+        // Set Profile Img DOM
+        profileImg.src = getProfileImg();
+      })
+    }
+  }
+  function clearEmoteBoxOwnedHighlight() {
+    for(let x = 0; x < emoteBoxOwned.length; x++) {
+      emoteBoxOwned[x].classList.remove("highlight-box") 
+      selectEmoteBtn[x].innerText = "OWNED"
+    }
+  }
+
 
   pageChangeDisplay("main")
 
@@ -606,6 +756,9 @@ function profilePage() {
   profileDOM(); // Inits dom wiring
   if(transition === true) pageTransitionTop("main"); // Page transition
   profileEVENT(); // Inits event listeners
+  for(let btn of buyEmoteBtn) {
+    btn.addEventListener("click", buyEmoteBtnListener)
+  }
 
   configuration();
 

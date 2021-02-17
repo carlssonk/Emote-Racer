@@ -85,13 +85,17 @@ const getOwnedAvatars = () => {
 
 // BUY AVATAR
 const buyAvatar = (newImg, code) => {
+  console.log("BUYU AA")
   const ownedAvatars = JSON.parse(localStorage.getItem("ownedAvatars"))
 
   // Find matching names and set new profile img
   for(let emote of emoteAvatars) {
     if(emote.name === newImg && emote.code === code) {
-
+      console.log("gogo")
       if(ownedAvatars.some(e => e === emote.url)) return // IF USER ALREADY OWNS THIS EMOTE, RETURN
+      // Remove money from user
+      console.log(-emote.price)
+      setCoins(-emote.price, superSecretKeyToAccessUnlimitedAmountOfMoney.code)
       // Add avatar to owned avatars
       ownedAvatars.push(emote.url)
       localStorage.setItem("ownedAvatars", JSON.stringify(ownedAvatars))

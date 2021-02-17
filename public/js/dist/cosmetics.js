@@ -1,20 +1,32 @@
 
 const emoteAvatars = [
   {
-    name: "POGGERS",
-    url: "https/https://cdn.betterttv.net/emote/58ae8407ff7b7276f8e594f2/3x",
-    code: "123",
-    price: 100,
-  },
-  {
     name: "EZ",
     url: "https://cdn.betterttv.net/emote/5590b223b344e2c42a9e28e3/3x",
     code: "456",
     price: 100,
   },
   {
+    name: "Pepega",
+    url: "https://cdn.betterttv.net/emote/5aca62163e290877a25481ad/3x",
+    code: "123",
+    price: 100,
+  },
+  {
     name: "pepeHands",
     url: "https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x",
+    code: "789",
+    price: 100,
+  },
+  {
+    name: "OMEGALUL",
+    url: "https://cdn.betterttv.net/emote/583089f4737a8e61abb0186b/3x",
+    code: "789",
+    price: 100,
+  },
+  {
+    name: "5Head",
+    url: "https://cdn.betterttv.net/emote/5d6096974932b21d9c332904/3x",
     code: "789",
     price: 100,
   },

@@ -1,9 +1,9 @@
 
 
 function racerGameBattle(mode) {
-  // USER CONFIG 
-  const profileImg = "https://static-cdn.jtvnw.net/emoticons/v1/1/3.0"
-  const username = setUsername()
+  // USER CONFIG
+  const profileImg = getProfileImg();
+  const username = getUsername();
   const nameColor = ""
 
   // ROOM CONFIG
@@ -150,7 +150,7 @@ function racerGameBattle(mode) {
 
   function bothPlayersDom(room) {
     for(let i = 0; i < 2; i++) {
-      battlePlayerImg[i].src = profileImg
+      battlePlayerImg[i].src = localUsers[i].profileImg
       battlePlayerName[i].innerText = localUsers[i].username
       if(room.isPrivate === true) {
         battlePlayerReady[i].innerText = "NOT READY"
@@ -715,8 +715,8 @@ function racerGameBattle(mode) {
 
   function resultsTableDOM(usersSorted) {
     // Set global DOM
-    boardImg1v1[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${usersSorted[0].image}/3.0`
-    boardImg1v1[1].src = `https://static-cdn.jtvnw.net/emoticons/v1/${usersSorted[1].image}/3.0`
+    boardImg1v1[0].src = usersSorted[0].profileImg;
+    boardImg1v1[1].src = usersSorted[1].profileImg;
     battlePlayerNameBoard[0].innerText = usersSorted[0].username;
     battlePlayerNameBoard[1].innerText = usersSorted[1].username;
   }
@@ -727,7 +727,7 @@ function racerGameBattle(mode) {
     console.log("FORCE WIN!")
     handleRoundEnd("force-win");
 
-    boardImg1v1[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${localUsers[0].image}/3.0`
+    boardImg1v1[0].src = localUsers[0].profileImg;
     battlePlayerNameBoard[0].innerText = localUsers[0].username;
 
     winLoseLabel1v1.innerText = "YOU WIN"
