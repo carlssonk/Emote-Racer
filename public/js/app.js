@@ -30,6 +30,10 @@ const mainFull = document.querySelector(".main-full");
 const game = document.querySelector(".game");
 let mainLower = null;
 
+// Right Aside
+let yepCoins = document.querySelectorAll(".yep-coins")
+
+
 // Extras
 const adminMessage = document.querySelector(".admin-message")
 
@@ -423,6 +427,7 @@ function profilePage() {
   history.pushState({urlPath:'/profile'},"",'/profile')
 
   function configuration() {
+    setYepCoinsDom(yepCoins);
     profileImg.src = getProfileImg();
     profileName.value = getUsername();
     profileName.style.color = getUsernameColorV2()
@@ -432,6 +437,7 @@ function profilePage() {
     setUsernameColorBox()
 
     // Set Owned Avatars
+    console.log(emoteBoxUrl)
     for(let i = 0; i < emoteBoxUrl.length; i++) {
       for(let a = 1; a < getOwnedAvatars().length; a++) { // Start loop at 1, because First emote is already owned
 
@@ -443,6 +449,7 @@ function profilePage() {
     }
 
     // Set Owned Colors
+    console.log(nameColor)
     for(let i = 0; i < nameColor.length; i++) {
       for(let a = 1; a < getOwnedColors().length; a++) { // Start loop at 1, because First emote is already owned
 
@@ -473,6 +480,7 @@ function profilePage() {
     // Highlight current profileImg
     for(let i = 0; i < emoteBoxOwned.length; i++) {
       if(getProfileImg() === emoteBoxOwnedUrl[i].src) {
+        console.log(i)
         emoteBoxOwned[i].classList.add("highlight-box")
         selectEmoteBtn[i].innerText = "SELECTED"
       } 
@@ -481,6 +489,7 @@ function profilePage() {
     // Highlight current color
     for(let i = 0; i < colorBoxOwned.length; i++) {
       if(getUsernameColor() === nameColorOwned[i].style.color) {
+        console.log(i)
         colorBoxOwned[i].classList.add("highlight-box-color")
         selectColorBtn[i].innerText = "SELECTED"
       } 
@@ -489,6 +498,7 @@ function profilePage() {
   }
 
   function setUsernameColorBox() {
+    console.log(nameColor)
     for(let name of nameColor) {
       name.innerText = profileName.value
     }
@@ -511,6 +521,8 @@ function profilePage() {
 
 
   function setDomWiring(i) {
+    // console.log(emoteBox)
+    // console.log(i)
     emoteBox[i+1].classList.add("emote-box-owned") // +1 because first emote is always owned
     emoteBoxOwned = document.querySelectorAll(".emote-box-owned")
 
@@ -524,6 +536,8 @@ function profilePage() {
   }
 
   function setDomWiringColor(i) {
+    // console.log(colorBox)
+    // console.log(i)
     colorBox[i+1].classList.add("color-box-owned") // +1 because first emote is always owned
     colorBoxOwned = document.querySelectorAll(".color-box-owned")
 
@@ -546,6 +560,9 @@ function profilePage() {
         </div>
         <div class="profile-card-box">
           <div class="profile-container">
+            <div class="yep-coins-container">
+              <div class="yep-coins-box">YEP COINS: <span class="yep-coins">10</span><img src="imgs/YEP_COIN.svg"></div>
+            </div>
             <div class="profile-img-box">
               <img class="profile-img" src="">
             </div>
@@ -689,6 +706,8 @@ function profilePage() {
     colorBox = document.querySelectorAll(".color-box")
     selectColorBtn = document.querySelectorAll(".select-color-btn")
     colorBoxOwned = document.querySelectorAll(".color-box-owned")
+    // 
+    yepCoins = document.querySelectorAll(".yep-coins")
 
   }
 
@@ -739,6 +758,7 @@ function profilePage() {
           buyAvatar(emoteAvatars[i].name, emoteAvatars[i].code)
           setBuyEmoteDom(i);
           selectedEmoteListener();
+          setYepCoinsDom();
         } else {
           if(btn.className === "select-emote-btn") return
 
@@ -792,6 +812,7 @@ function profilePage() {
           buyColor(nameColors[i].name, nameColors[i].code)
           setBuyColorDom(i);
           selectedColorListener();
+          setYepCoinsDom();
         } else {
           if(btn.className === "select-color-btn") return
 
@@ -819,6 +840,8 @@ function profilePage() {
         selectColorBtn[i].innerText = "SELECTED" // -1 because first emote is always owned
 
         // Set Profile Img
+        console.log(selectColorBtn[i])
+        console.log(selectColorBtn[i].dataset.name)
         setUsernameColor(selectColorBtn[i].dataset.name);
         // Set Profile Img DOM
         profileName.style.color = getUsernameColorV2();
@@ -937,6 +960,13 @@ function getUsernameColorV2() {
   if(color === "white") color = "";
   
   return color
+}
+
+
+function setYepCoinsDom() {
+  for(yep of yepCoins) {
+    yep.innerText = getCoins();
+  }
 }
 
 
