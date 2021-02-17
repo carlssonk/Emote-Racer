@@ -1377,7 +1377,7 @@ body {
     
   }
   .info-box-stats {
-    height: 500px;
+    height: 505px;
     width: 100%;
     background-color: var(--card-box);
     box-shadow: var(--card-shadow);
@@ -1403,6 +1403,7 @@ body {
       position: relative;
       button {
         width: 100%;
+        margin-top: 4px;
         height: 26px;
         background-color: #55acee;
         color: white;
@@ -1491,7 +1492,7 @@ body {
       width: 100%;
       height: 180px;
       // margin: 38px 0;
-      background-color: var(--card-box);
+      // background-color: var(--card-box);
       border-radius: 8px;
       padding: 24px 152px 24px 50px;
       box-shadow: var(--card-shadow);
@@ -1499,7 +1500,25 @@ body {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      background: #6441A5;
+      background: -webkit-linear-gradient(to right, #2a0845, #6441A5);
+      background: linear-gradient(to right, #2a0845, #6441A5);
+      color: white;
+      overflow: hidden;
+      z-index: 0;
 
+      .game-box-background-img {
+        position: absolute;
+        left: 35%;
+        transform: translate(-50%) scale(2.5);
+        filter: grayscale(100%);
+        opacity: 0.15;
+        z-index: 1;
+      }
+
+      div {
+        z-index: 2;
+      } 
       
       .play-box {
         display: flex;
@@ -1534,13 +1553,13 @@ body {
           }
         }
         .main-br-img {
-          filter: grayscale(100%) brightness(30%);
+          filter: grayscale(100%) brightness(120%);
         }
         .main-one-img {
-          filter: grayscale(100%) brightness(80%);
+          filter: grayscale(100%) brightness(300%);
         }
         .main-solo-img {
-          filter: grayscale(100%) brightness(60%);
+          filter: grayscale(100%) brightness(200%);
         }
       }
     }
@@ -1592,7 +1611,7 @@ body {
       }
       .play-icon {
         font-size: 90px;
-        color: var(--icon);
+        color: rgba(100, 65, 165, 0.9);
       }
     }
     .button-card-box:nth-of-type(1) {

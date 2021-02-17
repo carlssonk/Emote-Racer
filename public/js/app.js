@@ -118,6 +118,7 @@ function mainPage() {
         </div>
         <div class="games-container main-lower">
           <div class="game-box">
+            <img class="game-box-background-img" src="https://cdn.betterttv.net/emote/5590b223b344e2c42a9e28e3/3x">
             <div>
               <h1>Battle Royale</h1>
               <p>Last man standing, up to 12 players. Match up against random players or challenge your friends.</p>
@@ -128,6 +129,7 @@ function mainPage() {
             <div class="game-icon"><img class="main-br-img main-game-icon" src="imgs/crown-fill.svg"></div>
           </div>
           <div class="game-box">
+            <img class="game-box-background-img" src="https://static-cdn.jtvnw.net/emoticons/v1/120232/3.0">
             <div>
               <h1>1 vs 1</h1>
               <p>Match up against another player or challenge your friend</p>
@@ -138,6 +140,7 @@ function mainPage() {
             <div class="game-icon"><img class="main-one-img main-game-icon" src="imgs/1v1-swords-fill.svg"></div>
           </div>
           <div class="game-box">
+            <img class="game-box-background-img" src="https://cdn.betterttv.net/emote/5d6096974932b21d9c332904/3x">
             <div>
               <h1>Solo Practice</h1>
               <p>Practice by yourself, imporve your emote guessing skills</p>
