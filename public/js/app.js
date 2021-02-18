@@ -32,6 +32,18 @@ let mainLower = null;
 
 // Right Aside
 let yepCoins = document.querySelectorAll(".yep-coins")
+let profileImgAside = document.querySelector(".profile-img-aside")
+const yepCoinLogoAside = document.querySelector(".yep-coin-logo-aside")
+const totalWinsNum = document.querySelector(".total-wins-num");
+const totalGamesNum = document.querySelector(".total-games-num");
+
+const brWinsNum = document.querySelector(".br-wins-num");
+const brStreakNum = document.querySelector(".br-streak-num");
+const brGamesNum = document.querySelector(".br-games-num");
+
+const oneWinsNum = document.querySelector(".one-wins-num");
+const oneStreakNum = document.querySelector(".one-streak-num");
+const oneGamesNum = document.querySelector(".one-games-num");
 
 
 // Extras
@@ -62,8 +74,12 @@ if(window.location.pathname === "/") {
   soloPage();
 } else if(window.location.pathname === "/1v1") {
   onePage();
+} else if(window.location.pathname === "/profile") {
+  console.log("profile")
+  profilePage();
 }
 
+console.log(window.locatio)
 
 // #################################################################################
 // ############################## MAIN PAGE NAVIGATION #############################
@@ -106,6 +122,18 @@ function mainPage() {
   document.title = "MAIN PAGE"
   history.pushState({urlPath:'/'},"",'/')
 
+  // STATS
+  totalWinsNum.innerText = getTotalWins();
+  totalGamesNum.innerText = getTotalGamesPlayed();
+
+  brWinsNum.innerText = brGetWins();
+  brStreakNum.innerText = brGetWinningStreak();
+  brGamesNum.innerText = brGetGamesPlayed();
+
+  oneWinsNum.innerText = oneGetWins();
+  oneStreakNum.innerText = oneGetWinningStreak();
+  oneGamesNum.innerText = oneGetGamesPlayed();
+
   loadMainImgs();
 
   this.mainPageHTML = function() {
@@ -118,7 +146,7 @@ function mainPage() {
         </div>
         <div class="games-container main-lower">
           <div class="game-box">
-            <img class="game-box-background-img" src="https://cdn.betterttv.net/emote/5590b223b344e2c42a9e28e3/3x">
+            <img class="game-box-background-img" src="https://static-cdn.jtvnw.net/emoticons/v1/114836/3.0">
             <div>
               <h1>Battle Royale</h1>
               <p>Last man standing, up to 12 players. Match up against random players or challenge your friends.</p>
@@ -143,7 +171,7 @@ function mainPage() {
             <img class="game-box-background-img" src="https://cdn.betterttv.net/emote/5d6096974932b21d9c332904/3x">
             <div>
               <h1>Solo Practice</h1>
-              <p>Practice by yourself, imporve your emote guessing skills</p>
+              <p>Practice by yourself, imporve your emote typing skills</p>
             </div>
             <div class="play-box">
               <button class="play-btn solo-play-btn">Play</button>
@@ -226,6 +254,7 @@ function loadMainImgs() {
   asideIcon2.src = "imgs/1v1-swords.svg"
   asideIcon3.src = "imgs/solo.svg"
   asideIcon4.src = "imgs/user.svg"
+  yepCoinLogoAside.src = "imgs/YEP_COIN.svg"
 }
 
 {/* <div class="profile-name-container">
@@ -251,7 +280,7 @@ function battleRoyalePage() {
       `
       <div class="landing-container">
         <div class="title-container">
-          <h1><img class="title-icon" src="imgs/crown-fill.svg">BATTLE ROYALE<img class="title-icon" src="imgs/crown-fill.svg"></h1>
+          <h1><img class="title-icon br-crown-icon" src="imgs/crown-fill.svg">BATTLE ROYALE<img class="title-icon br-crown-icon" src="imgs/crown-fill.svg"></h1>
         </div>
         <div class="buttons-play-container main-lower">
           <button class="button-card-box quick-play-btn">
@@ -501,8 +530,7 @@ function profilePage() {
   }
 
   function setUsernameColorBox() {
-    console.log(nameColor)
-    for(let name of nameColor) {
+    for(let name of nameColorText) {
       name.innerText = profileName.value
     }
   }
@@ -510,6 +538,7 @@ function profilePage() {
 
   // Change dom when user buys an emote
   function setBuyEmoteDom(i) {
+    confetti();
     setDomWiring(i)
     // Clear highlight
     clearEmoteBoxOwnedHighlight()
@@ -517,6 +546,7 @@ function profilePage() {
 
   // Change dom when user buys an color
   function setBuyColorDom(i) {
+    confetti();
     setDomWiringColor(i)
     // Clear highlight
     clearColorBoxOwnedHighlight()
@@ -563,9 +593,6 @@ function profilePage() {
         </div>
         <div class="profile-card-box">
           <div class="profile-container">
-            <div class="yep-coins-container">
-              <div class="yep-coins-box">YEP COINS: <span class="yep-coins">10</span><img src="imgs/YEP_COIN.svg"></div>
-            </div>
             <div class="profile-img-box">
               <img class="profile-img" src="">
             </div>
@@ -582,37 +609,47 @@ function profilePage() {
             <div class="custom-text-color-container">
               <div class="customize-column">
                 <div class="color-box color-box-owned animate__animated animate__faster">
-                  <div>BLACK/WHITE</div>
-                  <div class="name-color-owned" style="color: white;"></div>
+                  <div>Black/White</div>
+                  <div class="name-color-owned name-color-text" style="color: white;"></div>
                   <button class="select-color-btn" data-name="white">100</button>
                 </div>
                 <div class="color-box animate__animated animate__faster">
-                  <div>BLUE</div>
-                  <div class="name-color" style="color: blue;"></div>
-                  <button class="buy-color-btn" data-value="100" data-name="blue">100<img src="imgs/YEP_COIN.svg"></button>
+                  <div>Limegreen</div>
+                  <div class="name-color name-color-text" style="color: limegreen;"></div>
+                  <button class="buy-color-btn" data-value="100" data-name="limegreen">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>
                 <div class="color-box animate__animated animate__faster">
-                  <div>CYAN</div>
-                  <div class="name-color" style="color: cyan;"></div>
-                  <button class="buy-color-btn" data-value="100" data-name="cyan">100<img src="imgs/YEP_COIN.svg"></button>
-                </div>                                
+                  <div>Red</div>
+                  <div class="name-color name-color-text" style="color: red;"></div>
+                  <button class="buy-color-btn" data-value="100" data-name="red">100<img src="imgs/YEP_COIN.svg"></button>
+                </div>
+                <div class="color-box animate__animated animate__faster">
+                  <div>Gold</div>
+                  <div class="name-color name-color-text" style="color: gold;"></div>
+                  <button class="buy-color-btn" data-value="200" data-name="gold">200<img src="imgs/YEP_COIN.svg"></button>
+                </div>                 
               </div>
               <div class="customize-column">
                 <div class="color-box animate__animated animate__faster">
-                  <div>ORANGE</div>
-                  <div class="name-color" style="color: orange;"></div>
-                  <button class="buy-color-btn" data-value="100" data-name="orange">100<img src="imgs/YEP_COIN.svg"></button>
+                  <div>Mediumpurple</div>
+                  <div class="name-color name-color-text" style="color: mediumpurple;"></div>
+                  <button class="buy-color-btn" data-value="50" data-name="mediumpurple">50<img src="imgs/YEP_COIN.svg"></button>
                 </div>
                 <div class="color-box animate__animated animate__faster">
-                  <div>GOLD</div>
-                  <div class="name-color" style="color: gold;"></div>
-                  <button class="buy-color-btn" data-value="100" data-name="gold">100<img src="imgs/YEP_COIN.svg"></button>
+                  <div>Dodgerblue</div>
+                  <div class="name-color name-color-text" style="color: dodgerblue;"></div>
+                  <button class="buy-color-btn" data-value="100" data-name="dodgerblue">100<img src="imgs/YEP_COIN.svg"></button>
                 </div>
                 <div class="color-box animate__animated animate__faster">
-                  <div>BROWN</div>
-                  <div class="name-color" style="color: brown;"></div>
-                  <button class="buy-color-btn" data-value="100" data-name="brown">100<img src="imgs/YEP_COIN.svg"></button>
-                </div>                
+                  <div>Fuchsia</div>
+                  <div class="name-color name-color-text" style="color: fuchsia;"></div>
+                  <button class="buy-color-btn" data-value="200" data-name="fuchsia">200<img src="imgs/YEP_COIN.svg"></button>
+                </div>                                
+                <div class="color-box animate__animated animate__faster">
+                  <div>Cyan</div>
+                  <div class="name-color name-color-text" style="color: cyan;"></div>
+                  <button class="buy-color-btn" data-value="200" data-name="cyan">200<img src="imgs/YEP_COIN.svg"></button>
+                </div>
               </div>
             </div>
             <div class="custom-emote-img-container">
@@ -625,41 +662,55 @@ function profilePage() {
                   <button class="select-emote-btn">SELECT</button>
                 </div>
                 <div class="emote-box animate__animated animate__faster">
+                  <div>5Head</div>
+                  <div class="emote-box-img">
+                    <img class="emote-box-url" src="https://cdn.betterttv.net/emote/5d6096974932b21d9c332904/3x">
+                  </div>
+                  <button class="buy-emote-btn" data-value="100" data-name="5Head">100<img src="imgs/YEP_COIN.svg"></button>
+                </div>
+                <div class="emote-box animate__animated animate__faster">
                   <div>EZ</div>
                   <div class="emote-box-img">
                     <img class="emote-box-url" src="https://cdn.betterttv.net/emote/5590b223b344e2c42a9e28e3/3x">
                   </div>
-                  <button class="buy-emote-btn" data-value="100" data-name="EZ">100<img src="imgs/YEP_COIN.svg"></button>
+                  <button class="buy-emote-btn" data-value="300" data-name="EZ">300<img src="imgs/YEP_COIN.svg"></button>
+                </div>
+                <div class="emote-box animate__animated animate__faster">
+                  <div>TriHard</div>
+                  <div class="emote-box-img">
+                    <img class="emote-box-url" src="https://static-cdn.jtvnw.net/emoticons/v1/120232/3.0">
+                  </div>
+                  <button class="buy-emote-btn" data-value="500" data-name="TriHard">500<img src="imgs/YEP_COIN.svg"></button>
+                </div>                   
+              </div>
+              <div class="customize-column">
+                <div class="emote-box animate__animated animate__faster">
+                  <div>Kappa</div>
+                  <div class="emote-box-img">
+                    <img class="emote-box-url kappa-profile-img" src="https://static-cdn.jtvnw.net/emoticons/v1/25/2.0">
+                  </div>
+                  <button class="buy-emote-btn" data-value="50" data-name="Kappa">50<img src="imgs/YEP_COIN.svg"></button>
                 </div>
                 <div class="emote-box animate__animated animate__faster">
                   <div>Pepega</div>
                   <div class="emote-box-img">
                     <img class="emote-box-url" src="https://cdn.betterttv.net/emote/5aca62163e290877a25481ad/3x">
                   </div>
-                  <button class="buy-emote-btn" data-value="100" data-name="Pepega">100<img src="imgs/YEP_COIN.svg"></button>
-                </div>
-              </div>
-              <div class="customize-column">
-                <div class="emote-box animate__animated animate__faster">
-                  <div>pepeHands</div>
-                  <div class="emote-box-img">
-                    <img class="emote-box-url" src="https://cdn.betterttv.net/emote/59f27b3f4ebd8047f54dee29/3x">
-                  </div>
-                  <button class="buy-emote-btn" data-value="100" data-name="pepeHands">100<img src="imgs/YEP_COIN.svg"></button>
-                </div>
+                  <button class="buy-emote-btn" data-value="200" data-name="Pepega">200<img src="imgs/YEP_COIN.svg"></button>
+                </div>                
                 <div class="emote-box animate__animated animate__faster">
                   <div>OMEGALUL</div>
                   <div class="emote-box-img">
                     <img class="emote-box-url" src="https://cdn.betterttv.net/emote/583089f4737a8e61abb0186b/3x">
                   </div>
-                  <button class="buy-emote-btn" data-value="100" data-name="OMEGALUL">100<img src="imgs/YEP_COIN.svg"></button>
-                </div>
+                  <button class="buy-emote-btn" data-value="400" data-name="OMEGALUL">400<img src="imgs/YEP_COIN.svg"></button>
+                </div>             
                 <div class="emote-box animate__animated animate__faster">
-                  <div>5Head</div>
+                  <div>pepeD</div>
                   <div class="emote-box-img">
-                    <img class="emote-box-url" src="https://cdn.betterttv.net/emote/5d6096974932b21d9c332904/3x">
+                    <img class="emote-box-url" src="https://cdn.betterttv.net/emote/5b1740221c5a6065a7bad4b5/3x">
                   </div>
-                  <button class="buy-emote-btn" data-value="100" data-name="5Head">100<img src="imgs/YEP_COIN.svg"></button>
+                  <button class="buy-emote-btn" data-value="2000" data-name="pepeD">2000<img src="imgs/YEP_COIN.svg"></button>
                 </div>
               </div>                                        
             </div>
@@ -688,6 +739,7 @@ function profilePage() {
   let buyColorBtn = null;
   let selectColorBtn = null;
   let colorBoxOwned = null;
+  let nameColorText = null;
 
 
   this.profileDOM = function() {
@@ -709,6 +761,7 @@ function profilePage() {
     colorBox = document.querySelectorAll(".color-box")
     selectColorBtn = document.querySelectorAll(".select-color-btn")
     colorBoxOwned = document.querySelectorAll(".color-box-owned")
+    nameColorText = document.querySelectorAll(".name-color-text")
     // 
     yepCoins = document.querySelectorAll(".yep-coins")
 
@@ -792,6 +845,7 @@ function profilePage() {
         setProfileImg(emoteBoxOwnedUrl[i].src)
         // Set Profile Img DOM
         profileImg.src = getProfileImg();
+        profileImgAside.src = getProfileImg();
       })
     }
   }
@@ -957,6 +1011,8 @@ function pageTransitionTop(page) {
 
 }
 
+// LOCALSTORAGE STUFF
+
 function getUsernameColorV2() {
   let color = getUsernameColor();
 
@@ -965,12 +1021,17 @@ function getUsernameColorV2() {
   return color
 }
 
-
 function setYepCoinsDom() {
   for(yep of yepCoins) {
     yep.innerText = getCoins();
   }
 }
+
+
+// INIT ASIDE IMAGE
+profileImgAside.src = getProfileImg();
+
+
 
 
 // Admin message

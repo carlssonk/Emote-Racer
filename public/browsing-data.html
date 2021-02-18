@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    background-color: rgb(215, 220, 230);
+    height: 100vh;
+  }
+  .container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  .box {
+    width: 500px;
+    height: 100%;
+    background-color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+  }
+  .label {
+    margin-bottom: 24px;
+  }
+  .info-box {
+    margin-bottom: 24px;
+  }
+  li {
+    margin: 2px 0;
+    list-style-type: none;
+  }
+</style>
+<body>
+  <div class="container">
+    <div class="box">
+      <div class="label">We use <a href="https://en.wikipedia.org/wiki/Web_storage" target="_blank">Web storage</a> to save your game progress.</div>
+      <div class="info-box">
+        <div>In <strong>Chrome</strong>, your progress is cleared when these conditions is met.</div>
+        <ul>
+          <li>(a) clear browsing data,</li>
+          <li>(b) "cookies and other site data" is selected,</li>
+          <li>(c) timeframe is "from beginning of time".</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <div>In <strong>Firefox</strong>, your progress is cleared when these conditions is met.</div>
+        <ul>
+          <li>(a) user clears recent history,</li>
+          <li>(b) cookies are selected to be cleared,</li>
+          <li>(c) time range is "Everything"</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <div>In <strong>IE</strong>, to clear your data.</div>
+        <ul>
+          <li>(a) Tools--Internet Options,</li>
+          <li>(b) General tab,</li>
+          <li>(c) delete browsing history on exit,</li>
+          <li>(d) ensure "Cookies and website data" (or "temporary internet files and website files") is selected,</li>
+          <li>(e) consider unchecking "Preserve Favorites website data" at the top</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <div>In <strong>Safari</strong>, to clear your data.</div>
+        <ul>
+          <li>(a) Click Safari</li>
+          <li>(b) General tab,</li>
+          <li>(b) Preferences</li>
+          <li>(c) Select the Privacy tab</li>
+          <li>(d) Click Remove all website data (e)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

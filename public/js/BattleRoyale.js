@@ -33,6 +33,10 @@ function initBattleRoyale(mode) {
   let localEmotes = [];
   let localRandomEmoteIndex = 0;
 
+  let mostActiveUser = [] // Most active user is the last person that typed something in the output, he will also emit messages for next round,
+  // If we set some random person to emit message like localUsers[0] & he is outtabbed from site, there is a risk he is not in sync,
+  // mostActiveUser is highly likely that he's in sync with the timers.
+
   funMessages();
 
   // Quickplay or Private lobby with friends
@@ -91,7 +95,7 @@ function initBattleRoyale(mode) {
     if(socket.id === userSocketId) lobbyRoom("brPrivate", room.id, users)
 
     // DOM
-    joinLobbyUserPrivate(users)
+    joinLobbyUserPrivate(users, currentPage)
 
     roomId = room.id
     currentPage = "lobby-page";
@@ -159,7 +163,9 @@ function initBattleRoyale(mode) {
 
       if(localUsers.length === 1 && gameEnded === false && typeof forceWin === "function") forceWin();
       if(localUsers.length === 1 && typeof stopProgressBar === "function") setTimeout(() => stopProgressBar(), 50);
+      
 
+      mostActiveUser = localUsers[0] // If the user that just left was the "active user ;)" set user[0] to be the current active user
     }
 
   });
@@ -188,14 +194,14 @@ function initBattleRoyale(mode) {
   let eliminated = false;
   let currentRound = 0;
 
+  mostActiveUser = localUsers[0] // mostActiveUser will be the one that emits messages to the server
+  let hasSetStorage = false; // If hasSetStorage is true, we will not set storage for him
+
   // These variables resets after every round
   let canStillQualify = false;
   let qualified = false;
   let lives = 3;
   let waitSubmit = true;
-  let mostActiveUser = localUsers[0]  // Most active user is the last person that typed something in the output, he will also emit messages for next round,
-                                      // If we set some random person to emit message like localUsers[0] & he is outtabbed from site, there is a risk he is not in sync,
-                                      // mostActiveUser is highly likely that he's in sync with the timers.
 
   // Set user properties
   for(let i = 0; i < localUsers.length; i++) {
@@ -278,18 +284,28 @@ function initBattleRoyale(mode) {
       playersQualifiedContainer.innerHTML = "";
 
       let ordinals = "";
-      if(localUsers.length >= 6) {
-        for(let i = 1; i < localUsers.length - 1; i++) {
-          checkOrdinals(i)
-          playersQualifiedContainer.innerHTML += `<div class="player-qualified" data-id=""><img class="player-qualified-img" src="" alt=""><div class="player-qualified-num">${i + ordinals}</div></div>`
+      console.log(currentRound)
+
+      // if(localUsers.length >= 6) {
+        if(currentRound === 0) {
+          for(let i = 1; i < localUsers.length + 1; i++) {
+            checkOrdinals(i)
+            playersQualifiedContainer.innerHTML += `<div class="player-qualified" data-id=""><img class="player-qualified-img" src="" alt=""><div class="player-qualified-num">${i + ordinals}</div></div>`
+          }
+        } else {
+          for(let i = 1; i < localUsers.length; i++) {
+            checkOrdinals(i)
+            playersQualifiedContainer.innerHTML += `<div class="player-qualified" data-id=""><img class="player-qualified-img" src="" alt=""><div class="player-qualified-num">${i + ordinals}</div></div>`
+          }
         }
-      } 
-      if(localUsers.length > 1 && localUsers.length <= 5) {
-        for(let i = 1; i < localUsers.length; i++) {
-          checkOrdinals(i)
-          playersQualifiedContainer.innerHTML += `<div class="player-qualified" data-id=""><img class="player-qualified-img" src="" alt=""><div class="player-qualified-num">${i + ordinals}</div></div>`
-        }
-      } 
+
+      // } 
+      // if(localUsers.length > 1 && localUsers.length <= 5) {
+      //   for(let i = 1; i < localUsers.length; i++) {
+      //     checkOrdinals(i)
+      //     playersQualifiedContainer.innerHTML += `<div class="player-qualified" data-id=""><img class="player-qualified-img" src="" alt=""><div class="player-qualified-num">${i + ordinals}</div></div>`
+      //   }
+      // } 
       if(localUsers.length === 1) playersQualifiedContainer.innerHTML += `<div class="player-qualified" data-id=""><img class="player-qualified-img" src="" alt=""><div class="player-qualified-num">1st</div></div>`
 
       function checkOrdinals(num) {
@@ -907,11 +923,16 @@ function initBattleRoyale(mode) {
         resetOutput()
 
         if(string === "outputEliminated") {
-          if(eliminated === false) {
-            outputEliminated.style.display = "flex";
-            outputEliminated.classList.add("show-fade-output")
-          }
+          outputEliminated.style.display = "flex";
+          outputEliminated.classList.add("show-fade-output")
           eliminated = true;
+          
+          // Set stats storage
+          if(hasSetStorage === false) {
+            hasSetStorage = true;
+            brIncrementGamesPlayed();
+            brResetWinningStreak();
+          }
         }
         if(string === "outputCanStillQualify") {
           outputCanStillQualify.style.display = "flex";
@@ -991,11 +1012,20 @@ function initBattleRoyale(mode) {
               y: 0.5
             }
           });
+          brIncrementWins();
+          brIncrementWinningStreak();
+          brIncrementGamesPlayed();
         }
         if(result === "loser") {
           outputEnd.style.backgroundColor = "rgba(172, 9, 9, 0.8)";
           const winner = localUsers.filter(e => e.hasQualified)
           outputWinLoseLabel.innerText = `${winner[0].username} WINS`;
+          // Set stats storage
+          if(hasSetStorage === false) {
+            hasSetStorage = true;
+            brIncrementGamesPlayed();
+            brResetWinningStreak();
+          }
         }
         emoteImgEnd.src = emoteImg.src;
         emoteNameEnd.innerText = currentEmote.name;
@@ -1035,6 +1065,10 @@ function initBattleRoyale(mode) {
           userOutputContainer.style.display = "grid"
           outputEnd.style.display = "flex"
           outputEnd.classList.add("show-fade-next")
+
+          brIncrementWins();
+          brIncrementWinningStreak();
+          brIncrementGamesPlayed();
         }
         // Add player img to playersQualified if he is not there
         if(playerQualified[0].dataset.id !== localUsers[0].id) playerQualifiedImg[0].src = profileImg

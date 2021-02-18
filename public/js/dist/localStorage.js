@@ -1,5 +1,11 @@
 
 
+// ############################## USERNAME,IMAGE,COLOR ####################################
+// ############################## USERNAME,IMAGE,COLOR ####################################
+// ############################## USERNAME,IMAGE,COLOR ####################################
+
+
+
 
 // ####################################
 // ############# COINS ################
@@ -138,8 +144,6 @@ const buyColor = (newColor, code) => {
 }
 
 
-
-
 // SET USER PROFILE WHEN HE JOINS WEBSITE FOR THE FIRST TIME
 if(getCoins() === null) localStorage.setItem("coins", JSON.stringify(0));
 
@@ -157,12 +161,6 @@ if(getOwnedColors() === null) localStorage.setItem("ownedColors", JSON.stringify
 
 
 
-
-
-
-
-
-
 // Username Generator
 
 function generateUsername() {
@@ -174,3 +172,116 @@ function generateUsername() {
   }
   return `Guest_${id}`;
 }
+
+
+
+
+// ############################## STATS ####################################
+// ############################## STATS ####################################
+// ############################## STATS ####################################
+
+
+// #######################################
+// ################ TOTAL ################
+// #######################################
+
+// GET TOTAL WINS
+const getTotalWins = () => {
+  const brWins = JSON.parse(localStorage.getItem("brWins"));
+  const oneWins = JSON.parse(localStorage.getItem("oneWins"));
+
+  const totalWins = brWins + oneWins
+
+  return totalWins;
+}
+
+// GET TOTAL GAMES PLAYED
+const getTotalGamesPlayed = () => {
+  const brGamesPlayed = JSON.parse(localStorage.getItem("brGamesPlayed"));
+  const oneGamesPlayed = JSON.parse(localStorage.getItem("oneGamesPlayed"));
+
+  const totalGamesPlayed = brGamesPlayed + oneGamesPlayed
+
+  return totalGamesPlayed;
+}
+
+
+// #######################################
+// ############# BATTLE ROYALE ###########
+// #######################################
+
+
+const brGetWins = () => {
+  const brWins = JSON.parse(localStorage.getItem("brWins"));
+  return brWins
+}
+const brIncrementWins = () => {
+  const brWins = JSON.parse(localStorage.getItem("brWins")) + 1;
+  localStorage.setItem("brWins", JSON.stringify(brWins));
+}
+
+const brGetGamesPlayed = () => {
+  const brGamesPlayed = JSON.parse(localStorage.getItem("brGamesPlayed"));
+  return brGamesPlayed
+}
+const brIncrementGamesPlayed = () => {
+  const brGamesPlayed = JSON.parse(localStorage.getItem("brGamesPlayed")) + 1;
+  localStorage.setItem("brGamesPlayed", JSON.stringify(brGamesPlayed));
+}
+
+const brGetWinningStreak = () => {
+  const brWinningStreak = JSON.parse(localStorage.getItem("brWinningStreak"));
+  return brWinningStreak
+}
+const brIncrementWinningStreak = () => {
+  const brWinningStreak = JSON.parse(localStorage.getItem("brWinningStreak")) + 1;
+  localStorage.setItem("brWinningStreak", JSON.stringify(brWinningStreak));
+}
+const brResetWinningStreak = () => {
+  localStorage.setItem("brWinningStreak", JSON.stringify(0));
+}
+
+
+if(brGetWins() === null) localStorage.setItem("brWins", JSON.stringify(0));
+if(brGetGamesPlayed() === null) localStorage.setItem("brGamesPlayed", JSON.stringify(0));
+if(brGetWinningStreak() === null) localStorage.setItem("brWinningStreak", JSON.stringify(0));
+
+
+// #######################################
+// ################ 1 VS 1 ###############
+// #######################################
+
+const oneGetWins = () => {
+  const oneWins = JSON.parse(localStorage.getItem("oneWins"));
+  return oneWins
+}
+const oneIncrementWins = () => {
+  const oneWins = JSON.parse(localStorage.getItem("oneWins")) + 1;
+  localStorage.setItem("oneWins", JSON.stringify(oneWins));
+}
+
+const oneGetGamesPlayed = () => {
+  const oneGamesPlayed = JSON.parse(localStorage.getItem("oneGamesPlayed"));
+  return oneGamesPlayed
+}
+const oneIncrementGamesPlayed = () => {
+  const oneGamesPlayed = JSON.parse(localStorage.getItem("oneGamesPlayed")) + 1;
+  localStorage.setItem("oneGamesPlayed", JSON.stringify(oneGamesPlayed));
+}
+
+const oneGetWinningStreak = () => {
+  const oneWinningStreak = JSON.parse(localStorage.getItem("oneWinningStreak"));
+  return oneWinningStreak
+}
+const oneIncrementWinningStreak = () => {
+  const oneWinningStreak = JSON.parse(localStorage.getItem("oneWinningStreak")) + 1;
+  localStorage.setItem("oneWinningStreak", JSON.stringify(oneWinningStreak));
+}
+const oneResetWinningStreak = () => {
+  localStorage.setItem("oneWinningStreak", JSON.stringify(0));
+}
+
+
+if(oneGetWins() === null) localStorage.setItem("oneWins", JSON.stringify(0));
+if(oneGetGamesPlayed() === null) localStorage.setItem("oneGamesPlayed", JSON.stringify(0));
+if(oneGetWinningStreak() === null) localStorage.setItem("oneWinningStreak", JSON.stringify(0));

@@ -617,6 +617,9 @@ app.get('/1v1', function (req, res) {
 app.get('/1v1:id', function (req, res) {
   res.sendFile(`${__dirname}/public/index.html`);
 });
+app.get('/profile', function (req, res) {
+  res.sendFile(`${__dirname}/public/index.html`);
+});
 app.get("*", function (req, res) {
   res.redirect("/");
 });

@@ -32,14 +32,18 @@ function lobbyRoom(roomName, roomId, users) {
     }
 
 
-    this.joinLobbyUserPrivate = function(users) {
+    this.joinLobbyUserPrivate = function(users, currentPage) {
+      if(currentPage === "battle-royale") return
       // User Join DOM
       joinLobbyUser(users)
 
       // Start Game Button
       if(users.length > 1 && socket.id === users[0].id) {
         startGameBtnContainer.innerHTML = `<button class="start-game-btn">Start Game!</button>`
+        console.log(startGameBtnContainer)
+        console.log(startGameBtnContainer.innerHTML)
         const startGameBtn = document.querySelector(".start-game-btn")
+        console.log(startGameBtn)
         startGameBtn.addEventListener("click", brStartGame)
       }
       // LINK
@@ -83,8 +87,7 @@ function lobbyRoom(roomName, roomId, users) {
         }
       }
 
-      console.log(index)
-      console.log(users)
+
       // Below code depends if lobby is private or public
 
       // If first user left, i.e. lobby leader, set new play button for new leader

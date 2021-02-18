@@ -702,9 +702,14 @@ function racerGameBattle(mode) {
       if(usersSorted[0].id === socket.id) {
         winLoseLabel1v1.innerText = "YOU WIN"
         gameResults.classList.add("game-results-win")
+        oneIncrementWins();
+        oneIncrementWinningStreak();
+        oneIncrementGamesPlayed();
       } else {
         winLoseLabel1v1.innerText = "YOU LOSE"
         gameResults.classList.add("game-results-lose")
+        oneResetWinningStreak();
+        oneIncrementGamesPlayed();
       }
     }
 
@@ -739,53 +744,57 @@ function racerGameBattle(mode) {
     gameResults.classList.add("game-results-win")
 
     circleBox.classList.remove("racer-timer-bar")
+
+    oneIncrementWins();
+    oneIncrementWinningStreak();
+    oneIncrementGamesPlayed();
   }
 
-  // Play again button execute
-  const playAgainDomReset = () => {
-    inputEmote.focus(); // Automatically focus input text
-    for(let score of finalScore) score.innerText = currentScore; // Reset score
-    gameUpperContent.style.clip = "rect(0px,0px,0px,0px)", gameUpperContent.style.position = "absolute";
+  // // Play again button execute
+  // const playAgainDomReset = () => {
+  //   inputEmote.focus(); // Automatically focus input text
+  //   for(let score of finalScore) score.innerText = currentScore; // Reset score
+  //   gameUpperContent.style.clip = "rect(0px,0px,0px,0px)", gameUpperContent.style.position = "absolute";
 
-    gameInfoLabelContainer.style.display = "block"
-    circleBox.classList.remove("racer-timer-bar")
-    inputEmote.readOnly = false;
+  //   gameInfoLabelContainer.style.display = "block"
+  //   circleBox.classList.remove("racer-timer-bar")
+  //   inputEmote.readOnly = false;
 
-    // Reset Stats
-    speed = 0;
-    roundKeysTyped = 0;
-    totalKeysTyped = 0;
-    totalEmoteCharacters = 0;
-    incorrectGuesses = 0;
+  //   // Reset Stats
+  //   speed = 0;
+  //   roundKeysTyped = 0;
+  //   totalKeysTyped = 0;
+  //   totalEmoteCharacters = 0;
+  //   incorrectGuesses = 0;
 
-    // Reset socket related stuff
-    resetSocketConfig()
+  //   // Reset socket related stuff
+  //   resetSocketConfig()
 
-    // Add event listener
-    document.addEventListener("keypress", guessListener)
-    document.addEventListener("keydown", skipListener)
-  }
+  //   // Add event listener
+  //   document.addEventListener("keypress", guessListener)
+  //   document.addEventListener("keydown", skipListener)
+  // }
 
 
-  function resetSocketConfig() {
-    // DOM
+  // function resetSocketConfig() {
+  //   // DOM
 
-    for(let rdy of battlePlayerReady) {
-      rdy.classList.remove("color-red")
-      rdy.classList.remove("color-green")
-      rdy.innerText = "NOT READY"
-    }
+  //   for(let rdy of battlePlayerReady) {
+  //     rdy.classList.remove("color-red")
+  //     rdy.classList.remove("color-green")
+  //     rdy.innerText = "NOT READY"
+  //   }
 
-    for(let i = 0; i < localUsers.length; i++) {
-      localUsers[i].score = 0;
-      localUsers[i].isReady = false;
-    }
+  //   for(let i = 0; i < localUsers.length; i++) {
+  //     localUsers[i].score = 0;
+  //     localUsers[i].isReady = false;
+  //   }
 
-    if(localUsers.length === 1) {
-      battlePlayerReady[1].innerText = ""
-      localUsers = [{id: socket.id, isReady: false}, {isReady: false}];
-    }
-  }
+  //   if(localUsers.length === 1) {
+  //     battlePlayerReady[1].innerText = ""
+  //     localUsers = [{id: socket.id, isReady: false}, {isReady: false}];
+  //   }
+  // }
 
 
     // // Disconnect socket
