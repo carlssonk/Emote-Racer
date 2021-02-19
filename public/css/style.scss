@@ -1889,6 +1889,9 @@ body {
     background: transparent;
   }
 
+  .cosmetic-box-label {
+    pointer-events: none;
+  }
   .custom-text-color-container {
     position: relative;
     display: flex;
@@ -1944,6 +1947,7 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
+        pointer-events: none;
       }
       .name-color {
         background-color: #353535;
@@ -1952,6 +1956,7 @@ body {
         text-align: center;
         border-radius: 6px;
         overflow: hidden;
+        pointer-events: none;
       }
       .name-color-owned {
         background-color: #353535;
@@ -1960,6 +1965,7 @@ body {
         text-align: center;
         border-radius: 6px;
         overflow: hidden;
+        pointer-events: none;
       }
     }
   }
@@ -2049,6 +2055,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    pointer-events: none;
   }
   .emote-box-img {
     position: relative;
@@ -2061,6 +2068,7 @@ body {
     display: grid;
     place-items: center;
     overflow: hidden;
+    pointer-events: none;
     img {
       width: 100%;
     }
