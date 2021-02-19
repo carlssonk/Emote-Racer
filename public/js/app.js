@@ -1135,6 +1135,17 @@ function setYepCoinsDom() {
 // INIT ASIDE IMAGE
 profileImgAside.src = getProfileImg();
 
+// Handle Dark Mode
+const darkModeBtn = document.querySelector(".toggle__input");
+const root = document.documentElement
+darkModeBtn.addEventListener("click", function() {
+  if(darkModeBtn.checked) {
+    root.className = "dark"
+  } else {
+    root.className = "light"
+  }
+})
+
 
 
 

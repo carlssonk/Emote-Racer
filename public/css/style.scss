@@ -1741,6 +1741,7 @@ body {
   }
 }
 .landing-container::before {
+  transition: 100ms;
   position: absolute;
   content: "";
   width: calc(100% + 40px);

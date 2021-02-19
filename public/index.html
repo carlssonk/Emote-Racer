@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,6 +24,10 @@
         <li><button class="solo-btn"><img class="aside-icon aside-icon-3" src="imgs/solo.svg" alt=""><div>PRACTICE SOLO</div></button></li>
         <li><button class="my-profile-btn"><img class="aside-icon aside-icon-4" src="imgs/user.svg" alt=""><div>MY PROFILE</div></button></li>
       </ul>
+      <div class="toggle-dark-mode-box">
+        <input class="toggle__input" aria-label="toggle dark mode" type="checkbox">
+        <span class="toggle__fake"></span>
+      </div>
     </aside>
     <!-- MAIN -->
     <div class="main-container">
@@ -51,20 +55,20 @@
             <div class="info-box-stats-label">MULTIPLAYER STATS</div>
             <div class="info-box-label">TOTAL</div>
             <ul class="info-box-stats-list">
-              <li><div>WINS</div><div class="stats-number total-wins-num"></div></li>
-              <li><div>GAMES PLAYED</div><div class="stats-number total-games-num"></div></li>
+              <li><div>WINS</div><div class="stats-number total-wins-num">0</div></li>
+              <li><div>GAMES PLAYED</div><div class="stats-number total-games-num">0</div></li>
             </ul>
             <div class="info-box-label">Battle Royale</div>
             <ul class="info-box-stats-list">
-              <li><div>WINS</div><div class="stats-number br-wins-num"></div></li>
-              <li><div>WIN STREAK</div><div class="stats-number br-streak-num"></div></li>
-              <li><div>GAMES PLAYED</div><div class="stats-number br-games-num"></div></li>
+              <li><div>WINS</div><div class="stats-number br-wins-num">0</div></li>
+              <li><div>WIN STREAK</div><div class="stats-number br-streak-num">0</div></li>
+              <li><div>GAMES PLAYED</div><div class="stats-number br-games-num">0</div></li>
             </ul>
             <div class="info-box-label">1 vs 1</div>
             <ul class="info-box-stats-list">
-              <li><div>WINS</div><div class="stats-number one-wins-num"></div</li>
-              <li><div>WIN STREAK</div><div class="stats-number one-streak-num"></div></li>
-              <li><div>GAMES PLAYED</div><div class="stats-number one-games-num"></div></li>
+              <li><div>WINS</div><div class="stats-number one-wins-num">0</div></li>
+              <li><div>WIN STREAK</div><div class="stats-number one-streak-num">0</div></li>
+              <li><div>GAMES PLAYED</div><div class="stats-number one-games-num">0</div></li>
             </ul>
           </div>
         </div>

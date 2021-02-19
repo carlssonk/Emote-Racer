@@ -20,7 +20,8 @@ $properties-width: 350px;
 
 // --background: rgb(225, 227, 235);
 
-:root {
+.light {
+  // transition: 1s;
   --background: rgb(215, 220, 230);
   --card-box: rgb(250, 250, 250);
   --card-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -29,6 +30,17 @@ $properties-width: 350px;
   --icon: #555;
 }
 
+.dark {
+  // transition: 1s;
+  --background: rgb(18, 17, 20);
+  --card-box: #232329;
+  --card-shadow: 0 0 10px rgba(255, 0, 191, 0.2);
+  --card-border: rgb(167, 167, 167);
+  --text: white;
+  --icon: #555;
+}
+
 body {
+  transition: 100ms;
   background-color: var(--background)
 }
