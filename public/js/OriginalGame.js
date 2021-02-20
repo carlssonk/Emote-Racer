@@ -189,7 +189,7 @@ function originalGame() {
           onblur="this.placeholder = 'TYPE HERE'"
           autofocus>
         </div>
-        <h2 class="game-lower-label">GUESS THE NAME OF ABOVE EMOTE</h2>
+        <h2 class="game-lower-guess-the-name">GUESS THE NAME OF ABOVE EMOTE</h2>
       </div>
     </div>
       `

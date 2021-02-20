@@ -26,7 +26,55 @@
   //   top: 50%;
   //   transform: translate(0, -50%);
   // }
+  .original-game .game-info-label-container-1v1 .waiting-for-other-players {
+    margin-bottom: 0 !important;
+  }
 }
+
+@media all and (max-height: 800px) {
+
+  .original-game .game-upper-content-container .emote-img-container {
+    margin-top: 70px !important;
+  }
+
+
+}
+
+@media all and (max-height: 700px) {
+
+  .original-game .game-info-label-container-1v1 {
+    top: 50% !important;
+  }
+
+  .original-game .game-lower {
+    height: 45% !important;
+  }
+
+
+
+  .original-game .game-info-label-container {
+    top: 40% !important;
+  }
+
+  .original-game .game-results {
+    height: 90% !important;
+  }
+
+}
+
+
+// @media all and (max-height: 600px) {
+//   .original-game .game-skip-label {
+//     display: none;
+//   }
+// }
+
+@media all and (max-height: 500px) {
+  .original-game .game-lower .game-lower-guess-the-name {
+    bottom: 10px !important;
+  }
+}
+
 
 
 // @media all and (max-width: 1424px) {
@@ -100,6 +148,21 @@
 
 }
 
+
+@media all and (max-width: 1100px) {
+  .original-game .game-info-label-container .racer-start-game-label {
+    display: none !important;
+  }
+
+  .original-game .game-info-label-container .racer-start-game-label-btn {
+    display: flex !important;
+  }
+
+  // .original-game .game-skip-label {
+  //   display: none !important;
+  // }
+}
+
 @media all and (max-width: 1024px) {
   .battle-royale-aside {
     width: 260px !important;
@@ -142,6 +205,9 @@
   .original-game .game-upper .final-score-game {
     top: 60px !important;
     right: auto !important;
+  }
+  .original-game .game-upper .final-score-racer {
+    top: 140px !important;
   }
 
   .customize-container .custom-text-color-container {
@@ -231,9 +297,26 @@
 }
 
 @media all and (max-width: 700px) {
-  .nav-aside {
-    display: none !important;
+  .dropdown-btn {
+    display: flex !important;
   }
+
+
+
+  .nav-aside {
+    transition: 200ms !important;
+    display: none !important;
+    position: fixed !important;
+    padding: 74px 0 !important;
+    z-index: 20 !important;
+    width: 250px !important;
+    right: -100%;
+  }
+
+  .nav-aside button {
+    padding: 12px 36px !important;
+  }
+
   .landing-container .buttons-play-container .button-card-box {
     height: auto !important;
   }
@@ -244,7 +327,15 @@
     margin-top: 12px !important;
   }
   .progress-bar-container {
-    height: calc(100% - 72px) !important;
+    height: calc(100% - 84px) !important;
+  }
+
+  .original-game .game-lower .emote-container .inputEmote {
+    margin-top: 12px !important;
+  }
+
+  .output-exit {
+    width: 100% !important; 
   }
 
 }
@@ -293,11 +384,15 @@
 }
 
 @media all and (max-width: 500px) {
-  .output-exit {
-    width: 100% !important; 
+
+  // .layout {
+  //   overflow-y: hidden;
+  // }
+
+  .main {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
   }
-
-
 
   .profile-img-box {
     width: 80px !important;
@@ -344,6 +439,10 @@
 
   .original-game .game-upper-content-container .emote-img-container {
     width: auto !important;
+  }
+
+  .battle-royale-aside .player-aside-eliminated-container {
+    margin: 0 !important;
   }
 }
 

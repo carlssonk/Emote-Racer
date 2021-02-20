@@ -340,7 +340,7 @@ function racerGame() {
             <circle cx="50%" cy="50%" r="47" stroke-width="6" fill="transparent"/>
           </svg>
         </div>
-        <h2 class="final-score-game">SCORE: <span class="final-score">0</span></h2>
+        <h2 class="final-score-game final-score-racer">SCORE: <span class="final-score">0</span></h2>
           <div class="game-upper-content-container">
           <div class="game-upper-content animate__animated animate__fast" style="margin-top: 500px">
             <div class="emote-img-container">
@@ -371,6 +371,7 @@ function racerGame() {
       `
     )
   }
+  let racerStartGameLabelBtn = null;
   let emoteImg = null;
   let gameResults = null;
   let emoteName = null;
@@ -389,6 +390,7 @@ function racerGame() {
   let resultAccuracyStats = null;
   let resultIncorrectStats = null;
   this.racerGameDOM = function() {
+  racerStartGameLabelBtn = document.querySelector(".racer-start-game-label-btn");
   inputEmote = document.querySelector(".inputEmote");
   emoteImg = document.querySelectorAll(".emote-img");
   emoteName = document.querySelector(".emote-name");
@@ -427,6 +429,11 @@ function racerGame() {
       racerGameRemoveEVENT();
       mainPage();
     });
+
+    racerStartGameLabelBtn.addEventListener("click", function() {
+      timer();
+    })
+    
   }
 
   this.racerGameRemoveEVENT = function() {

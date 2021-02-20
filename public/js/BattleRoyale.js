@@ -1274,7 +1274,7 @@ function initBattleRoyale(mode) {
           autofocus
           readonly>
         </div>
-        <h2 class="game-lower-label">GUESS THE NAME OF ABOVE EMOTE</h2>
+        <h2 class="game-lower-guess-the-name-br">GUESS THE NAME OF ABOVE EMOTE</h2>
         <div class="progress-bar-container">
           <div id="progressBar">
             <div class="bar"></div>

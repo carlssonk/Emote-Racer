@@ -22,6 +22,8 @@ const battleRoyaleBtn = document.querySelector(".battle-royale-btn");
 const soloBtn = document.querySelector(".solo-btn");
 const oneVsOneBtn = document.querySelector(".one-vs-one-btn");
 const myProfileBtn = document.querySelector(".my-profile-btn");
+const dropdownBtn = document.querySelector(".dropdown-btn");
+let dropdownBool = true // bool to toggle dropdown on and off
 
 // HTML APPEND ELEMENT´S
 const mainContainer = document.querySelector(".main-container");
@@ -79,8 +81,6 @@ if(window.location.pathname === "/") {
   console.log("profile")
   profilePage();
 }
-
-console.log(window.locatio)
 
 // #################################################################################
 // ############################## MAIN PAGE NAVIGATION #############################
@@ -1095,14 +1095,26 @@ function profilePage() {
 // ################################# EXTRAS ########################################
 // #################################################################################
 
+dropdownBtn.addEventListener("click", function() {
+  if(dropdownBool === true) {
+    console.log("SHOW")
+    dropdownBool = !dropdownBool
 
-function showLoading() {
+    navAside.style.cssText += 'display:block !important';
+    // navAside.style.display = "block"
+    setTimeout(() => navAside.style.right = "0%", 50)
 
-}
+  } else {
+    console.log("HIDE")
+    dropdownBool = !dropdownBool
+    console.log(dropdownBool)
 
-function hideLoading() {
+    navAside.style.display = "block"
+    navAside.style.right = ""
 
-}
+  }
+
+})
 
 
 
@@ -1143,6 +1155,8 @@ function pageChangeDisplay(page) {
     game.style.display = "none";
     mainContainer.style.display = "flex";
     navAside.style.display = "block";
+    navAside.style.right = "";
+    dropdownBool = true;
   }
   if(page === "game") {
     game.style.display = "block";
