@@ -85,7 +85,7 @@ const nameColors = [
   {
     name: "cyan",
     code: "789",
-    price: 200,
+    price: 300,
   },
 ]
 

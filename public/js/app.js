@@ -151,34 +151,34 @@ function mainPage() {
         <div class="games-container main-lower">
           <div class="game-box">
             <img class="game-box-background-img" src="https://static-cdn.jtvnw.net/emoticons/v1/114836/3.0">
-            <div>
-              <h1>Battle Royale</h1>
-              <p>Last man standing, up to 12 players. Match up against random players or challenge your friends.</p>
-            </div>
             <div class="play-box">
+              <h1>Battle Royale</h1>
               <button class="play-btn br-play-btn">Play</button>
+            </div>
+            <div>
+              <p>Last man standing with up to 12 players. Match up against random players or challenge your friends.</p>
             </div>
             <div class="game-icon"><img class="main-br-img main-game-icon" src="imgs/crown-fill.svg"></div>
           </div>
           <div class="game-box">
             <img class="game-box-background-img" src="https://static-cdn.jtvnw.net/emoticons/v1/120232/3.0">
-            <div>
-              <h1>1 vs 1</h1>
-              <p>Match up against another player or challenge your friend</p>
-            </div>
             <div class="play-box">
+              <h1>1 VS 1</h1>
               <button class="play-btn one-play-btn">Play</button>
+            </div>
+            <div>
+              <p>Match up against another player or challenge your friend.</p>
             </div>
             <div class="game-icon"><img class="main-one-img main-game-icon" src="imgs/1v1-swords-fill.svg"></div>
           </div>
           <div class="game-box">
             <img class="game-box-background-img" src="https://cdn.betterttv.net/emote/5d6096974932b21d9c332904/3x">
-            <div>
-              <h1>Solo Practice</h1>
-              <p>Practice by yourself, imporve your emote typing skills</p>
-            </div>
             <div class="play-box">
+              <h1>Solo Practice</h1>            
               <button class="play-btn solo-play-btn">Play</button>
+            </div>            
+            <div>
+              <p>Practice by yourself, imporve your emote typing skills.</p>
             </div>
             <div class="game-icon"><img class="main-solo-img main-game-icon" src="imgs/solo-fill.svg"></div>
           </div>
@@ -730,7 +730,7 @@ function profilePage() {
                 <div class="color-box animate__animated animate__faster">
                   <div class="cosmetic-box-label">Cyan</div>
                   <div class="name-color name-color-text" style="color: cyan;"></div>
-                  <button class="buy-color-btn" data-value="200" data-name="cyan">200<img src="imgs/YEP_COIN.svg"></button>
+                  <button class="buy-color-btn" data-value="300" data-name="cyan">300<img src="imgs/YEP_COIN.svg"></button>
                 </div>
               </div>
             </div>

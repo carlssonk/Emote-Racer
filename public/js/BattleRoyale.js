@@ -1275,8 +1275,10 @@ function initBattleRoyale(mode) {
           readonly>
         </div>
         <h2 class="game-lower-label">GUESS THE NAME OF ABOVE EMOTE</h2>
-        <div id="progressBar">
-          <div class="bar"></div>
+        <div class="progress-bar-container">
+          <div id="progressBar">
+            <div class="bar"></div>
+          </div>
         </div>
       </div>
     </div>

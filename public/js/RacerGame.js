@@ -331,6 +331,7 @@ function racerGame() {
       <div class="game-info-label-container">
         <h2>GUESS AS MANY EMOTES AS YOU CAN UNDER 60 SECONDS</h2>
         <h2 class="racer-start-game-label"> PRESS ENTER <img class="enter-key" src="imgs/EnterKey.svg"> TO START</h2>
+        <button class="racer-start-game-label-btn" style="display: none;">PRESS TO START</button>
       </div>
       <div class="game-upper">
         <div class="racer-game-timer-container">
