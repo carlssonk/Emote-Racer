@@ -1,4 +1,5 @@
 function lobbyRoom(roomName, roomId, users) {
+  
 
   function configuration() {
     const profileImg = getProfileImg();
@@ -6,9 +7,9 @@ function lobbyRoom(roomName, roomId, users) {
     const nameColor = getUsernameColorV2();
 
     // DOM
-    navAside.style.display = "none";
     infoAside.style.display = "none";
     battleRoyaleAside.style.display = "none";
+    loadingBox.style.marginLeft = "";
 
 
     if(users.length === 0) {
@@ -118,8 +119,8 @@ function lobbyRoom(roomName, roomId, users) {
       // DOM
       setDom();
       // LINK
-      history.pushState({urlPath: `/battle-royale/?${roomId}`},"",`/battle-royale/?${roomId}`)
-      inviteLinkInput.value = window.location.href;
+      // history.pushState({urlPath: `/battle-royale/?${roomId}`},"",`/battle-royale/?${roomId}`)
+      inviteLinkInput.value = location.origin + `/battle-royale/?${roomId}`;
     }
 
     function initLobbyUserPublic() {

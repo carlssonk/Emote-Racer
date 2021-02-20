@@ -275,7 +275,7 @@ io.on("connection", (socket) => {
       // Join user to roomId
       socket.join(user.room.id)
       // Send all users currently in the room to client side
-      io.to(user.room.id).emit("joinPublicLobby1v1", oneGetRoomUsersPublic(user.room.id), room); // True statement refers to that this is a public lobby
+      io.to(user.room.id).emit("joinPublicLobby1v1", oneGetRoomUsersPublic(user.room.id), room, socket.id); // True statement refers to that this is a public lobby
     }
 
     function createNewRoom() {
@@ -332,15 +332,15 @@ io.on("connection", (socket) => {
     // Join user to roomId
     socket.join(user.room.id)
     // Send all users currently in the room to client side
-    io.to(user.room.id).emit("joinPrivateLobby1v1", oneGetRoomUsersPrivate(roomId), room);
+    io.to(user.room.id).emit("joinPrivateLobby1v1", oneGetRoomUsersPrivate(roomId), room, socket.id);
   })
 
-  socket.on("gameEndPrivate1v1", (roomId) => {
-    const theRoom = oneGetRoomUsersPrivate(roomId)
-    for(let i = 0; i < theRoom.length; i++) {
-      theRoom[i].room.isPlaying = false;
-    }
-  })
+  // socket.on("gameEndPrivate1v1", (roomId) => {
+  //   const theRoom = oneGetRoomUsersPrivate(roomId)
+  //   for(let i = 0; i < theRoom.length; i++) {
+  //     theRoom[i].room.isPlaying = false;
+  //   }
+  // })
 
 
   // ###########################
@@ -355,10 +355,10 @@ io.on("connection", (socket) => {
 
   // Send signal to all users
   socket.on("requestStartGamePrivate1v1", (roomId) => {
-    const theRoom = oneGetRoomUsersPrivate(roomId)
-    for(let i = 0; i < theRoom.length; i++) {
-      theRoom[i].room.isPlaying = true;
-    }
+    // const theRoom = oneGetRoomUsersPrivate(roomId)
+    // for(let i = 0; i < theRoom.length; i++) {
+    //   theRoom[i].room.isPlaying = true;
+    // }
 
     let randomEmoteIndexArr = [];
 

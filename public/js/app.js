@@ -26,7 +26,8 @@ const myProfileBtn = document.querySelector(".my-profile-btn");
 // HTML APPEND ELEMENT´S
 const mainContainer = document.querySelector(".main-container");
 const main = document.querySelector(".main");
-const mainFull = document.querySelector(".main-full");
+const loadingBox = document.querySelector(".loading-box")
+// const mainFull = document.querySelector(".main-full");
 const game = document.querySelector(".game");
 let mainLower = null;
 
@@ -121,6 +122,9 @@ function mainPage() {
   battleRoyaleAside.style.display = "none";
   document.title = "MAIN PAGE"
   history.pushState({urlPath:'/'},"",'/')
+  main.style.visibility = "hidden";
+  navAside.style.visibility = "hidden";
+  loadingBox.style.display = "flex";
 
   // STATS
   totalWinsNum.innerText = getTotalWins();
@@ -246,7 +250,14 @@ function mainPage() {
   if(transition === true) pageTransitionTop("main"); // Page transition
   mainPageEVENT(); // Inits event listeners
 
-
+  // When all IMAGES are loaded show HTML
+  $('.main').waitForImages(function() {
+    loadingBox.style.display = "none";
+    main.style.visibility = "visible";
+  });
+  $('.nav-aside').waitForImages(function() {
+    navAside.style.visibility = "visible";
+  });
 }
 
 function loadMainImgs() {
@@ -273,6 +284,8 @@ function battleRoyalePage() {
   // CONFIG
   document.title = "BATTLE ROYALE"
   history.pushState({urlPath:'/battle-royale'},"",'/battle-royale')
+  main.style.visibility = "hidden";
+  loadingBox.style.display = "flex";
 
   this.battleRoyaleHTML = function() {
     return (
@@ -308,10 +321,16 @@ function battleRoyalePage() {
 
   this.battleRoyaleEVENT = function() {
     quickPlayBtn.addEventListener("click", () => {
+      // DOM
+      loadingBox.style.display = "flex";
+      main.style.visibility = "hidden";
       initSocket();
       initBattleRoyale("public")
     });
     privateLobbyBtn.addEventListener("click", () => {
+      // DOM
+      loadingBox.style.display = "flex";
+      main.style.visibility = "hidden";
       initSocket();
       initBattleRoyale("private")
     });
@@ -324,6 +343,11 @@ function battleRoyalePage() {
   if(transition === true) pageTransitionTop("main"); // Page transition
   battleRoyaleEVENT(); // Inits event listeners
 
+  // When all IMAGES are loaded show HTML
+  $('.main').waitForImages(function() {
+    loadingBox.style.display = "none";
+    main.style.visibility = "visible";
+  });
 }
 
 
@@ -336,6 +360,8 @@ function onePage() {
   // CONFIG
   document.title = "1v1"
   history.pushState({urlPath:'/1v1'},"",'/1v1')
+  main.style.visibility = "hidden";
+  loadingBox.style.display = "flex";
 
   this.oneHTML = function() {
     return (
@@ -370,10 +396,16 @@ function onePage() {
 
   this.oneEVENT = function() {
     play1v1Btn.addEventListener("click", function() {
+      // DOM
+      loadingBox.style.display = "flex";
+      main.style.visibility = "hidden";
       initSocket();
       racerGameBattle("public");
     });
     play1v1PrivateBtn.addEventListener("click", function() {
+      // DOM
+      loadingBox.style.display = "flex";
+      main.style.visibility = "hidden";
       initSocket();
       racerGameBattle("private");
     });
@@ -386,6 +418,12 @@ function onePage() {
   if(transition === true) pageTransitionTop("main"); // Page transition
   oneEVENT(); // Inits event listeners
 
+
+  // When all IMAGES are loaded show HTML
+  $('.main').waitForImages(function() {
+    loadingBox.style.display = "none";
+    main.style.visibility = "visible";
+  });
 }
 
 // #################################################################################
@@ -398,6 +436,8 @@ function soloPage() {
   // CONFIG
   document.title = "GUESS THE EMOTE"
   history.pushState({urlPath:'/solo'},"",'/solo')
+  main.style.visibility = "hidden";
+  loadingBox.style.display = "flex";
 
   this.soloHTML = function() {
     return (
@@ -447,6 +487,12 @@ function soloPage() {
   if(transition === true) pageTransitionTop("main"); // Page transition
   soloEVENT(); // Inits event listeners
 
+
+  // When all IMAGES are loaded show HTML
+  $('.main').waitForImages(function() {
+    loadingBox.style.display = "none";
+    main.style.visibility = "visible";
+  });
 }
 
 // #################################################################################
@@ -457,6 +503,8 @@ function profilePage() {
   // CONFIG
   document.title = "PROFILE"
   history.pushState({urlPath:'/profile'},"",'/profile')
+  main.style.visibility = "hidden";
+  loadingBox.style.display = "flex";
 
   function configuration() {
     setYepCoinsDom(yepCoins);
@@ -616,6 +664,7 @@ function profilePage() {
     nameColor = document.querySelectorAll(".name-color")
   }
 
+
   this.profileHTML = function() {
     return (
       main.innerHTML =
@@ -679,7 +728,7 @@ function profilePage() {
                   <button class="buy-color-btn" data-value="200" data-name="fuchsia">200<img src="imgs/YEP_COIN.svg"></button>
                 </div>                                
                 <div class="color-box animate__animated animate__faster">
-                  <div>Cyan</div>
+                  <div class="cosmetic-box-label">Cyan</div>
                   <div class="name-color name-color-text" style="color: cyan;"></div>
                   <button class="buy-color-btn" data-value="200" data-name="cyan">200<img src="imgs/YEP_COIN.svg"></button>
                 </div>
@@ -739,7 +788,7 @@ function profilePage() {
                   <button class="buy-emote-btn" data-value="400" data-name="OMEGALUL">400<img src="imgs/YEP_COIN.svg"></button>
                 </div>             
                 <div class="emote-box animate__animated animate__faster">
-                  <div>pepeD</div>
+                  <div class="cosmetic-box-label">pepeD</div>
                   <div class="emote-box-img">
                     <img class="emote-box-url" src="https://cdn.betterttv.net/emote/5b1740221c5a6065a7bad4b5/3x">
                   </div>
@@ -1032,12 +1081,29 @@ function profilePage() {
     }
   }
 
+
+  // // When all IMAGES are loaded show HTML
+  $('.main').waitForImages(function() {
+    loadingBox.style.display = "none";
+    main.style.visibility = "visible";
+  });
+
 }
 
 
 // #################################################################################
 // ################################# EXTRAS ########################################
 // #################################################################################
+
+
+function showLoading() {
+
+}
+
+function hideLoading() {
+
+}
+
 
 
 // When Nav-Logo is clicked
@@ -1061,6 +1127,12 @@ function pageChange(page) {
     socket.disconnect();
     if(typeof stopInitTimer === "function") stopInitTimer();
     if(typeof stop1v1Timer === "function") stop1v1Timer();
+    // Remove event listeners
+    racerGameBattleRemoveEVENT();
+  }
+  if(page === "racer-game") {
+    // Remove event listeners
+    racerGameRemoveEVENT();
   }
 }
 
@@ -1097,7 +1169,6 @@ function pageTransition(page) {
 }
 
 function pageTransitionTop(page) {
-  console.log(page)
   if(page === "main") {
     mainLower.classList.add("page-transition")
     mainLower.classList.add("page-transition-top")
@@ -1125,6 +1196,7 @@ function getUsernameColorV2() {
   return color
 }
 
+setYepCoinsDom()
 function setYepCoinsDom() {
   for(yep of yepCoins) {
     yep.innerText = getCoins();

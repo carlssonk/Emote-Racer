@@ -1319,12 +1319,13 @@ body {
   position: absolute;
   display: none;
   color: red;
-  font-size: 32px;
+  font-size: 48px;
   margin-top: 0px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   transition: 1s;
+  z-index: 100;
 }
 
 

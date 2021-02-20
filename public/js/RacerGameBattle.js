@@ -29,6 +29,13 @@ function racerGameBattle(mode) {
 
   // Request join room by url
   if(mode === "joinByLink") {
+    // DOM
+    loadingBox.style.display = "flex";
+    loadingBox.style.marginLeft = "0px";
+    main.style.visibility = "hidden";
+    infoAside.style.display = "none";
+    
+
     roomId = location.search.substring(1); // Get room id from url
     socket.emit("requestJoin1v1", roomId, username, nameColor, profileImg);
   } 
@@ -41,10 +48,11 @@ function racerGameBattle(mode) {
 
   // Init Private Lobby
   socket.on("initPrivateLobby1v1", (room) => {
+    initPage()
     // Set INVITE LINK
     inviteLinkBox.style.display = "block";
-    history.pushState({urlPath: `/1v1/?${room.id}`},"",`/1v1/?${room.id}`)
-    inviteLinkInput.value = location.href;
+    // history.pushState({urlPath: `/1v1/?${room.id}`},"",`/1v1/?${room.id}`)
+    inviteLinkInput.value = location.origin + `/1v1/?${room.id}`;
 
     // DOM
     firstPlayerDom();
@@ -53,23 +61,25 @@ function racerGameBattle(mode) {
     // Set configurations
     roomId = room.id;
 
+    console.log("GO MAN")
   });
 
 
   // Init Private Lobby
   socket.on("initPublicLobby1v1", (room) => {
+    initPage()
     // DOM
     firstPlayerDom();
     waitingForOtherPlayersSHOW()
 
     // Set configurations
     roomId = room.id;
-
   });
 
 
   // Join Public Lobby
-  socket.on("joinPublicLobby1v1", (users, room) => {
+  socket.on("joinPublicLobby1v1", (users, room, userSocketId) => {
+    if(userSocketId === socket.id) initPage();
 
     if(users.length === 1) {
 
@@ -104,7 +114,11 @@ function racerGameBattle(mode) {
 
 
   // Join Private Lobby
-  socket.on("joinPrivateLobby1v1", (users, room) => {
+  socket.on("joinPrivateLobby1v1", (users, room, userSocketId) => {
+    if(userSocketId === socket.id) {
+      loadingBox.style.marginLeft = "";
+      initPage();
+    } 
 
     // We need to set these icons because when pathname/link is not the origin we get an error and imgs wont load
     enterKey.src = `${window.location.origin}/imgs/EnterKey.svg`
@@ -141,6 +155,48 @@ function racerGameBattle(mode) {
     roomId = room.id;
 
   });
+
+
+  function playAgainPrivate() {
+    // Event Listener
+    document.addEventListener("keypress", guessListener)
+    document.addEventListener("keydown", skipListener)
+    
+    // Reset DOM
+    circleBox.classList.remove("racer-timer-bar")
+    gameResults.style.display = "none";
+
+    inviteCopyBtn.innerText = "COPY"
+    inviteCopyBtn.classList.remove("copied-animation")
+    gameInfoLabelContainer.style.display = "block";
+
+    // Reset users
+    for(let i = 0; i < localUsers.length; i++) {
+      localUsers[i].score = 0;
+      battlePlayerReady[i].innerText = "NOT READY"
+    } 
+    for(let i = 0; i < 2; i++) {
+      battlePlayerScore[i].innerText = ""; 
+      battlePlayerImg[i].classList.remove("fade-scale-animation")
+      battlePlayerName[i].classList.remove("fade-scale-animation")
+    }
+
+    // RESET VARIABLES
+    roundKeysTyped = 0;
+    totalKeysTyped = 0;
+    totalEmoteCharacters = 0;
+    // Incorrect Guesses
+    incorrectGuesses = 0;
+
+    currentScore = 0;
+    currentEmote = {};
+    gameStarted = false;
+    // So we can PRELOAD Second Image
+    cycleBool = false;
+    currentEmoteFirst = {};
+    currentEmoteLast = {};
+  }
+
 
 
   function firstPlayerDom() {
@@ -192,6 +248,8 @@ function racerGameBattle(mode) {
     battlePlayerImg[1].src = "";
     battlePlayerName[1].innerText = "";
     battlePlayerReady[1].innerText = "";
+    battlePlayerImg[1].classList.remove("fade-scale-animation")
+    battlePlayerName[1].classList.remove("fade-scale-animation")
     if(mode === "public") {
       waitingForOtherPlayersSHOW()
     }
@@ -277,9 +335,7 @@ function racerGameBattle(mode) {
   // ########## GAME LOGIC ##############
   // ####################################
 
-
   // ##### STATS #####
-
   // Speed
   let speed = 0;
   // Accuracy
@@ -316,7 +372,7 @@ function racerGameBattle(mode) {
 
     // Update countdown timer in worker.js on window.onfocus (i.e if user switches tab and comes back)
     window.onfocus = function() {
-      if(currentPage === "1v1") myWorker.postMessage("updateCountdown")
+      myWorker.postMessage("updateCountdown")
     };
 
     myWorker.onmessage = (e) => {
@@ -531,7 +587,8 @@ function racerGameBattle(mode) {
   }
 
   function guessListener(e) {
-    console.log(localUsers[0])
+    console.log(localUsers[0].room.isPrivate === true)
+    if(localUsers.length === 0) return // If a player has not joined yet, return
     if(localUsers[0].room.isPrivate === true) togglePlayerReady(e); // Toggle player ready, when both players are ready, game will start
     if(gameStarted === true && e.key === "Enter") {
       if(inputEmote.value === "") return;
@@ -582,6 +639,7 @@ function racerGameBattle(mode) {
   let toggleReadyBool = true;
   function togglePlayerReady(e) {
     if(gameStarted === false && e.key === "Enter") {
+      console.log("READY")
       // If there are 2 players in room
       if(toggleReadyBool && localUsers.filter(e => { return e.id }).length === 2) {
         toggleReadyBool = false;
@@ -674,6 +732,9 @@ function racerGameBattle(mode) {
 
     resultIncorrectStats.innerText = incorrectGuesses;
 
+    // Ready = FALSE
+    for(let i = 0; i < localUsers.length; i++) localUsers[i].isReady = false;
+
     // Remove event listeners
     document.removeEventListener("keypress", guessListener)
     document.removeEventListener("keydown", skipListener)
@@ -745,6 +806,9 @@ function racerGameBattle(mode) {
 
     circleBox.classList.remove("racer-timer-bar")
 
+    // Ready = FALSE
+    for(let i = 0; i < localUsers.length; i++) localUsers[i].isReady = false;
+
     oneIncrementWins();
     oneIncrementWinningStreak();
     oneIncrementGamesPlayed();
@@ -809,7 +873,7 @@ function racerGameBattle(mode) {
   // #################################################################################
 
 
-  this.originalGameHTML = function() {
+  this.racerGameBattleHTML = function() {
     return (
       game.innerHTML =
       `
@@ -874,7 +938,7 @@ function racerGameBattle(mode) {
             <div class="battle-player-name"></div>
             <div class="battle-player-ready"></div>
           </div>
-          <img class="battle-icon-1v1" src="/imgs/SwordsGlow.png" alt="">
+          <img class="battle-icon-1v1" src="/imgs/SwordsGlow2.png" alt="">
           <div class="battle-player-box">
             <div class="battle-player-score-fx battle-player-score-fx2">+1</div>
             <div class="battle-player-score battle-player-score2"></div>
@@ -954,7 +1018,7 @@ function racerGameBattle(mode) {
   let resultSpeedStats = null;
   let resultAccuracyStats = null;
   let resultIncorrectStats = null;
-  this.originalGameDOM = function() {
+  this.racerGameBattleDOM = function() {
   gameStartingInContainer = document.querySelector(".game-starting-in-container");
   gameStartingIn = document.querySelector(".game-starting-in-time");
   inputEmote = document.querySelector(".inputEmote");
@@ -994,13 +1058,17 @@ function racerGameBattle(mode) {
   }
 
 
-  this.originalGameEVENT = function() {
+
+  this.racerGameBattleEVENT = function() {
+    console.log(1)
     // inputEmote.addEventListener("keypress", guessListener)
     document.addEventListener("keypress", guessListener)
     document.addEventListener("keydown", skipListener)
 
+
     // INVITE COPY
     inviteCopyBtn.addEventListener("click", function() {
+      console.log("invite")
       /* Select the text field */
       inviteLinkInput.select();
       inviteLinkInput.setSelectionRange(0, 99999); /*For mobile devices*/
@@ -1012,33 +1080,47 @@ function racerGameBattle(mode) {
 
     // Play Again
     playAgainBtn.addEventListener("click", function() {
-      socket.removeAllListeners()
 
       if(mode === "public") {
+        racerGameBattleRemoveEVENT();
+        socket.removeAllListeners();
+
         socket.emit("leaveUser", "1v1Public", roomId)
+
         racerGameBattle("public")
       } else if(mode === "private" || mode === "joinByLink") {
-        socket.emit("leaveUser", "1v1Private", roomId)
-        racerGameBattle("joinByLink")
+        // socket.emit("leaveUser", "1v1Private", roomId)
+
+        playAgainPrivate()
       }
       
     });
 
     // Back To Main Page
     mainLobbyBtn.addEventListener("click", function() {
-      socket.disconnect()
+      racerGameBattleRemoveEVENT();
+      socket.disconnect();
       mainPage();
     });
   }
 
-  pageChangeDisplay("game")
+  this.racerGameBattleRemoveEVENT = function() {
+    // remove potential event listeners from last session
+    if(typeof guessListener === "function") document.removeEventListener("keypress", guessListener)
+    if(typeof skipListener === "function") document.removeEventListener("keydown", skipListener)
+  }
 
-  originalGameHTML(); // Loads html
-  pageTransition("game"); // Page transition
-  originalGameDOM(); // Inits dom wiring
-  originalGameEVENT(); // Inits event listeners
+  function initPage() {
+    pageChangeDisplay("game")
 
-  configuration()
+    racerGameBattleHTML(); // Loads html
+    pageTransition("game"); // Page transition
+    racerGameBattleDOM(); // Inits dom wiring
+    racerGameBattleEVENT(); // Inits event listeners
+  
+    configuration()
+  }
+
 
 
   this.getCurrentPage = function() {

@@ -6,6 +6,8 @@
 function racerGame() {
   const emotes = getEmotes()
 
+  let currentPage = "racer-game";
+
   // --Stats--
   // Speed
   let speed = 0;
@@ -302,7 +304,7 @@ function racerGame() {
   // #################################################################################
 
 
-  this.originalGameHTML = function() {
+  this.racerGameHTML = function() {
     return (
       game.innerHTML =
       `
@@ -385,7 +387,7 @@ function racerGame() {
   let resultSpeedStats = null;
   let resultAccuracyStats = null;
   let resultIncorrectStats = null;
-  this.originalGameDOM = function() {
+  this.racerGameDOM = function() {
   inputEmote = document.querySelector(".inputEmote");
   emoteImg = document.querySelectorAll(".emote-img");
   emoteName = document.querySelector(".emote-name");
@@ -406,13 +408,14 @@ function racerGame() {
   }
 
 
-  this.originalGameEVENT = function() {
+  this.racerGameEVENT = function() {
     // inputEmote.addEventListener("keypress", guessListener)
     document.addEventListener("keypress", guessListener)
     document.addEventListener("keydown", skipListener)
 
     // Play Again
     playAgainBtn.addEventListener("click", function() {
+      racerGameRemoveEVENT();
       currentScore = 0;
       gameResults.style.display = "none"
       playAgainDomReset();
@@ -420,17 +423,28 @@ function racerGame() {
 
     // Back To Main Page
     mainLobbyBtn.addEventListener("click", function() {
+      racerGameRemoveEVENT();
       mainPage();
     });
   }
 
+  this.racerGameRemoveEVENT = function() {
+    // remove potential event listeners from last session
+    if(typeof guessListener === "function") document.removeEventListener("keypress", guessListener)
+    if(typeof skipListener === "function") document.removeEventListener("keydown", skipListener)
+  }
+
   pageChangeDisplay("game")
 
-  originalGameHTML(); // Loads html
+  racerGameHTML(); // Loads html
   pageTransition("game"); // Page transition
-  originalGameDOM(); // Inits dom wiring
-  originalGameEVENT(); // Inits event listeners
+  racerGameDOM(); // Inits dom wiring
+  racerGameEVENT(); // Inits event listeners
 
   inputEmote.focus(); // Automatically focus input text
   gameUpperContent.style.clip = "rect(0px,0px,0px,0px)", gameUpperContent.style.position = "absolute";
+
+  this.getCurrentPage = function() {
+    return currentPage;
+  }
 }

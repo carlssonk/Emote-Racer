@@ -45,9 +45,15 @@ function initBattleRoyale(mode) {
 
   // Request join room by url
   if(mode === "joinByLink") {
+    // DOM
+    loadingBox.style.display = "flex";
+    loadingBox.style.marginLeft = "0px";
+    main.style.visibility = "hidden";
+    infoAside.style.display = "none";
+
     roomId = location.search.substring(1); // Get room id from url
     socket.emit("requestJoin", roomId, username, nameColor, profileImg);
-  } 
+  }
 
   socket.on("roomIsFull", () => {
     mainPage(); // Send user to mainPage
@@ -57,7 +63,6 @@ function initBattleRoyale(mode) {
 
   // Create and join unique PUBLIC room
   socket.on("initPublicLobby", (room) => {
-    console.log("ONCE")
     // Join lobby room
     lobbyRoom("brPublic", room.id, []) // Empty Array here means that there are no users currently in this room
 
@@ -68,7 +73,6 @@ function initBattleRoyale(mode) {
 
   // Create and join unique room
   socket.on("initPrivateLobby", (room) => {
-    console.log("ONCE")
     // Join lobby room
     lobbyRoom("brPrivate", room.id, []) // Empty Array here means that there are no users currently in this room
 
@@ -81,7 +85,9 @@ function initBattleRoyale(mode) {
   socket.on("joinPublicLobby", (users, room, userSocketId) => {
 
     // Player that just JOINED gets sent to lobby room
-    if(socket.id === userSocketId) lobbyRoom("brPublic", room.id, users)
+    if(socket.id === userSocketId) {
+      lobbyRoom("brPublic", room.id, users)
+    } 
     
     // DOM
     joinLobbyUserPublic(users)
@@ -92,8 +98,10 @@ function initBattleRoyale(mode) {
 
   socket.on("joinPrivateLobby", (users, room, userSocketId) => {
 
-    if(socket.id === userSocketId) lobbyRoom("brPrivate", room.id, users)
-
+    if(socket.id === userSocketId) {
+      lobbyRoom("brPrivate", room.id, users)
+    }
+     
     // DOM
     joinLobbyUserPrivate(users, currentPage)
 
@@ -1391,6 +1399,7 @@ function initBattleRoyale(mode) {
 
   }
 
+
   pageChangeDisplay("game")
   battleRoyaleAside.style.display = "block";
 
@@ -1398,7 +1407,11 @@ function initBattleRoyale(mode) {
   brGameDOM();
   brGameEVENT();
   battleRoyaleGameContainer();
+
+
   }
+
+
 
 
   this.getCurrentPage = function() {

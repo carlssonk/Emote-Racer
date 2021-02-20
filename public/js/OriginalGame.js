@@ -13,6 +13,8 @@ function originalGame() {
   let waitSubmit = true;
 
   const initRound = () => {
+    emoteImg.src = "";
+    gameUpperContent.style.visibility = "hidden";
     inputEmote.readOnly = false;
     inputEmote.focus(); // Automatically focus input text
     
@@ -26,17 +28,19 @@ function originalGame() {
     if(currentEmote.provider === "ffz") emoteImg.src = `https://cdn.frankerfacez.com/emoticon/${emotesClone[randomEmoteIndex].id}/4`
 
     emotesClone.splice(randomEmoteIndex, 1)
-    setTimeout(initRoundDOM, 400)
+    $('.game-upper-content').waitForImages(function() {
+      setTimeout(initRoundDOM, 400)
+    });
   }
 
   const initRoundDOM = () => {
-    gameUpperContent.style.display = "block";
-    // gameUpperContent.classList.add("animate__backInLeft");
-    gameUpperContent.classList.add("back-in-up-animation");
-    setTimeout(() => waitSubmit = false, 200)
+    gameUpperContent.style.visibility = "visible";
+    gameUpperContent.classList.add("back-in-up-animation")
+    setTimeout(() => waitSubmit = false, 400)
   }
 
   function guessListener(e) {
+    console.log("asd")
     if(e.key === "Enter") {
       if(inputEmote.value === "") return;
       while(waitSubmit === true) {
@@ -91,7 +95,7 @@ function originalGame() {
 
     setTimeout(function() {
       nextEmoteUpperAnimation();
-      setTimeout(initRound, 400)
+      setTimeout(initRound, 400);
     }, 1000)
   }
 
@@ -125,7 +129,8 @@ function originalGame() {
     setTimeout(function() {
       gameUpperContent.classList.remove("animate__backOutRight")
       // gameUpperContent.classList.add("animate__backInLeft")
-      gameUpperContent.classList.add("back-in-up-animation");
+
+      gameUpperContent.classList.remove("back-in-up-animation");
 
       emoteName.classList.remove("show-fade");
       emoteName.innerText = "";
@@ -239,7 +244,7 @@ function originalGame() {
   originalGameEVENT(); // Inits event listeners
 
   inputEmote.focus(); // Automatically focus input text
-  gameUpperContent.style.display = "none";
+  gameUpperContent.style.visibility = "hidden";
   // setTimeout(initRound, 1000) // Start game script
   initRound()
 }

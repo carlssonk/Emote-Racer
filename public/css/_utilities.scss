@@ -571,3 +571,48 @@ span[class^="mini-dot-"] {
 }
 
 
+
+// LOADING 
+.loading-box {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-left: -350px;
+  height: 100%;
+  pointer-events: none;
+  .loading-small {
+    margin-top: 300px;
+    text-align:center;
+  }
+  z-index: 50;
+}
+
+
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 32px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 3px solid rgb(44, 44, 44);
+  border-color: rgb(44, 44, 44) transparent rgb(44, 44, 44) transparent;
+  animation: lds-dual-ring 300ms linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+
