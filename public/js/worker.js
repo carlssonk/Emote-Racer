@@ -112,7 +112,6 @@ this.onmessage = (e) => {
         this.postMessage({name: "updateCountdown1v1", message: count})
       }
 
-      console.log(count)
       // UPDATE ON APP.JS + STOP TIMER
       if (count <= 0) {
         clearInterval(counter);

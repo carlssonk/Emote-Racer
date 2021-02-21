@@ -37,7 +37,7 @@ function initBattleRoyale(mode, lastRoomId) {
   // If we set some random person to emit message like localUsers[0] & he is outtabbed from site, there is a risk he is not in sync,
   // mostActiveUser is highly likely that he's in sync with the timers.
 
-  funMessages();
+  adminMessages();
 
   // Quickplay or Private lobby with friends
   if(mode === "public") socket.emit("quickPlay", username, nameColor, profileImg);
@@ -69,7 +69,6 @@ function initBattleRoyale(mode, lastRoomId) {
 
   // Create and join unique PUBLIC room
   socket.on("initPublicLobby", (room) => {
-    console.log("INIT PUBLIC")
     // Join lobby room
     lobbyRoom("brPublic", room.id, []) // Empty Array here means that there are no users currently in this room
 
@@ -299,7 +298,6 @@ function initBattleRoyale(mode, lastRoomId) {
       playersQualifiedContainer.innerHTML = "";
 
       let ordinals = "";
-      console.log(currentRound)
 
       // if(localUsers.length >= 6) {
         if(currentRound === 0) {
@@ -643,7 +641,6 @@ function initBattleRoyale(mode, lastRoomId) {
 
 
       socket.on("handleEndRound", () => {
-        console.log("handleEndRonud")
         handleEndRound();
       });
 
@@ -901,7 +898,6 @@ function initBattleRoyale(mode, lastRoomId) {
       }
 
       function setEliminatePlayer(userSocketId) {
-        if(playerQualifiedCount > 0) console.log("red")
         if(playerQualifiedCount > 0) playerAsideBackgroundColor("red", userSocketId, "===")
         if(playerQualifiedCount > 0 && socket.id === userSocketId) {
           handleOutput("outputEliminated")
@@ -1022,7 +1018,11 @@ function initBattleRoyale(mode, lastRoomId) {
         if(result === "winner") {
           outputEnd.style.backgroundColor = "rgba(9, 109, 26, 0.8)";
           outputWinLoseLabel.innerText = "YOU WIN";
-          // confetti();
+          // Yep coins
+          outputCoinsContent.style.display = "flex";
+          outputCoins.innerText = "50"
+          setCoins(50, superSecretKeyToAccessUnlimitedAmountOfMoney.code)
+
           confetti({
             particleCount: 150,
             startVelocity: 40,
@@ -1032,6 +1032,7 @@ function initBattleRoyale(mode, lastRoomId) {
               y: 0.5
             }
           });
+          // Wins
           brIncrementWins();
           brIncrementWinningStreak();
           brIncrementGamesPlayed();
@@ -1039,7 +1040,9 @@ function initBattleRoyale(mode, lastRoomId) {
         if(result === "loser") {
           outputEnd.style.backgroundColor = "rgba(172, 9, 9, 0.8)";
           const winner = localUsers.filter(e => e.hasQualified)
-          outputWinLoseLabel.innerText = `${winner[0].username} WINS`;
+          outputWinLoseLabel.insertAdjacentText('beforeend', " WINS");
+          outputWinLoseName.innerText = `${winner[0].username}`;
+          outputWinLoseName.style.color = `${winner[0].nameColor}`;
           // Set stats storage
           if(hasSetStorage === false) {
             hasSetStorage = true;
@@ -1069,6 +1072,11 @@ function initBattleRoyale(mode, lastRoomId) {
   
           outputEnd.style.backgroundColor = "rgba(9, 109, 26, 0.8)";
           outputWinLoseLabel.innerText = "YOU WIN";
+          // Yep coins
+          outputCoinsContent.style.display = "flex";
+          outputCoins.innerText = "25"
+          setCoins(25, superSecretKeyToAccessUnlimitedAmountOfMoney.code)
+
           confetti({
             particleCount: 150,
             startVelocity: 40,
@@ -1100,11 +1108,6 @@ function initBattleRoyale(mode, lastRoomId) {
       function prepNextRound() {
 
         const eliminatedPlayers = localUsers.filter(e => e.hasQualified === false)
-        console.log(eliminatedPlayers)
-        console.log(localUsers[0])
-        console.log(localUsers[1])
-        console.log(localUsers[2])
-        console.log(localUsers[3])
 
         // Set Aside DOM for eliminated players
         eliminatedPlayersDom(eliminatedPlayers);
@@ -1125,7 +1128,6 @@ function initBattleRoyale(mode, lastRoomId) {
       function eliminatedPlayersDom(eliminatedPlayers) {
         for(let i = 0; i < playerAside.length; i++) {
           if(eliminatedPlayers.some(e => e.id === playerAside[i].dataset.id)) {
-            console.log("FADE SCALE ANIMATION")
             // playerEliminatedContainer.innerHTML += `<li class="player-aside-eliminated fade-scale-animation"><img class="player-aside-img" src='${playerAsideImg[i].src}' alt=""><span class="player-aside-name">${playerAsideName[i].innerText}</span><span class="player-heart-eliminated-container"><i class="far fa-heart"></i><i class="far fa-heart"></i><i class="far fa-heart"></i></span></li>`
             playerEliminatedContainer.insertAdjacentHTML('beforeend', `<li class="player-aside-eliminated fade-scale-animation"><img class="player-aside-img" src='${playerAsideImg[i].src}' alt=""><span class="player-aside-name" style="color: ${playerAsideName[i].style.color};">${playerAsideName[i].innerText}</span><span class="player-heart-eliminated-container"><i class="far fa-heart"></i><i class="far fa-heart"></i><i class="far fa-heart"></i></span></li>`)
             playerAside[i].remove();
@@ -1227,7 +1229,8 @@ function initBattleRoyale(mode, lastRoomId) {
           <h1>QUALIFIED</h1>
         </div>
         <div class="output-end output-exit" style="display: none">
-          <h1 class="output-win-lose-label"></h1>
+          <h1 class="output-win-lose-label"><span class="output-win-lose-name"></span></h1>
+          <div class="output-coins-box"><span class="output-coins-content" style="display: none">+<span class="output-coins"></span><img class="output-yep-coin" src="/imgs/YEP_COIN.svg"></span></div>
           <div class="output-end-content">
             <div class="correct-answer-content">
               <img class="emote-img-end" src="" alt="">
@@ -1312,6 +1315,7 @@ function initBattleRoyale(mode, lastRoomId) {
   let outputCanStillQualify = null
   let outputQualified = null
   let outputWinLoseLabel = null
+  let outputWinLoseName = null
   let emoteImgEnd = null
   let emoteNameEnd = null
   let inputEmote = null
@@ -1327,6 +1331,9 @@ function initBattleRoyale(mode, lastRoomId) {
   let spectateBtn = null;
   let outputExitBtn = null;
   let playersRemaining = null;
+  let outputCoinsBox = null;
+  let outputCoins = null;
+  let outputCoinsContent = null;
   // Generate after initial HTML load
   let playerAside = null
   let playerAsideName = null
@@ -1348,6 +1355,7 @@ function initBattleRoyale(mode, lastRoomId) {
     outputQualified = document.querySelector(".output-qualified")
     outputEnd = document.querySelector(".output-end")
     outputWinLoseLabel = document.querySelector(".output-win-lose-label")
+    outputWinLoseName = document.querySelector(".output-win-lose-name")
     emoteImgEnd = document.querySelector(".emote-img-end")
     emoteNameEnd = document.querySelector(".emote-name-end")
     inputEmote = document.querySelector(".inputEmote")
@@ -1365,6 +1373,9 @@ function initBattleRoyale(mode, lastRoomId) {
     outputExitBtn = document.querySelectorAll(".output-exit-btn")
     outputExit = document.querySelectorAll(".output-exit")
     playersRemaining = document.querySelector("#players-remaining")
+    outputCoinsBox = document.querySelector(".output-coins-box")
+    outputCoins = document.querySelector(".output-coins")
+    outputCoinsContent = document.querySelector(".output-coins-content")
   }
 
   this.brGameEVENT = function() {
@@ -1386,7 +1397,6 @@ function initBattleRoyale(mode, lastRoomId) {
           socket.emit("leaveUser", "battleRoyalePublic", roomId)
 
           // Find/Create new public lobby
-          console.log("InIT PUBLIC")
           initBattleRoyale("public")
 
         } else if(mode === "private" || mode === "joinByLink") {

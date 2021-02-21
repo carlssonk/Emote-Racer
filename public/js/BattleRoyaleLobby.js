@@ -11,8 +11,6 @@ function lobbyRoom(roomName, roomId, users) {
     battleRoyaleAside.style.display = "none";
     loadingBox.style.marginLeft = "";
 
-    console.log(users)
-
     if(users.length === 0) {
       if(roomName === "brPrivate") initLobbyUserPrivate();
       if(roomName === "brPublic") initLobbyUserPublic();
@@ -20,7 +18,6 @@ function lobbyRoom(roomName, roomId, users) {
 
 
     this.joinLobbyUserPublic = function(users, userSocketId) {
-      console.log("HELLO")
       // User Join DOM
       joinLobbyUser(users)
 
@@ -54,10 +51,7 @@ function lobbyRoom(roomName, roomId, users) {
       // Start Game Button
       if(users.length > 1 && socket.id === users[0].id) {
         startGameBtnContainer.innerHTML = `<button class="start-game-btn">Start Game!</button>`
-        console.log(startGameBtnContainer)
-        console.log(startGameBtnContainer.innerHTML)
         const startGameBtn = document.querySelector(".start-game-btn")
-        console.log(startGameBtn)
         startGameBtn.addEventListener("click", brStartGame)
       }
       inviteLinkInput.value = location.origin + `/battle-royale/?${room.id}`;
@@ -69,16 +63,11 @@ function lobbyRoom(roomName, roomId, users) {
         playerName[i].innerText = users[i].username
         playerName[i].style.color = users[i].nameColor
         playerLobbyImg[i].src = users[i].profileImg
-        console.log(users[i].profileImg)
-        console.log(users[i])
         lobbyPlayer[i].classList.add("fade-scale-animation")
       }
     }
 
     this.leaveLobbyUser = function(userSocketId, users) {
-      console.log("-------------------")
-      console.log(users)
-      console.log("-------------------")
 
       const index = users.findIndex(e => e.id === userSocketId);
 
@@ -102,7 +91,6 @@ function lobbyRoom(roomName, roomId, users) {
           playerName[i].innerText = users[i].username
           playerName[i].style.color = users[i].nameColor
           playerLobbyImg[i].src = users[i].profileImg
-          console.log(users[i].profileImg)
         }
       }
 
@@ -110,10 +98,6 @@ function lobbyRoom(roomName, roomId, users) {
       // Below code depends if lobby is private or public
 
       // If first user left, i.e. lobby leader, set new play button for new leader
-      console.log(index)
-      console.log(socket.id === users[0].id)
-      console.log(users.length)
-      console.log(users)
       if(index === 0 && users[0].room.isPrivate === true)  {
         if(socket.id === users[0].id && users.length > 1) {
           startGameBtnContainer.innerHTML = `<button class="start-game-btn">Start Game!</button>`
@@ -182,7 +166,6 @@ function lobbyRoom(roomName, roomId, users) {
             clearInterval(counter)
             lobbyGameStartingIn.innerText = "20"
           }
-          console.log("CLEAR")
 
         }
       }
@@ -338,7 +321,6 @@ function lobbyRoom(roomName, roomId, users) {
   pageChangeDisplay("game")
 
   lobbyHTML(); // Loads html
-  console.log(transition)
   if(transition === true) pageTransition("game"); // Page transition
   lobbyDOM(); // Inits dom wiring
   lobbyEVENT(); // Inits event listeners

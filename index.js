@@ -11,8 +11,6 @@ const {
   brGetUserPrivate,
   brUserLeavePrivate,
   brGetRoomUsersPrivate,
-  // Admin
-  brGetClientsByNamePrivate,
 
   // Battle Royale Public
   brUserJoinPublic,
@@ -33,6 +31,15 @@ const {
   oneGetUserPublic,
   oneUserLeavePublic,
   oneGetRoomUsersPublic,
+
+  // ###########################
+  // Admin
+  brGetClientsByNamePrivate,
+  brGetClientsByNamePublic,
+  oneGetClientsByNamePublic,
+  oneGetClientsByNamePrivate,
+
+
 } = require('./utils/users');
 
 const emotesServer = require("./utils/emotes");
@@ -60,7 +67,6 @@ io.on("connection", (socket) => {
   // ########################################
 
   socket.on("quickPlay", (username, nameColor, profileImg) => {
-    console.log("QUICKPLAY")
 
     // Check if there are any available empty slots in rooms
     if(brRoomsList.some(e => e.userLength < 12) && brRoomsList.some(e => e.isPlaying === false)) {
@@ -68,10 +74,7 @@ io.on("connection", (socket) => {
       const roomsDescending = brRoomsList.sort((a, b) => b.userLength - a.userLength);
       // Loop through the array until we find an empty spot
       for(let room of roomsDescending) {
-        console.log("------------------")
-        console.log(room)
         if(room.userLength < 12 && room.isPlaying === false) {
-          console.log(1)
           room.userLength++;
           joinRoom(room.id, room.userLength);
           // Set timer
@@ -274,7 +277,6 @@ io.on("connection", (socket) => {
 
       // Find a room that the user can join
       for(let room of oneRoomsList) {
-        console.log(room)
         if(room.userLength < 2 && room.isPlaying === false) {
           room.userLength++;
           joinRoom(room.id);
@@ -287,7 +289,6 @@ io.on("connection", (socket) => {
     }
 
     function joinRoom(roomId) {
-      console.log("ONCE")
       // Set room
       const room = {id: roomId, isPrivate: false}
       // Create new user
@@ -306,7 +307,6 @@ io.on("connection", (socket) => {
     // Set Public Room
     oneRoomsList.push({id: room.id, isPrivate: false, isPlaying: false, userLength: 1})
     // Join user to roomId
-    console.log(user)
     socket.join(user.room.id);
     // Send room to client so it can generate a link for other people to join
     socket.emit('initPublicLobby1v1', room);
@@ -427,8 +427,6 @@ io.on("connection", (socket) => {
 
   // If clicks on "NavLogo" or "Main Menu" whilst being in a multiplayer room
   socket.on('disconnect', () => {
-
-    console.log(io.sockets.adapter.sids)
 
     // Find what room the user is in, We have 4 possibilities, 1. BATTLE-ROYALE (PUBLIC), 2. BATTLE-ROYALE (PRIVATE), 3. 1VS1 (PUBLIC), 4. 1VS1 (PRIVATE)
     let user = null;
@@ -580,14 +578,30 @@ io.on("connection", (socket) => {
   // ##### ADMIN COMMANDS #####
   // ##########################
 
-  socket.on("getClientsByName", (username, passcode) => {
-    console.log("You accessed getClientByName")
-    console.log(`Passcode ${passcode}`)
-    if(passcode === "123") io.to(socket.id).emit("getClientsByName", brGetClientsByNamePrivate(username))
+  socket.on("getClientsByName", (username, mode, passcode) => {
+    console.log(username)
+    console.log(passcode)
+    console.log(mode)
+    if(passcode === "6c6e4bf90683" && mode === "brPublic") io.to(socket.id).emit("getClientsByName", brGetClientsByNamePublic(username))
+    if(passcode === "6c6e4bf90683" && mode === "brPrivate") io.to(socket.id).emit("getClientsByName", brGetClientsByNamePrivate(username))
+    if(passcode === "6c6e4bf90683" && mode === "onePublic") io.to(socket.id).emit("getClientsByName", oneGetClientsByNamePublic(username))
+    if(passcode === "6c6e4bf90683" && mode === "onePrivate") io.to(socket.id).emit("getClientsByName", oneGetClientsByNamePrivate(username))
   })
 
-  socket.on("sendToClient", (socketId, emote) => {
+  socket.on("emoteFlyby", (socketId, emote) => {
     io.to(socketId).emit("emoteFlyby", emote)
+  })
+
+  socket.on("sendCoins", (socketId, amount, passcode) => {
+    if(passcode === "6c6e4bf90683" && typeof amount === "number") {
+      io.to(socketId).emit("sendCoins", amount)
+    }
+  })
+
+  socket.on("clearCoins", (socketId, passcode) => {
+    if(passcode === "6c6e4bf90683") {
+      io.to(socketId).emit("clearCoins")
+    }
   })
 
 })
@@ -612,7 +626,6 @@ function garbageCollector() {
   if(global.gc) {
     global.gc()
   } else {
-    console.log("`node --expose-gc index.js`");
     process.exit();
   }
 }

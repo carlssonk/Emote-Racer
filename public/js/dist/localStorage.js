@@ -29,6 +29,15 @@ const setCoins = (amount, code) => {
   }
 }
 
+const clearCoins = (code) => {
+  let coins = JSON.parse(localStorage.getItem("coins"));
+
+  if(code === superSecretKeyToAccessUnlimitedAmountOfMoney.code) {
+    coins = 0;
+    localStorage.setItem("coins", JSON.stringify(coins))
+  }
+}
+
 
 // ####################################
 // ############# USERNAME #############

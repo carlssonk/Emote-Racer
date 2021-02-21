@@ -64,6 +64,11 @@ function brGetUserPublic(id) {
   return brUsersPublic.find(user => user.id === id);
 }
 
+// Get ALL users with a specific USERNAME
+function brGetClientsByNamePublic(username) {
+  return brUsersPublic.filter(user => user.username === username);
+}
+
 // Leave user from a room
 function brUserLeavePublic(id) {
   const index = brUsersPublic.findIndex(user => user.id === id);
@@ -96,6 +101,11 @@ function oneUserJoinPrivate(id, username, nameColor, profileImg, room) {
 // Find specific user
 function oneGetUserPrivate(id) {
   return oneUsersPrivate.find(user => user.id === id);
+}
+
+// Get ALL users with a specific USERNAME
+function oneGetClientsByNamePrivate(username) {
+  return oneUsersPrivate.filter(user => user.username === username);
 }
 
 // Leave user from a room
@@ -133,6 +143,11 @@ function oneGetUserPublic(id) {
   return oneUsersPublic.find(user => user.id === id);
 }
 
+// Get ALL users with a specific USERNAME
+function oneGetClientsByNamePublic(username) {
+  return oneUsersPublic.filter(user => user.username === username);
+}
+
 // Leave user from a room
 function oneUserLeavePublic(id) {
   const index = oneUsersPublic.findIndex(user => user.id === id);
@@ -157,8 +172,6 @@ module.exports = {
   brGetUserPrivate,
   brUserLeavePrivate,
   brGetRoomUsersPrivate,
-  // Admin
-  brGetClientsByNamePrivate,
 
   // Battle Royale Public
   brUserJoinPublic,
@@ -179,5 +192,12 @@ module.exports = {
   oneGetUserPublic,
   oneUserLeavePublic,
   oneGetRoomUsersPublic,
+
+  // #########################
+  // Admin
+  brGetClientsByNamePrivate,
+  brGetClientsByNamePublic,
+  oneGetClientsByNamePublic,
+  oneGetClientsByNamePrivate,
 
 };

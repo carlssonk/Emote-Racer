@@ -78,7 +78,6 @@ if(window.location.pathname === "/") {
 } else if(window.location.pathname === "/1v1") {
   onePage();
 } else if(window.location.pathname === "/profile") {
-  console.log("profile")
   profilePage();
 }
 
@@ -465,7 +464,6 @@ function soloPage() {
 
   this.soloEVENT = function() {
     playOriginalSoloBtn.addEventListener("click", function() {
-      console.log("ORIGINAL GAME")
       originalGame();
     });
     playRacerSoloBtn.addEventListener("click", function() {
@@ -510,7 +508,6 @@ function profilePage() {
     setUsernameColorBox()
 
     // Set Owned Avatars
-    // console.log(emoteBoxUrl)
     for(let i = 0; i < emoteBoxUrl.length; i++) {
       for(let a = 1; a < getOwnedAvatars().length; a++) { // Start loop at 1, because First emote is already owned
 
@@ -524,7 +521,6 @@ function profilePage() {
     selectEmoteBtn = document.querySelectorAll(".select-emote-btn") // Set select-emote-btn
 
     // Set Owned Colors
-    // console.log(nameColor)
     for(let i = 0; i < nameColor.length; i++) {
       for(let a = 1; a < getOwnedColors().length; a++) { // Start loop at 1, because First emote is already owned
 
@@ -547,15 +543,6 @@ function profilePage() {
       btn.innerHTML = "OWNED"
     }
 
-    // console.log("HELLOO")
-    // // Set event listener for selecting emotes
-    // initSelectedEmote()
-    // function initSelectedEmote() {
-
-    // }
-
-    // Set event listener for selecting emotes
-    // selectedColorListener()    
 
 
     // Highlight current profileImg
@@ -980,11 +967,9 @@ function profilePage() {
     clearColorBoxOwnedHighlight()
 
     // Set New highlight
-    console.log(box)
     box.classList.add("highlight-box-color")
     button.innerText = "SELECTED"
 
-    console.log(button.dataset.name)
     // Set Profile Img
     setUsernameColor(button.dataset.name);
 
@@ -1018,7 +1003,6 @@ function profilePage() {
   function selectEmoteAdd() {
     emoteBoxOwned = document.querySelectorAll(".emote-box-owned")
     for(let btn of emoteBoxOwned) {
-      console.log(btn)
       btn.addEventListener("click", selectedEmoteListener)
     }
   }
@@ -1090,6 +1074,10 @@ function profilePage() {
 
 setAsideStatsAndCoins()
 function setAsideStatsAndCoins() {
+  // COINS 
+  setYepCoinsDom();
+
+  // STATS
   totalWinsNum.innerText = getTotalWins();
   totalGamesNum.innerText = getTotalGamesPlayed();
 
@@ -1105,7 +1093,6 @@ function setAsideStatsAndCoins() {
 
 dropdownBtn.addEventListener("click", function() {
   if(dropdownBool === true) {
-    console.log("SHOW")
     dropdownBool = !dropdownBool
 
     navAside.style.cssText += 'display:block !important';
@@ -1113,9 +1100,7 @@ dropdownBtn.addEventListener("click", function() {
     setTimeout(() => navAside.style.right = "0%", 50)
 
   } else {
-    console.log("HIDE")
     dropdownBool = !dropdownBool
-    console.log(dropdownBool)
 
     navAside.style.display = "block"
     navAside.style.right = ""
@@ -1157,7 +1142,6 @@ function pageChange(page) {
 
 function pageChangeDisplay(page) {
   battleRoyaleAside.style.display = "none";
-  console.log("DISPLAY")
   if(page === "main") {
     game.style.display = "none";
     mainContainer.style.display = "flex";
@@ -1240,33 +1224,6 @@ darkModeBtn.addEventListener("click", function() {
     root.className = "light"
   }
 })
-
-
-
-
-// Admin message
-
-function emoteFlyby(emote) {
-  adminMessage.classList.remove("admin-message-animation")
-  setTimeout(function() {
-    adminMessage.src = emote
-    adminMessage.classList.add("admin-message-animation")
-  }, 100)
-  
-}
-
-
-function funMessages() {
-
-  if(typeof socket === "object") {
-
-    socket.on("emoteFlyby", (emote) => {
-      emoteFlyby(emote)
-    });
-
-  }
-
-}
 
 
 

@@ -22,6 +22,7 @@ function racerGameBattle(mode) {
     infoAside.style.display = "none";
   }
 
+  adminMessages();
 
   // Quickplay or Private lobby with friends
   if(mode === "public") socket.emit("quickPlay1v1", username, nameColor , profileImg);
@@ -61,7 +62,6 @@ function racerGameBattle(mode) {
     // Set configurations
     roomId = room.id;
 
-    console.log("GO MAN")
   });
 
 
@@ -260,8 +260,6 @@ function racerGameBattle(mode) {
 
     // Stop TIMER & Force WIN!
     if(gameStarted === true) {
-      console.log(typeof stop1v1Timer === "function")
-      console.log(typeof stopInitTimer === "function")
       if(typeof stop1v1Timer === "function") stop1v1Timer();
       if(typeof stopInitTimer === "function") stopInitTimer();
       forceWin();
@@ -296,7 +294,6 @@ function racerGameBattle(mode) {
     }
 
     // Init countdown
-    console.log("ONE MUTHER FUCKER")
     startCountdown()
   });
 
@@ -323,7 +320,6 @@ function racerGameBattle(mode) {
     // Start game!
     if(userSocketId === socket.id) { // Isolate so only one player starts game
       if(localUsers.every(e => e.isReady)) {
-        console.log("START GAME")
         requestStartGamePrivate1v1();
       } 
     }
@@ -362,7 +358,6 @@ function racerGameBattle(mode) {
   function startCountdown() {
     // If user leaves page by clicking on the navLogo we need to clear timer so we dont get any errors
     this.stopInitTimer = function() {
-      console.log("clearCountdown")
       myWorker.postMessage("clearCountdown")
       clearInterval(countdown);
     }
@@ -407,7 +402,6 @@ function racerGameBattle(mode) {
     let count = 50;
     let countdown = setInterval(() => init1v1Countdown(), 100); //10 will  run it every 100th of a second
     function init1v1Countdown() {
-      console.log(count)
       if(count <= 0) return;
       count--;
 
@@ -424,7 +418,6 @@ function racerGameBattle(mode) {
     startGameConfig()
 
     // WORKERS
-    console.log("startCountdown1v1")
     myWorker.postMessage("startCountdown1v1")
 
     this.stop1v1Timer = function() {
@@ -455,7 +448,6 @@ function racerGameBattle(mode) {
     let count = 60;
     let counter = setInterval(() => init1v1Timer(), 1000); //10 will  run it every 100th of a second
     function init1v1Timer() {
-      console.log(count)
       count--;
       racerGameTimer.innerHTML=count + "s"; 
       if(count <= 0) {
@@ -479,7 +471,6 @@ function racerGameBattle(mode) {
   }
 
   const initRound = (data) => {
-    console.log("1")
     cycleBool = !cycleBool
     roundKeysTyped = 0;
     inputEmote.focus(); // Automatically focus input text
@@ -587,7 +578,6 @@ function racerGameBattle(mode) {
   }
 
   function guessListener(e) {
-    console.log(localUsers[0].room.isPrivate === true)
     if(localUsers.length === 0) return // If a player has not joined yet, return
     if(localUsers[0].room.isPrivate === true) togglePlayerReady(e); // Toggle player ready, when both players are ready, game will start
     if(gameStarted === true && e.key === "Enter") {
@@ -639,7 +629,6 @@ function racerGameBattle(mode) {
   let toggleReadyBool = true;
   function togglePlayerReady(e) {
     if(gameStarted === false && e.key === "Enter") {
-      console.log("READY")
       // If there are 2 players in room
       if(toggleReadyBool && localUsers.filter(e => { return e.id }).length === 2) {
         toggleReadyBool = false;
@@ -654,14 +643,10 @@ function racerGameBattle(mode) {
   // ###############################################
 
   socket.on("userCorrect1v1", (userSocketId) => {
-    console.log("CORRECt")
 
     for(let i = 0; i < localUsers.length; i++) {
       
-      console.log(localUsers[i].id)
-      console.log(userSocketId)
       if(localUsers[i].id === userSocketId) {
-        console.log("OK")
 
         localUsers[i].score = localUsers[i].score + 1;
 
@@ -744,7 +729,6 @@ function racerGameBattle(mode) {
   function handleRoundEndSocket() {
     // Sort users by score
     const usersSorted = localUsers.sort((a,b) => b.score - a.score);
-    console.log(usersSorted)
     if(usersSorted[0].score === usersSorted[1].score) {
 
       resultsTableDOM(usersSorted)
@@ -763,6 +747,11 @@ function racerGameBattle(mode) {
       if(usersSorted[0].id === socket.id) {
         winLoseLabel1v1.innerText = "YOU WIN"
         gameResults.classList.add("game-results-win")
+        // Yep coins
+        outputCoinsContent.style.display = "flex";
+        outputCoins.innerText = "10";
+        setCoins(10, superSecretKeyToAccessUnlimitedAmountOfMoney.code)
+
         oneIncrementWins();
         oneIncrementWinningStreak();
         oneIncrementGamesPlayed();
@@ -794,7 +783,6 @@ function racerGameBattle(mode) {
   function forceWin() {
     gameStartingInContainer.classList.add("hide-fade")
     setTimeout(() => gameStartingInContainer.style.display = "none")
-    console.log("FORCE WIN!")
     handleRoundEnd("force-win");
 
     boardImg1v1[0].src = localUsers[0].profileImg;
@@ -808,6 +796,11 @@ function racerGameBattle(mode) {
 
     // Ready = FALSE
     for(let i = 0; i < localUsers.length; i++) localUsers[i].isReady = false;
+
+    // Yep coins
+    outputCoinsContent.style.display = "flex";
+    outputCoins.innerText = "5";
+    setCoins(5, superSecretKeyToAccessUnlimitedAmountOfMoney.code)
 
     oneIncrementWins();
     oneIncrementWinningStreak();
@@ -880,6 +873,7 @@ function racerGameBattle(mode) {
       <div class="original-game">
       <div class="game-results animate__animated animate__faster" style="display: none">
         <h1 class="win-lose-label-1v1"></h1>
+        <div class="output-coins-box"><span class="output-coins-content" style="display: none">+<span class="output-coins"></span><img class="output-yep-coin" src="/imgs/YEP_COIN.svg"></span></div>
         <div class="scoreboard-1v1">
           <div class="board-score-label">SCORE:</div>
           <div class="scoreboard-1 scoreboard-board-1v1">
@@ -1010,6 +1004,9 @@ function racerGameBattle(mode) {
   let arrowUpKey = null;
   let inviteCopyBtn = null;
   let inviteLinkBox = null;
+  let outputCoinsBox = null;
+  let outputCoins = null;
+  let outputCoinsContent = null;
   // stats
   let resultSpeedStats = null;
   let resultAccuracyStats = null;
@@ -1046,6 +1043,9 @@ function racerGameBattle(mode) {
   arrowUpKey = document.querySelector(".arrow-up-key")
   inviteCopyBtn = document.querySelector(".invite-copy-btn")
   inviteLinkBox = document.querySelector(".invite-link-box")
+  outputCoinsBox = document.querySelector(".output-coins-box")
+  outputCoins = document.querySelector(".output-coins")
+  outputCoinsContent = document.querySelector(".output-coins-content")
 
   // stats
   resultSpeedStats = document.querySelector(".result-speed-stats")
@@ -1056,7 +1056,6 @@ function racerGameBattle(mode) {
 
 
   this.racerGameBattleEVENT = function() {
-    console.log(1)
     // inputEmote.addEventListener("keypress", guessListener)
     document.addEventListener("keypress", guessListener)
     document.addEventListener("keydown", skipListener)
@@ -1064,7 +1063,6 @@ function racerGameBattle(mode) {
 
     // INVITE COPY
     inviteCopyBtn.addEventListener("click", function() {
-      console.log("invite")
       /* Select the text field */
       inviteLinkInput.select();
       inviteLinkInput.setSelectionRange(0, 99999); /*For mobile devices*/

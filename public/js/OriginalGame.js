@@ -40,7 +40,6 @@ function originalGame() {
   }
 
   function guessListener(e) {
-    console.log("asd")
     if(e.key === "Enter") {
       if(inputEmote.value === "") return;
       while(waitSubmit === true) {
