@@ -166,7 +166,7 @@ function mainPage() {
           <div class="game-box">
             <img class="game-box-background-img" src="https://cdn.betterttv.net/emote/5d6096974932b21d9c332904/3x">
             <div class="play-box">
-              <h1>Solo Practice</h1>            
+              <h1>Practice Solo</h1>            
               <button class="play-btn solo-play-btn">Play</button>
             </div>            
             <div>
@@ -438,7 +438,7 @@ function soloPage() {
       `
       <div class="landing-container">
         <div class="title-container">
-          <h1><img class="title-icon" src="imgs/solo-fill.svg">SOLO PRACTICE<img class="title-icon" src="imgs/solo-fill.svg"></h1>
+          <h1><img class="title-icon" src="imgs/solo-fill.svg">PRACTICE SOLO<img class="title-icon" src="imgs/solo-fill.svg"></h1>
         </div>
         <div class="buttons-play-container main-lower">
           <button class="button-card-box play-racer-solo-btn">

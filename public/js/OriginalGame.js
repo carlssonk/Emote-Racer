@@ -153,7 +153,7 @@ function originalGame() {
         <h2>Your Score:</h2>
         <div class="final-score final-score-result">0</div>
         <div class="share-container">
-          <a class="share-btn twitter-share-btn" href="https://twitter.com/share?hashtags=awesome,sharing&text=Try to beat my score on EmoticonGuesser! Play it Now! &via=EmoticonGuesser" target="_blank">Tweet</a>
+          <a class="share-btn twitter-share-btn" href="https://twitter.com/share" target="_blank">Tweet</a>
           <a class="share-btn facebook-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=#url" target="_blank">Share</a>
         </div>
         <div class="game-results-nav">

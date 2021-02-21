@@ -309,6 +309,13 @@
 }
 
 
+@media all and (max-width: 840px) {
+  .game-results {
+    width: 70% !important;
+  }
+}
+
+
 @media all and (max-width: 800px) {
   .dropdown-btn {
     display: flex !important;
@@ -413,6 +420,10 @@
 
 @media all and (max-width: 500px) {
 
+
+  .game-results {
+    width: 90% !important;
+  }
   // .layout {
   //   overflow-y: hidden;
   // }

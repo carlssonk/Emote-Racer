@@ -67,7 +67,7 @@ function brGetUserPublic(id) {
 // Leave user from a room
 function brUserLeavePublic(id) {
   const index = brUsersPublic.findIndex(user => user.id === id);
-
+  console.log(index)
   if (index !== -1) {
     return brUsersPublic.splice(index, 1)[0];
   }

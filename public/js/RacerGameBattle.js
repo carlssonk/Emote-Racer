@@ -723,7 +723,7 @@ function racerGameBattle(mode) {
 
     // CALCULATE STATS
     const avgSpeed = speed / currentScore;
-    const avgSpeedText = `${Math.round(avgSpeed)}ms`
+    const avgSpeedText = `${Math.round(avgSpeed) / 1000}s`
     resultSpeedStats.innerText = avgSpeedText;
 
     const accuracy = (totalEmoteCharacters / totalKeysTyped) * 100;
@@ -895,10 +895,6 @@ function racerGameBattle(mode) {
             <div class="battle-player-score-board battle-player-score1">0</div>
           </div>
         </div>
-        <div class="share-container">
-          <a class="share-btn twitter-share-btn" href="https://twitter.com/share?hashtags=awesome,sharing&text=Try to beat my score on EmoticonGuesser! Play it Now! &via=EmoticonGuesser" target="_blank">Tweet</a>
-          <a class="share-btn facebook-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=#url" target="_blank">Share</a>
-        </div>
         <div class="result-stats">
           <h3>STATS</h3>
           <div>Speed: <span class="result-speed-stats"></span></div>
@@ -906,8 +902,8 @@ function racerGameBattle(mode) {
           <div>Incorrect Guesses: <span class="result-incorrect-stats"></span></div>
         </div>
         <div class="game-results-nav">
-          <button class="game-nav-btn play-again-btn">PLAY AGAIN</button>
-          <button class="game-nav-btn main-lobby-btn">MAIN LOBBY</button>
+          <button class="game-nav-btn game-nav-btn-multiplayer play-again-btn">PLAY AGAIN</button>
+          <button class="game-nav-btn game-nav-btn-multiplayer main-lobby-btn">MAIN LOBBY</button>
         </div>
       </div>
       <div class="game-info-label-container-1v1">

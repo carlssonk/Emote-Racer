@@ -684,6 +684,7 @@ body {
   .game-results {
     position: absolute;
     height: 600px;
+    min-width: 430px;
     background-color: rgba(15, 15, 15, 0.88);
     box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.75);
     -webkit-box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.75);
@@ -735,8 +736,15 @@ body {
     .game-results-nav {
       display: flex;
       justify-content: center;
-      margin: 150px 50px 0 50px;
+      display: flex;
+      justify-content: center;
+      left: 50%;
+      transform: translate(-50%);
+      bottom: 80px;
+      position: absolute;
       .game-nav-btn {
+        transition: 100ms;
+        min-width: 70%;
         padding: 18px 12px;
         margin: 0 8px;
         border-radius: 24px;
@@ -746,6 +754,11 @@ body {
         color: #18171c;
         font-size: 20px;
         cursor: pointer;
+        font-family: 'Open Sans';
+        font-weight: 700;
+        &:hover {
+          background-color: rgba(255, 200, 0, 0.8);
+        }
       }
     }
 
@@ -775,6 +788,16 @@ body {
     // left: 0;
     // right: 0;
     // text-align: center;
+  }
+
+  .game-nav-btn-multiplayer {
+    background-color: #18171c !important;
+    color: #ffc800 !important;
+    font-family: 'Open Sans';
+    font-weight: 700;
+    &:hover {
+      background-color: rgba(24, 23, 28, 0.8) !important;
+    }
   }
 
   .result-btn-style {
@@ -1322,15 +1345,20 @@ body {
       transform: translate(-50%);
       bottom: -40px;
       .start-game-btn {
-        padding: 18px 12px;
+        padding: 18px 16px;
         margin: 0 8px;
-        border-radius: 24px;
+        border-radius: 28px;
         border: none;
         outline: none;
         background-color: #ffc800;
         color: #18171c;
         font-size: 20px;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
         cursor: pointer;
+        &:hover {
+          background-color: rgba(255, 200, 0, 0.8);
+        }
       }
     }
 
@@ -1559,6 +1587,9 @@ body {
         // justify-content: center;
         align-items: center;
       }
+      .yep-coins-label {
+        font-size: 15px;
+      }
       .yep-coins-box {
         position: relative;
         display: flex;
@@ -1594,6 +1625,7 @@ body {
       border-bottom: 1px solid #c8c8c8;
       // border-bottom: 1px solid black;
       margin-bottom: 12px;
+      font-size: 15px;
     }
     .info-box-stats-list {
       font-family: 'Open Sans', sans-serif;

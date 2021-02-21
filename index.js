@@ -3,7 +3,7 @@ const app = express();
 const server = require("http").createServer(app);
 const PORT = process.env.PORT || 8080;
 const io = require("socket.io")(server, { perMessageDeflate: false });
-const schedule = require("node-schedule");
+
 const { v4: uuidv4 } = require('uuid');
 const {
   // Battle Royale Private
@@ -37,8 +37,8 @@ const {
 
 const emotesServer = require("./utils/emotes");
 
-
 app.use(express.static(`${__dirname}/public`));
+
 
 
 // #################################################################################
@@ -60,6 +60,7 @@ io.on("connection", (socket) => {
   // ########################################
 
   socket.on("quickPlay", (username, nameColor, profileImg) => {
+    console.log("QUICKPLAY")
 
     // Check if there are any available empty slots in rooms
     if(brRoomsList.some(e => e.userLength < 12) && brRoomsList.some(e => e.isPlaying === false)) {
@@ -67,6 +68,8 @@ io.on("connection", (socket) => {
       const roomsDescending = brRoomsList.sort((a, b) => b.userLength - a.userLength);
       // Loop through the array until we find an empty spot
       for(let room of roomsDescending) {
+        console.log("------------------")
+        console.log(room)
         if(room.userLength < 12 && room.isPlaying === false) {
           console.log(1)
           room.userLength++;
@@ -121,9 +124,7 @@ io.on("connection", (socket) => {
     this.clearTimeoutLobby = function(roomId) {
 
       for(let i = 0; i < lobbyCountdownTimers.length; i++) {
-        console.log(lobbyCountdownTimers[i])
-        console.log(lobbyCountdownTimers[i]._timerArgs[0])
-        console.log(roomId)
+
         if(lobbyCountdownTimers[i]._timerArgs[0] === roomId) {
 
           clearTimeout(lobbyCountdownTimers[i])
@@ -140,6 +141,25 @@ io.on("connection", (socket) => {
     lobbyCountdownTimers.push(setTimeout(() => requestStartGamePublic(roomId), 20000, roomId))
 
   }
+
+
+  // socket.on("gameEndPublic", (roomId) => {
+  //   const theRoom = brGetRoomUsersPrivate(roomId)
+  //   for(let i = 0; i < theRoom.length; i++) {
+  //     theRoom[i].room.isPlaying = false;
+  //   }
+  // })
+
+  // function splice1v1Public(roomId, socketId) {
+  //   // TO CLIENT
+  //   io.to(roomId).emit("userLeave1v1", socketId, oneGetRoomUsersPublic(roomId), "public")
+  //   // SERVER
+  //   decrementUserLength("1v1", roomId) // This room is public & have a public roomsListArray. So Remove length for that room
+  //   oneUserLeavePublic(socketId)
+  // }
+  // if(brRoomsList[i].userLength === 0) brRoomsList.splice(i, 1) // Lastly, if userLength === 0, splice room
+
+
 
 
   // ########################################
@@ -430,6 +450,7 @@ io.on("connection", (socket) => {
     if(user === undefined) return;
 
     if(user !== null) {
+      socket.leave(user.room.id)
 
       if(roomName === "battleRoyalePublic") {
         spliceBrPublic(user.room.id, socket.id);
@@ -448,6 +469,7 @@ io.on("connection", (socket) => {
 
   // If user click Play Again whilst being in a multiplayer room, leave the user from the room, dont remove the socket connection like we do above
   socket.on("leaveUser", (roomName, roomId) => {
+    socket.leave(roomId)
 
     if(roomName === "battleRoyalePublic") {
       spliceBrPublic(roomId, socket.id);
@@ -470,6 +492,7 @@ io.on("connection", (socket) => {
     decrementUserLength("br", roomId) // This room is public & have a public roomsListArray. So Remove length for that room
 
     brUserLeavePublic(socketId)
+    // socket.leave(roomId)
   }
 
 
@@ -481,7 +504,7 @@ io.on("connection", (socket) => {
     brUserLeavePrivate(socketId)
     // the room is declared before we remove the user, so 1 means that there is no one in the room
     if(theRoom.length === 1) spliceRoute("/battle-royale/?", roomId)
-
+    // socket.leave(roomId)
   }
 
 
@@ -491,6 +514,7 @@ io.on("connection", (socket) => {
     // SERVER
     decrementUserLength("1v1", roomId) // This room is public & have a public roomsListArray. So Remove length for that room
     oneUserLeavePublic(socketId)
+    // socket.leave(roomId)
   }
 
 
@@ -502,6 +526,7 @@ io.on("connection", (socket) => {
     oneUserLeavePrivate(socketId)
     // the room is declared before we remove the user, so 1 means that there is no one in the room
     if(theRoom.length === 1) spliceRoute("/1v1/?", roomId)
+    // socket.leave(roomId)
   }
 
 

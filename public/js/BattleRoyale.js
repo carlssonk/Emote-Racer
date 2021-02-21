@@ -69,6 +69,7 @@ function initBattleRoyale(mode, lastRoomId) {
 
   // Create and join unique PUBLIC room
   socket.on("initPublicLobby", (room) => {
+    console.log("INIT PUBLIC")
     // Join lobby room
     lobbyRoom("brPublic", room.id, []) // Empty Array here means that there are no users currently in this room
 
@@ -96,7 +97,7 @@ function initBattleRoyale(mode, lastRoomId) {
     } 
     
     // DOM
-    joinLobbyUserPublic(users)
+    joinLobbyUserPublic(users, userSocketId)
     
     roomId = room.id
     currentPage = "lobby-page";
@@ -997,6 +998,11 @@ function initBattleRoyale(mode, lastRoomId) {
           if(localUsers[0].room.isPrivate === true) socket.emit("gameEndPrivate", roomId)
         }
 
+        // // Terminate Public room, users dont need to communicate with each other anymore
+        // if(socket.id === mostActiveUser.id) {
+        //   if(localUsers[0].room.isPublic === true) socket.emit("gameEndPublic", roomId)
+        // }
+
         // Some game configurations
         gameEnded = true;
         inputEmote.value = "";
@@ -1207,8 +1213,8 @@ function initBattleRoyale(mode, lastRoomId) {
           <div class="output-exit-btn"><i class="fas fa-times"></i></div>
           <h1>ELIMINATED</h1>
           <div class="output-buttons-container">
-            <button class="br-play-again-btn result-btn-style">Play Again</button>
-            <button class="br-main-menu-btn result-btn-style">Main Menu</button>
+            <button class="br-play-again-btn result-btn-style game-nav-btn-multiplayer">Play Again</button>
+            <button class="br-main-menu-btn result-btn-style game-nav-btn-multiplayer">Main Menu</button>
           </div>
         </div>
         <div class="output-can-still-qualify output-exit">
@@ -1229,8 +1235,8 @@ function initBattleRoyale(mode, lastRoomId) {
             </div>
           </div>
           <div class="output-buttons-container">
-            <button class="br-play-again-btn result-btn-style">Play Again</button>
-            <button class="br-main-menu-btn result-btn-style">Main Menu</button>
+            <button class="br-play-again-btn result-btn-style game-nav-btn-multiplayer">Play Again</button>
+            <button class="br-main-menu-btn result-btn-style game-nav-btn-multiplayer">Main Menu</button>
           </div>
         </div>
       </div>
@@ -1370,12 +1376,17 @@ function initBattleRoyale(mode, lastRoomId) {
         
         // DOM
         playerEliminatedContainer.innerHTML = "";
+        // Timers
+        if(typeof stopInitTimer === "function") stopInitTimer();
+        if(typeof stopProgressBar === "function") stopProgressBar();
+        if(typeof stopNextRoundTimer === "function") stopNextRoundTimer();
   
 
         if(mode === "public") {
           socket.emit("leaveUser", "battleRoyalePublic", roomId)
 
           // Find/Create new public lobby
+          console.log("InIT PUBLIC")
           initBattleRoyale("public")
 
         } else if(mode === "private" || mode === "joinByLink") {
