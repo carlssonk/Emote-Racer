@@ -127,16 +127,8 @@ function mainPage() {
   loadingBox.style.display = "flex";
 
   // STATS
-  totalWinsNum.innerText = getTotalWins();
-  totalGamesNum.innerText = getTotalGamesPlayed();
+  setAsideStatsAndCoins()
 
-  brWinsNum.innerText = brGetWins();
-  brStreakNum.innerText = brGetWinningStreak();
-  brGamesNum.innerText = brGetGamesPlayed();
-
-  oneWinsNum.innerText = oneGetWins();
-  oneStreakNum.innerText = oneGetWinningStreak();
-  oneGamesNum.innerText = oneGetGamesPlayed();
 
   loadMainImgs();
 
@@ -146,7 +138,7 @@ function mainPage() {
       `
       <div class="landing-container">
         <div class="title-container">
-          <img class="landing-logo" src="imgs/EmoteRacer_Logo_v0.7.png">
+          <img class="landing-logo" src="imgs/EmoteRacer_Logo_v0.8.png">
         </div>
         <div class="games-container main-lower">
           <div class="game-box">
@@ -169,7 +161,7 @@ function mainPage() {
             <div>
               <p>Match up against another player or challenge your friend.</p>
             </div>
-            <div class="game-icon"><img class="main-one-img main-game-icon" src="imgs/1v1-swords-fill.svg"></div>
+            <div class="game-icon"><img class="main-one-img main-game-icon" src="imgs/1v1-swords-fill3.svg"></div>
           </div>
           <div class="game-box">
             <img class="game-box-background-img" src="https://cdn.betterttv.net/emote/5d6096974932b21d9c332904/3x">
@@ -369,7 +361,7 @@ function onePage() {
       `
       <div class="landing-container">
         <div class="title-container">
-          <h1><img class="title-icon" src="imgs/1v1-swords-fill.svg">1 VS 1<img class="title-icon" src="imgs/1v1-swords-fill.svg"></h1>
+          <h1><img class="title-icon" src="imgs/1v1-swords-fill3.svg">1 VS 1<img class="title-icon" src="imgs/1v1-swords-fill3.svg"></h1>
         </div>
         <div class="buttons-play-container main-lower">
           <button class="button-card-box play-1v1-btn">
@@ -377,7 +369,8 @@ function onePage() {
             <i class="fas fa-random play-icon"></i>
           </button>
           <button class="button-card-box play-1v1-private-btn">
-            <div class="button-card-label">Challenge a Friend</div>
+            <div class="button-card-label button-card-label-friend">Challenge a Friend</div>
+            <div class="button-card-label-min button-card-label" style="display: none;">Challenge Friend</div>
             <i class="fas fa-user-plus play-icon"></i>
           </button>
         </div>
@@ -1095,6 +1088,21 @@ function profilePage() {
 // ################################# EXTRAS ########################################
 // #################################################################################
 
+setAsideStatsAndCoins()
+function setAsideStatsAndCoins() {
+  totalWinsNum.innerText = getTotalWins();
+  totalGamesNum.innerText = getTotalGamesPlayed();
+
+  brWinsNum.innerText = brGetWins();
+  brStreakNum.innerText = brGetWinningStreak();
+  brGamesNum.innerText = brGetGamesPlayed();
+
+  oneWinsNum.innerText = oneGetWins();
+  oneStreakNum.innerText = oneGetWinningStreak();
+  oneGamesNum.innerText = oneGetGamesPlayed();
+}
+
+
 dropdownBtn.addEventListener("click", function() {
   if(dropdownBool === true) {
     console.log("SHOW")
@@ -1115,7 +1123,6 @@ dropdownBtn.addEventListener("click", function() {
   }
 
 })
-
 
 
 // When Nav-Logo is clicked
@@ -1150,18 +1157,20 @@ function pageChange(page) {
 
 function pageChangeDisplay(page) {
   battleRoyaleAside.style.display = "none";
-
+  console.log("DISPLAY")
   if(page === "main") {
     game.style.display = "none";
     mainContainer.style.display = "flex";
     navAside.style.display = "block";
     navAside.style.right = "";
     dropdownBool = true;
+    dropdownBtn.style.display = "flex";
   }
   if(page === "game") {
     game.style.display = "block";
     mainContainer.style.display = "none";
     navAside.style.display = "none";
+    dropdownBtn.style.cssText = 'display:none !important';
   }
 }
 

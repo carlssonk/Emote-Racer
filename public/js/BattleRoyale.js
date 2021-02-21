@@ -1274,7 +1274,7 @@ function initBattleRoyale(mode) {
           autofocus
           readonly>
         </div>
-        <h2 class="game-lower-guess-the-name-br">GUESS THE NAME OF ABOVE EMOTE</h2>
+
         <div class="progress-bar-container">
           <div id="progressBar">
             <div class="bar"></div>
@@ -1286,7 +1286,7 @@ function initBattleRoyale(mode) {
     )
   }
 
-
+  // <h2 class="game-lower-guess-the-name-br">GUESS THE NAME OF ABOVE EMOTE</h2>
 
   // DOM (Generate now)
   let emoteImg = null

@@ -26,10 +26,12 @@ function lobbyRoom(roomName, roomId, users) {
       if(users.length <= 2) {
         waitingForOtherPlayers()
       } else {
+        gameStartingInShortlyCounter()
         gameStartingInShortly()
       }
 
       inviteLinkBox.style.display = "none";
+      inviteLinkContainer.style.display = "flex";
     }
 
 
@@ -47,8 +49,10 @@ function lobbyRoom(roomName, roomId, users) {
         console.log(startGameBtn)
         startGameBtn.addEventListener("click", brStartGame)
       }
-      // LINK
-      inviteLinkInput.value = window.location.href;
+
+      if(users.length === 1) inviteLinkContainer.style.display = "flex";
+      // // LINK
+      // inviteLinkInput.value = window.location.href;
     }
 
 
@@ -107,6 +111,7 @@ function lobbyRoom(roomName, roomId, users) {
       if(users[0].room.isPrivate === false) {
         if(users.length <= 2) {
           waitingForOtherPlayers()
+          gameStartingInShortlyCounter("clear")
         }
       }
 
@@ -121,6 +126,7 @@ function lobbyRoom(roomName, roomId, users) {
       // LINK
       // history.pushState({urlPath: `/battle-royale/?${roomId}`},"",`/battle-royale/?${roomId}`)
       inviteLinkInput.value = location.origin + `/battle-royale/?${roomId}`;
+      inviteLinkContainer.style.display = "flex";
     }
 
     function initLobbyUserPublic() {
@@ -129,6 +135,7 @@ function lobbyRoom(roomName, roomId, users) {
       setDom();
       waitingForOtherPlayers();
 
+      inviteLinkContainer.style.display = "flex";
       inviteLinkBox.style.display = "none";
     }
 
@@ -138,12 +145,33 @@ function lobbyRoom(roomName, roomId, users) {
       playerLobbyImg[0].src = profileImg
     }
 
-    // // Disconnect socket
-    // this.disconnectSocket = function() {
-    //   socket.removeAllListeners()
-    //   if(roomName === "brPublic") socket.emit("leaveUser", "battleRoyalePublic", roomId)
-    //   if(roomName === "brPrivate") socket.emit("leaveUser", "battleRoyalePrivate", roomId)
-    // }
+
+
+    function gameStartingInShortlyCounter(msg) {
+      let count = 20;
+
+      if(msg === "clear") {
+        if(typeof clear === "function") clear();
+      }
+
+      if(msg !== "clear") {
+        let counter = setInterval(() => counterFunc(), 1000); //10 will  run it every 100th of a second
+        function counterFunc() {
+          count--;
+          lobbyGameStartingIn.innerText = count
+          if(count <= 0) clearInterval(counter)
+
+          this.clear = function() {
+            clearInterval(counter)
+            lobbyGameStartingIn.innerText = "20"
+          }
+          console.log("CLEAR")
+
+        }
+      }
+
+    }
+
 
   }
 
@@ -206,7 +234,7 @@ function lobbyRoom(roomName, roomId, users) {
           </div>
         </div>     
       </div>
-      <div class="invite-link-container">
+      <div class="invite-link-container" style="display: none;">
         <div class="invite-link-box">
           <div class="invite-link-first">
             <div class="invite-link-label">HOVER TO SEE INVITE LINK</div>
@@ -220,18 +248,20 @@ function lobbyRoom(roomName, roomId, users) {
         <div class="start-game-btn-container"></div>
         <h1 class="waiting-for-other-players">Waiting for players <span class="mini-dot-1">.</span><span class="mini-dot-2">.</span><span class="mini-dot-3">.</span></h1>
         <div class="game-starting-shortly-container">
-          <h1>Game starting in shortly</h1>
-          <div class="pulse-container">
-            <div class="dot-1"></div>
-            <div class="dot-2"></div>
-            <div class="dot-3"></div>
-          </div>
+          <h1>Game starting in <span class="lobby-game-starting-in">20</span></h1>
         </div>
       </div>
     </div>
       `
     )
   }
+
+  // Pulse animation
+  // <div class="pulse-container">
+  //   <div class="dot-1"></div>
+  //   <div class="dot-2"></div>
+  //   <div class="dot-3"></div>
+  // </div>
 
   let playerName = null;
   let inviteLinkInput = null;
@@ -241,6 +271,8 @@ function lobbyRoom(roomName, roomId, users) {
   let inviteCopyBtn = null;
   let lobbyPlayer = null
   let startGameBtnContainer = null;
+  let inviteLinkContainer = null;
+  let lobbyGameStartingIn = null;
   this.lobbyDOM = function() {
     playerName = document.querySelectorAll(".player-name");
     inviteLinkInput = document.querySelector(".invite-link-input");
@@ -250,6 +282,8 @@ function lobbyRoom(roomName, roomId, users) {
     inviteCopyBtn = document.querySelector(".invite-copy-btn");
     lobbyPlayer = document.querySelectorAll(".lobby-player")
     startGameBtnContainer =  document.querySelector(".start-game-btn-container")
+    inviteLinkContainer = document.querySelector(".invite-link-container")
+    lobbyGameStartingIn = document.querySelector(".lobby-game-starting-in")
   }
 
   this.lobbyEVENT = function() {

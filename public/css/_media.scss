@@ -38,6 +38,9 @@
   }
 
 
+
+
+
 }
 
 @media all and (max-height: 700px) {
@@ -132,6 +135,14 @@
   .customize-container .customize-column {
     width: auto !important;
   }
+
+  .button-card-label-min {
+    display: block !important;
+  }
+  .button-card-label-friend {
+    display: none !important;
+  }
+
 }
 
 @media all and (max-width: 1124px) {
@@ -264,8 +275,9 @@
 }
 
 @media all and(max-width: 900px) {
+
   .invite-link-box {
-    width: 100% !important;
+    width: 80% !important;
   }
   .lobby-container .lobby-players-container .lobby-player {
     height: auto !important;
@@ -282,26 +294,25 @@
   .lobby-container .lobby-players-container .player-name {
     max-width: 94px !important;
   }
+
+  .lobby-container .lobby-players-container .player-name {
+    display: none;
+  }
   
 }
 
 
-
-@media all and (max-width: 760px) {
-  .battle-royale-aside {
-    width: 130px !important;
-  }
-  .player-aside-name {
+@media all and (min-width: 800px) {
+  .dropdown-btn {
     display: none !important;
   }
 }
 
-@media all and (max-width: 700px) {
+
+@media all and (max-width: 800px) {
   .dropdown-btn {
     display: flex !important;
   }
-
-
 
   .nav-aside {
     transition: 200ms !important;
@@ -316,6 +327,22 @@
   .nav-aside button {
     padding: 12px 36px !important;
   }
+
+}
+
+
+
+@media all and (max-width: 760px) {
+  .battle-royale-aside {
+    width: 130px !important;
+  }
+  .player-aside-name {
+    display: none !important;
+  }
+}
+
+@media all and (max-width: 700px) {
+
 
   .landing-container .buttons-play-container .button-card-box {
     height: auto !important;
@@ -341,6 +368,11 @@
 }
 
 @media all and (max-width: 600px) {
+
+  .invite-link-box {
+    width: 100% !important;
+  }
+
   .output-wait-next-round {
     width: 100% !important;
   }
@@ -357,10 +389,6 @@
     max-height: 60px;
     max-width: 60px;
     padding: 8px !important;
-  }
-
-  .lobby-container .lobby-players-container .player-name {
-    display: none;
   }
 
 
