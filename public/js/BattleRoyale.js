@@ -14,7 +14,7 @@ if(window.Worker) {
 
 
 
-function initBattleRoyale(mode) {
+function initBattleRoyale(mode, lastRoomId) {
   // USER CONFIG
   const profileImg = getProfileImg();
   const username = getUsername();
@@ -51,7 +51,13 @@ function initBattleRoyale(mode) {
     main.style.visibility = "hidden";
     infoAside.style.display = "none";
 
-    roomId = location.search.substring(1); // Get room id from url
+
+    if(typeof lastRoomId === "undefined") {
+      roomId = location.search.substring(1); // Get room id from url
+    } else {
+      roomId = lastRoomId;
+    }
+      
     socket.emit("requestJoin", roomId, username, nameColor, profileImg);
   }
 
@@ -103,7 +109,7 @@ function initBattleRoyale(mode) {
     }
      
     // DOM
-    joinLobbyUserPrivate(users, currentPage)
+    joinLobbyUserPrivate(users, currentPage, room)
 
     roomId = room.id
     currentPage = "lobby-page";
@@ -1244,7 +1250,7 @@ function initBattleRoyale(mode) {
       </div>
       <div class="game-starting-in-container">
         <div class="game-starting-in-box">
-          <h1>Starting in</h1>
+          <h1>Starting</h1>
           <div class="game-starting-in-time">5.0...</div>
         </div>
       </div>
@@ -1376,7 +1382,7 @@ function initBattleRoyale(mode) {
           socket.emit("leaveUser", "battleRoyalePrivate", roomId)
 
           // Join same private room again
-          initBattleRoyale("joinByLink"); 
+          initBattleRoyale("joinByLink", roomId); 
   
         }
       });

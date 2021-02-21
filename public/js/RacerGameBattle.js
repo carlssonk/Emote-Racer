@@ -958,7 +958,7 @@ function racerGameBattle(mode) {
       </div>
       <div class="game-starting-in-container hide-fade" style="display: none;">
         <div class="game-starting-in-box">
-          <h1>Starting in</h1>
+          <h1>Starting</h1>
           <div class="game-starting-in-time">5.0...</div>
         </div>
       </div>

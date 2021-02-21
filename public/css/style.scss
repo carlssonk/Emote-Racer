@@ -11,9 +11,10 @@
 // font-family: 'Press Start 2P', cursive;
 // font-family: 'Roboto', sans-serif;
 // font-family: 'Inter', sans-serif;
-h1 {
-  font-family: 'Chakra Petch', sans-serif;
-}
+
+// h1 {
+//   font-family: 'Chakra Petch', sans-serif;
+// }
 
 p {
   font-family: 'Open Sans', sans-serif;
@@ -370,9 +371,13 @@ body {
       font-family: 'Open Sans', sans-serif;
     }
     .emote-name {
-      color: white;
+      margin-top: 12px;
+      color: rgba(255, 255, 255, 0.9);
       text-align: center;
       opacity: 0;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1.2px;
     }
     z-index: 3;
     .final-score-game {
@@ -892,13 +897,18 @@ body {
         max-width: 100px;
       }
       .emote-name-end {
+        color: rgba(255, 255, 255, 0.9);
         font-size: 1.5rem;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 600;
+        letter-spacing: 1.2px;
       }
       .output-win-lose-label {
         margin-top: 24px;
         background-color: #18171c;
         width: 100%;
         text-align: center;
+        font-family: 'Chakra Petch', sans-serif;
       }
       // .correct-answer-label {
       //   padding: 0;
@@ -952,6 +962,7 @@ body {
     font-size: 1.5rem;
     color: rgba(255,255,255,0.5) !important;
     padding: 20px 0;
+    font-family: 'Chakra Petch', sans-serif;
   }
 
 
@@ -1036,7 +1047,7 @@ body {
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      padding: 64px;
+      padding: 64px 100px;
       .game-starting-in-time {
         font-size: 32px;
         font-weight: 1000;
@@ -1435,6 +1446,7 @@ body {
   height: 100%;
   width: 100%;
   grid-area: main;
+  font-family: 'Open Sans', sans-serif;
 }
 // }
 
@@ -1698,6 +1710,7 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
+      font-family: 'Chakra Petch', sans-serif;
     }
     .landing-logo {
       width: 400px;
@@ -1744,6 +1757,7 @@ body {
       color: white;
       overflow: hidden;
       z-index: 0;
+      font-family: 'Chakra Petch', sans-serif;
 
       .game-box-background-img {
         position: absolute;
@@ -1910,6 +1924,7 @@ body {
   z-index: 5;
   h1 {
     color: white;
+    font-family: 'Chakra Petch', sans-serif;
   }
 }
 .profile-card-box {

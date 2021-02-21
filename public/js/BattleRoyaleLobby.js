@@ -31,11 +31,10 @@ function lobbyRoom(roomName, roomId, users) {
       }
 
       inviteLinkBox.style.display = "none";
-      inviteLinkContainer.style.display = "flex";
     }
 
 
-    this.joinLobbyUserPrivate = function(users, currentPage) {
+    this.joinLobbyUserPrivate = function(users, currentPage, room) {
       if(currentPage === "battle-royale") return
       // User Join DOM
       joinLobbyUser(users)
@@ -50,9 +49,19 @@ function lobbyRoom(roomName, roomId, users) {
         startGameBtn.addEventListener("click", brStartGame)
       }
 
-      if(users.length === 1) inviteLinkContainer.style.display = "flex";
+      // console.log(users)
+      // console.log(socket.id)
+      // if(socket.id === users[0].id) {
+      //   console.log(room)
+      //   inviteLinkContainer.style.display = "flex";
+      //   console.log(location.origin)
+      //   console.log(users)
+      //   inviteLinkInput.value = location.origin + `/battle-royale/?${room.id}`;
+      // }
+
       // // LINK
       // inviteLinkInput.value = window.location.href;
+      inviteLinkInput.value = location.origin + `/battle-royale/?${room.id}`;
     }
 
 
@@ -71,16 +80,19 @@ function lobbyRoom(roomName, roomId, users) {
 
       const index = users.findIndex(e => e.id === userSocketId);
 
-      // console.log(users)
+      if(users.length === 1) return
 
       // Remove img and name for last position
       playerName[users.length - 1].innerText = "";
       playerLobbyImg[users.length - 1].src = "";
       lobbyPlayer[users.length - 1].classList.remove("fade-scale-animation")
 
+
+
       if(index !== -1) {
         users.splice(index, 1)
       }
+
 
       // If not last person in array left, set new positions
       if(index !== users.length) {
@@ -96,6 +108,10 @@ function lobbyRoom(roomName, roomId, users) {
       // Below code depends if lobby is private or public
 
       // If first user left, i.e. lobby leader, set new play button for new leader
+      console.log(index)
+      console.log(socket.id === users[0].id)
+      console.log(users.length)
+      console.log(users)
       if(index === 0 && users[0].room.isPrivate === true)  {
         if(socket.id === users[0].id && users.length > 1) {
           startGameBtnContainer.innerHTML = `<button class="start-game-btn">Start Game!</button>`
@@ -126,7 +142,6 @@ function lobbyRoom(roomName, roomId, users) {
       // LINK
       // history.pushState({urlPath: `/battle-royale/?${roomId}`},"",`/battle-royale/?${roomId}`)
       inviteLinkInput.value = location.origin + `/battle-royale/?${roomId}`;
-      inviteLinkContainer.style.display = "flex";
     }
 
     function initLobbyUserPublic() {
@@ -135,7 +150,6 @@ function lobbyRoom(roomName, roomId, users) {
       setDom();
       waitingForOtherPlayers();
 
-      inviteLinkContainer.style.display = "flex";
       inviteLinkBox.style.display = "none";
     }
 
@@ -234,7 +248,7 @@ function lobbyRoom(roomName, roomId, users) {
           </div>
         </div>     
       </div>
-      <div class="invite-link-container" style="display: none;">
+      <div class="invite-link-container">
         <div class="invite-link-box">
           <div class="invite-link-first">
             <div class="invite-link-label">HOVER TO SEE INVITE LINK</div>
