@@ -294,3 +294,24 @@ const oneResetWinningStreak = () => {
 if(oneGetWins() === null) localStorage.setItem("oneWins", JSON.stringify(0));
 if(oneGetGamesPlayed() === null) localStorage.setItem("oneGamesPlayed", JSON.stringify(0));
 if(oneGetWinningStreak() === null) localStorage.setItem("oneWinningStreak", JSON.stringify(0));
+
+
+
+// ################################################
+// ################ LIGHT/DARK MODE ###############
+// ################################################
+
+const getDarkMode = () => {
+  const darkMode = localStorage.getItem("darkMode");
+  return darkMode
+}
+
+const setDarkMode = (mode) => {
+  if(mode === "dark") {
+    localStorage.setItem("darkMode", "dark");
+  } else {
+    localStorage.setItem("darkMode", "light");
+  }
+}
+
+if(getDarkMode() === null) localStorage.setItem("darkMode", "light");

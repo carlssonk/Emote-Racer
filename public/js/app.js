@@ -841,7 +841,7 @@ function profilePage() {
         // Styling
         profileEditBtn.innerText = "SAVE"
         profileName.style.cursor = "auto";
-        profileNameBox.style.border = "2px solid var(--text-soft)";
+        profileNameBox.style.border = "2px solid var(--text)";
         profileNameBox.style.borderRadius = "6px";
 
       } else {
@@ -1216,14 +1216,26 @@ profileImgAside.src = getProfileImg();
 
 // Handle Dark Mode
 const darkModeBtn = document.querySelector(".toggle__input");
+const lightDarkLabel = document.querySelector(".light-dark-label")
 const root = document.documentElement
 darkModeBtn.addEventListener("click", function() {
   if(darkModeBtn.checked) {
     root.className = "dark"
+    lightDarkLabel.innerText = "Dark"
+    setDarkMode("dark") // Save to local storage
   } else {
     root.className = "light"
+    lightDarkLabel.innerText = "Light"
+    setDarkMode("light") // Save to local storage
   }
 })
+
+// LOAD DARK MODE WHEN USER LOADS PAGE, IF HE HAS DARK MODE SAVED IN STORAGE.
+if(getDarkMode() === "dark") {
+  darkModeBtn.checked = true;
+  lightDarkLabel.innerText = "Dark"
+  root.className = "dark"
+}
 
 
 

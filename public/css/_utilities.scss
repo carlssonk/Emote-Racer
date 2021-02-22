@@ -537,11 +537,12 @@ span[class^="mini-dot-"] {
   position: relative;
   display: flex;
   color: white;
-  padding: 12px 36px;
+  padding: 12px 0;
+  // margin-left: 32px;
   font-family: 'Open Sans', sans-serif;
   font-size: 15px;
   font-weight: 600;
-  width:100%;
+  width: 100px;
   input[type=checkbox] {
     position: absolute;
     top: 0;
@@ -557,6 +558,7 @@ span[class^="mini-dot-"] {
   
   
   .toggle__fake {
+    transition: 200ms;
     will-change: background-color;
     position: relative;
     display: inline-block;
@@ -590,7 +592,9 @@ span[class^="mini-dot-"] {
   
   .toggle__input:checked ~ .toggle__fake::after {
     left: 30px;
-    // background-color: var(--foreground-color);
+  }
+  .toggle__input:checked ~ .toggle__fake {
+    background-color: rgb(10, 10, 10);
   }
 }
 
@@ -608,6 +612,7 @@ span[class^="mini-dot-"] {
   .loading-small {
     margin-top: 300px;
     text-align:center;
+    font-family: 'Open Sans', sans-serif;
   }
   z-index: 50;
 }
