@@ -1,9 +1,8 @@
 const express = require("express");
 const app = express();
 const server = require("http").createServer(app);
-const PORT = process.env.PORT || 8080;
 const io = require("socket.io")(server, { perMessageDeflate: false });
-
+const PORT = process.env.PORT || 8080;
 const { v4: uuidv4 } = require('uuid');
 const {
   // Battle Royale Private
@@ -40,12 +39,10 @@ const {
   oneGetClientsByNamePrivate,
 
 
-} = require('./utils/users');
-
-const emotesServer = require("./utils/emotes");
+} = require('./utils/users'); // Import user methods
+const emotesServer = require("./utils/emotes"); // Import emotes
 
 app.use(express.static(`${__dirname}/public`));
-
 
 
 // #################################################################################

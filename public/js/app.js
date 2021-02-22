@@ -841,7 +841,7 @@ function profilePage() {
         // Styling
         profileEditBtn.innerText = "SAVE"
         profileName.style.cursor = "auto";
-        profileNameBox.style.border = "2px solid black";
+        profileNameBox.style.border = "2px solid var(--text-soft)";
         profileNameBox.style.borderRadius = "6px";
 
       } else {

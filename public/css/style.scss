@@ -1565,7 +1565,7 @@ body {
 
   .info-box {
     position: relative;
-    width: 100%;
+    height: 234px;
     background-color: var(--card-box);
     box-shadow: var(--card-shadow);
     padding: 31px 32px 42px 32px;
@@ -1583,20 +1583,20 @@ body {
     }
     .note-label {
       position: absolute;
-      bottom: 6px;
+      bottom: 32px;
+      width: 80%;
       left: 50%;
       transform: translate(-50%);
-      width: 100%;
       text-align: center;
       font-size: 10.5px;
-      color: rgb(50, 50, 50);
+      color: gray;
       font-family: 'Open Sans', sans-serif;
       font-weight: 700;
     }
   }
   .info-box-stats {
     position: relative;
-    height: 498px;
+    height: 520px;
     width: 100%;
     background-color: var(--card-box);
     box-shadow: var(--card-shadow);
@@ -1614,7 +1614,7 @@ body {
       .profile-img-box-aside {
         width: 50px;
         height: 50px;
-        border: 2px solid #1d1d1d;
+        border: 2px solid var(--profile-circle);
         border-radius: 100%;
         margin-right: 12px;
         padding: 6px;
@@ -1672,7 +1672,7 @@ body {
         // margin-right: 12px;
         .yep-coins {
           font-family: 'Chakra Petch', sans-serif;
-          color: black;
+          color: var(--text);
           margin-right: 6px;
           // color: white;
           // color: black;
@@ -1720,7 +1720,7 @@ body {
           align-items: center;
         }
         .stats-number {
-          color: black;
+          color: var(--text);
           font-family: 'Chakra Petch', sans-serif;
           width: 30%;
           position: relative;
@@ -1736,37 +1736,16 @@ body {
     margin-bottom: 12px;
     p {
       font-size: 14px;
-      color: #2e2e2e;
+      color: var(--text-soft-dark);
       font-family: 'Roboto', sans-serif;
       margin-top: 6px;
       // font-weight: 700;
     }
   }
-  .credits-box {
-    display: flex;
-    justify-content: space-between;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    .contact-box {
-      position: relative;
-      button {
-        width: 100%;
-        margin-top: 4px;
-        height: 26px;
-        background-color: #55acee;
-        color: white;
-        outline:none;
-        border:none;
-        border-radius:4px;
-        padding: 2px 4px;
-        cursor: pointer;
-      }
-    }
-  }
   .info-box-label {
     font-family: 'Chakra Petch', sans-serif;
     margin: 2px 0;
-    color: rgb(70, 70, 70);
+    color: var(--text-soft);
     font-weight: 700;
   }
 }
@@ -1799,7 +1778,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 32px 0;
+    margin: 32px 0 14px 0;
     background-color: #333235;
     background: #281c3f;
     background: linear-gradient(to bottom, #201329, #281c3f);
@@ -1843,7 +1822,8 @@ body {
     display: flex;
     flex-direction: column;
     // justify-content: space-between;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
+    padding-top: 18px;
     .game-box {
       position: relative;
       width: 100%;
@@ -1857,9 +1837,9 @@ body {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #583992;
-      background: -webkit-linear-gradient(to right, #2a0845, #583992);
-      background: linear-gradient(to right, #2a0845, #583992);
+      background: var(--game-box-right);
+      background: -webkit-linear-gradient(to right, #2a0845, var(--game-box-right));
+      background: linear-gradient(to right, #2a0845, var(--game-box-right));
       color: white;
       overflow: hidden;
       z-index: 0;
@@ -1952,7 +1932,8 @@ body {
     display: flex;
 
     justify-content: space-around;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
+    padding-top: 18px;
     // width: 900px;
     // justify-content: space-between;
     // position: relative;
@@ -1986,11 +1967,11 @@ body {
         font-size: 27px;
         font-family: 'Open Sans', sans-serif;
         font-weight: 700;
-        color: #464646;
+        color: var(--buttons-text);
       }
       .play-icon {
         font-size: 90px;
-        color: rgba(88, 57, 146, 0.9);
+        color: var(--play-icon)
       }
     }
     .button-card-box:nth-of-type(1) {
@@ -2058,7 +2039,7 @@ body {
     .profile-name-box {
       position: relative;
       border: 2px solid transparent;
-      border-bottom: 2px solid #1d1d1d;
+      border-bottom: 2px solid var(--text-soft);
       cursor: default;
       display: flex;
       align-items: center;
@@ -2071,6 +2052,7 @@ body {
         width: 300px;
         height: 50px;
         // box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) inset;
+        color: var(--text);
         background-color: var(--card-box);
         border-radius: 6px;
         font-family: 'Inter', sans-serif;
@@ -2126,7 +2108,7 @@ body {
   font-size: 18px;
   margin: 4px 0;
   font-family: 'Roboto', sans-serif;
-  color: #464646;
+  color: var(--text-soft);
   cursor: default;
 }
 .customize-container {
@@ -2145,15 +2127,15 @@ body {
     height: 0px;
   }
   ::-webkit-scrollbar-thumb {
-    background: #a1a0a0;
+    background: var(--scroll-thumb);
     border: 0px none #ffffff;
     border-radius: 50px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #7a7a7a;
+    background: var(--scroll-thumb-hover);
   }
   ::-webkit-scrollbar-track {
-    background: rgb(215, 220, 230);
+    background: var(--scroll-track);
     border: 0px none #ffffff;
     border-radius: 51px;
   }
@@ -2185,7 +2167,7 @@ body {
       margin: 20px auto;
       padding: 4px;
       border-radius: 6px;
-      border: 1px solid rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--soft-border);
       cursor: default;
       user-select: none;
       .buy-color-btn {
@@ -2214,7 +2196,7 @@ body {
         }
       }
       .select-color-btn {
-        background-color: rgb(185, 185, 185);
+        background-color: var(--selected-btn);
         margin: 0 4px;
         outline: none;
         border: none;
@@ -2271,7 +2253,7 @@ body {
 .profile-img-box {
   width: 100px;
   height: 100px;
-  border: 3px solid #1d1d1d;
+  border: 3px solid var(--text-soft);
   border-radius: 100%;
   margin-right: 12px;
   padding: 14px;
@@ -2306,7 +2288,7 @@ body {
   margin: 20px auto;
   padding: 4px;
   border-radius: 6px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--soft-border);
   cursor: default;
   user-select: none;
   .buy-emote-btn {
@@ -2336,7 +2318,7 @@ body {
     }
   }
   .select-emote-btn {
-    background-color: rgb(185, 185, 185);
+    background-color: var(--selected-btn);
     margin: 0 4px;
     outline: none;
     border: none;
@@ -2415,6 +2397,44 @@ body {
 
 
 
-// .profile-container {
-  
-// }
+.nav-aside-bottom {
+  position:absolute;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 36px 0;
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  .credits-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 32px;
+    ul {
+      margin-left: 6px;
+    }
+  }
+  .contact-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0 32px;
+    button {
+      width: 60px;
+      margin-top: 4px;
+      height: 26px;
+      background-color: var(--twitter);
+      color: white;
+      outline:none;
+      border:none;
+      border-radius:4px;
+      padding: 2px 4px;
+      cursor: pointer;
+    }
+  }
+}
