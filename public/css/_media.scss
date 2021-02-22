@@ -276,6 +276,10 @@
 
 @media all and(max-width: 900px) {
 
+  .original-game .game-info-label-container h2:first-of-type {
+    font-size: 1.5rem !important;
+  }
+
   .invite-link-box {
     width: 80% !important;
   }
@@ -422,6 +426,7 @@
 
 
   .game-results {
+    min-width: auto !important;
     width: 90% !important;
   }
   // .layout {

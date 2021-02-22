@@ -579,9 +579,6 @@ io.on("connection", (socket) => {
   // ##########################
 
   socket.on("getClientsByName", (username, mode, passcode) => {
-    console.log(username)
-    console.log(passcode)
-    console.log(mode)
     if(passcode === "6c6e4bf90683" && mode === "brPublic") io.to(socket.id).emit("getClientsByName", brGetClientsByNamePublic(username))
     if(passcode === "6c6e4bf90683" && mode === "brPrivate") io.to(socket.id).emit("getClientsByName", brGetClientsByNamePrivate(username))
     if(passcode === "6c6e4bf90683" && mode === "onePublic") io.to(socket.id).emit("getClientsByName", oneGetClientsByNamePublic(username))
