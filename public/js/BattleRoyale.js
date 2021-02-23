@@ -575,7 +575,7 @@ function initBattleRoyale(mode, lastRoomId) {
           if(!eliminated) inputEmote.readOnly = false;
           inputEmote.focus(); // Automatically focus input text
 
-          if(currentEmote.provider === "twitch") emoteImg.src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmote.id}/4.0`
+          if(currentEmote.provider === "twitch") emoteImg.src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmote.id}/3.0`
           if(currentEmote.provider === "bttv") emoteImg.src = `https://cdn.betterttv.net/emote/${currentEmote.id}/3x`
           if(currentEmote.provider === "ffz") emoteImg.src = `https://cdn.frankerfacez.com/emoticon/${currentEmote.id}/4`
 
@@ -1018,11 +1018,13 @@ function initBattleRoyale(mode, lastRoomId) {
         if(result === "winner") {
           outputEnd.style.backgroundColor = "rgba(9, 109, 26, 0.8)";
           outputWinLoseLabel.innerText = "YOU WIN";
-          // Yep coins
-          outputCoinsContent.style.display = "flex";
-          outputCoins.innerText = "50"
-          setCoins(50, superSecretKeyToAccessUnlimitedAmountOfMoney.code)
-
+          // If room is Public, give coins
+          if(!localUsers[0].room.isPrivate) {          
+            // Yep coins
+            outputCoinsContent.style.display = "flex";
+            outputCoins.innerText = "50"
+            setCoins(50, superSecretKeyToAccessUnlimitedAmountOfMoney.code)
+          }
           confetti({
             particleCount: 150,
             startVelocity: 40,
@@ -1072,11 +1074,13 @@ function initBattleRoyale(mode, lastRoomId) {
   
           outputEnd.style.backgroundColor = "rgba(9, 109, 26, 0.8)";
           outputWinLoseLabel.innerText = "YOU WIN";
-          // Yep coins
-          outputCoinsContent.style.display = "flex";
-          outputCoins.innerText = "25"
-          setCoins(25, superSecretKeyToAccessUnlimitedAmountOfMoney.code)
-
+          // If room is Public, give coins
+          if(!localUsers[0].room.isPrivate) {          
+            // Yep coins
+            outputCoinsContent.style.display = "flex";
+            outputCoins.innerText = "25"
+            setCoins(25, superSecretKeyToAccessUnlimitedAmountOfMoney.code)
+          }
           confetti({
             particleCount: 150,
             startVelocity: 40,

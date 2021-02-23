@@ -541,13 +541,13 @@ function racerGameBattle(mode) {
   }
 
   function setEmoteFirst() {
-    if(currentEmoteFirst.provider === "twitch") emoteImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmoteFirst.id}/4.0`
+    if(currentEmoteFirst.provider === "twitch") emoteImg[0].src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmoteFirst.id}/3.0`
     if(currentEmoteFirst.provider === "bttv") emoteImg[0].src = `https://cdn.betterttv.net/emote/${currentEmoteFirst.id}/3x`
     if(currentEmoteFirst.provider === "ffz") emoteImg[0].src = `https://cdn.frankerfacez.com/emoticon/${currentEmoteFirst.id}/4`
   }
 
   function setEmoteLast() {
-    if(currentEmoteLast.provider === "twitch") emoteImg[1].src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmoteLast.id}/4.0`
+    if(currentEmoteLast.provider === "twitch") emoteImg[1].src = `https://static-cdn.jtvnw.net/emoticons/v1/${currentEmoteLast.id}/3.0`
     if(currentEmoteLast.provider === "bttv") emoteImg[1].src = `https://cdn.betterttv.net/emote/${currentEmoteLast.id}/3x`
     if(currentEmoteLast.provider === "ffz") emoteImg[1].src = `https://cdn.frankerfacez.com/emoticon/${currentEmoteLast.id}/4`
   }
@@ -747,11 +747,14 @@ function racerGameBattle(mode) {
       if(usersSorted[0].id === socket.id) {
         winLoseLabel1v1.innerText = "YOU WIN"
         gameResults.classList.add("game-results-win")
-        // Yep coins
-        outputCoinsContent.style.display = "flex";
-        outputCoins.innerText = "10";
-        setCoins(10, superSecretKeyToAccessUnlimitedAmountOfMoney.code)
 
+        // If room is Public, give coins
+        if(!localUsers[0].room.isPrivate) {
+          // Yep coins
+          outputCoinsContent.style.display = "flex";
+          outputCoins.innerText = "10";
+          setCoins(10, superSecretKeyToAccessUnlimitedAmountOfMoney.code)
+        }
         oneIncrementWins();
         oneIncrementWinningStreak();
         oneIncrementGamesPlayed();
@@ -797,10 +800,13 @@ function racerGameBattle(mode) {
     // Ready = FALSE
     for(let i = 0; i < localUsers.length; i++) localUsers[i].isReady = false;
 
-    // Yep coins
-    outputCoinsContent.style.display = "flex";
-    outputCoins.innerText = "5";
-    setCoins(5, superSecretKeyToAccessUnlimitedAmountOfMoney.code)
+    // If room is Public, give coins
+    if(!localUsers[0].room.isPrivate) {
+      // Yep coins
+      outputCoinsContent.style.display = "flex";
+      outputCoins.innerText = "5";
+      setCoins(5, superSecretKeyToAccessUnlimitedAmountOfMoney.code)
+    }
 
     oneIncrementWins();
     oneIncrementWinningStreak();

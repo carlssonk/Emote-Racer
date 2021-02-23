@@ -3,7 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Twitcherino - The Game!</title>
+  <meta name="description" content="Free multiplayer & battle royale Twitch emote typing/guessing game">
+  <meta name="keywords" content="twitch, emote, guesser, typer, typing, online, multiplayer, battle royale, friends">
+  <meta property="og:title" content="EmoteRacer - Multiplayer typing game!">
+  <meta property="og:url" content="https://www.emoteracer.com">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://i.ibb.co/kDQs299/emoteracer-icon.png">
+  <meta property="og:description" content="EmoteRacer.com is a free online Twitch emote typing game. Play Battle Royale, 1 vs 1, or practice your emote typing skills alone.">
+  <title>EmoteRacer: Multiplayer & Battle Royale Twitch Emote Guessing Game</title>
+  <link rel="icon" href="/imgs/EmoteRacer_Icon.svg">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/dist/animate.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
@@ -53,13 +61,10 @@
     </aside>
     <!-- MAIN -->
     <div class="main-container">
-      <!-- <div class="main-full"></div> -->
-
       <!-- LOADING -->
       <div class="loading-box" style="display: none;">
         <div class="loading-small">Loading<div class="lds-dual-ring"></div></div>
       </div>
-      
       <!-- MAIN CONTENT -->
       <div class="main">
       </div>
@@ -76,9 +81,7 @@
                 <span class="yep-coins">0</span><img class="yep-coin-logo-aside" src="imgs/YEP_COIN.svg">
               </div>
             </div>
-            <!-- <div class="profile-name-aside">Plexxer</div> -->
           </div>
-
           <div class="info-box-box">
             <div class="info-box-stats-label">STATS</div>
             <div class="info-box-label">TOTAL</div>
@@ -105,46 +108,24 @@
             <div class="info-box-label">About</div>
             <p><strong>EmoteRacer.com</strong> is a free multiplayer <a href="https://www.twitch.tv/creatorcamp/en/learn-the-basics/emotes/" target="_blank">Twitch Emote</a> typing/guessing game, where you try to guess the name of a given emote.</p>
           </div>
-          <!-- <div class="credits-box">
-            <div>
-              <div class="info-box-label">Credits</div>
-              <ul>
-                <li><a href="https://www.twitch.tv/" target="_blank">Twitch</a></li>
-                <li><a href="https://betterttv.com/" target="_blank">BetterTTV</a></li>
-                <li><a href="https://www.frankerfacez.com/" target="_blank">FrankerFaceZ</a></li>
-              </ul>
-            </div>
-            <div class="contact-box">
-              <div class="info-box-label">Contact</div>
-                <a href="https://twitter.com/emoteracer" target="_blank"><button><i class="fab fa-twitter"></i>Twitter</button></a>
-            </div>
-          </div> -->
           <div class="note-label">NOTE: Progress can be lost when clearing <a href="browsing-data.html" target="_blank">browsing data.</a></div>
         </div>
       </aside>
     </div>
-
     <img class="admin-message" src=""></img>
-    <!-- <div class="game-container"> -->
       <!-- GAME -->
       <div class="game">
       </div>
       <!-- BATTLE-ROYALE-ASIDE -->
       <aside class="battle-royale-aside" style="display: none;">
-        <div class="players-remaining-aside"><div class="players-remaining-label">PLAYERS REMAINING</div><div id="players-remaining">12</div></div>
+        <div class="players-remaining-aside"><div class="players-remaining-label">PLAYERS REMAINING</div><div id="players-remaining"></div></div>
         <ul class="player-aside-container">
         </ul>
         <ul class="player-aside-eliminated-container">
         </ul>
       </aside>
-    <!-- </div> -->
-
-
-
-
     <!-- EXTRAS -->
     <div class="room-is-full-label">ROOM IS FULL!</div>
-
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.0/socket.io.js"></script>
@@ -163,18 +144,12 @@
   <script src="/js/OriginalGame.js"></script>
   <script src="/js/RacerGame.js"></script>
   <script src="/js/app.js"></script>
-
-
-
-
-  <!-- Display corresponding HTML elements when page loads, WHEN all images for that html has loaded -->
+  <!-- Display HTML elements when page loads, WHEN all images for that html has loaded -->
   <script type="text/javascript">
     $('.info-aside-container').waitForImages(function() {
       infoAside.style.visibility = "visible";
     });
   </script>
-
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2/dist/confetti.browser.min.js"></script>
 </body>

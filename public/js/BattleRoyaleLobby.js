@@ -123,7 +123,6 @@ function lobbyRoom(roomName, roomId, users) {
   
 
     function initLobbyUserPrivate() {
-      document.title = "PRIVATE LOBBY"
       // DOM
       setDom();
       // LINK
@@ -132,7 +131,6 @@ function lobbyRoom(roomName, roomId, users) {
     }
 
     function initLobbyUserPublic() {
-      document.title = "PUBLIC LOBBY"
       // DOM
       setDom();
       waitingForOtherPlayers();

@@ -40,6 +40,7 @@ $properties-width: 350px;
   --game-box-right: #583992;
   --twitter: #51a2e0;
   --play-icon:rgba(57, 58, 146, 0.9);
+  --loading: black;
 }
 
 .dark {
@@ -62,6 +63,7 @@ $properties-width: 350px;
   --game-box-right: #3f2969;
   --twitter: #4387bb;
   --play-icon:rgba(83, 85, 211, 0.9);
+  --loading: white;
 }
 
 body {

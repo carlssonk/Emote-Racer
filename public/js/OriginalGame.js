@@ -23,7 +23,7 @@ function originalGame() {
 
     const randomEmoteIndex = Math.floor(Math.random() * emotesClone.length)
     currentEmote = emotesClone[randomEmoteIndex]
-    if(currentEmote.provider === "twitch") emoteImg.src = `https://static-cdn.jtvnw.net/emoticons/v1/${emotesClone[randomEmoteIndex].id}/4.0`
+    if(currentEmote.provider === "twitch") emoteImg.src = `https://static-cdn.jtvnw.net/emoticons/v1/${emotesClone[randomEmoteIndex].id}/3.0`
     if(currentEmote.provider === "bttv") emoteImg.src = `https://cdn.betterttv.net/emote/${emotesClone[randomEmoteIndex].id}/3x`
     if(currentEmote.provider === "ffz") emoteImg.src = `https://cdn.frankerfacez.com/emoticon/${emotesClone[randomEmoteIndex].id}/4`
 

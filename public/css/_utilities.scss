@@ -613,6 +613,7 @@ span[class^="mini-dot-"] {
     margin-top: 300px;
     text-align:center;
     font-family: 'Open Sans', sans-serif;
+    color: var(--loading);
   }
   z-index: 50;
 }
@@ -630,8 +631,8 @@ span[class^="mini-dot-"] {
   height: 32px;
   margin: 8px;
   border-radius: 50%;
-  border: 3px solid rgb(44, 44, 44);
-  border-color: rgb(44, 44, 44) transparent rgb(44, 44, 44) transparent;
+  border: 3px solid var(--loading);
+  border-color: var(--loading) transparent var(--loading) transparent;
   animation: lds-dual-ring 300ms linear infinite;
 }
 @keyframes lds-dual-ring {

@@ -69,10 +69,11 @@ if(window.location.pathname === "/") {
 } else if(location.pathname === "/battle-royale/" && location.search.length > 0) { // I.E. if a battle royale link
   initSocket();
   initBattleRoyale("joinByLink"); // Initialize socket connection & Battle Royale Game
-  // lobbyRoom("private"); // Redirects to lobby room
+  document.title = "EmoteRacer: Battle Royale"
 } else if(location.pathname === "/1v1/" && location.search.length > 0) {
   initSocket();
   racerGameBattle("joinByLink") // Initialize socket connection & 1v1 Game
+  document.title = "EmoteRacer: 1 VS 1"
 } else if(window.location.pathname === "/solo") {
   soloPage();
 } else if(window.location.pathname === "/1v1") {
@@ -119,7 +120,7 @@ function mainPage() {
   // CONFIG
   mainPageReset()
   battleRoyaleAside.style.display = "none";
-  document.title = "MAIN PAGE"
+  document.title = "EmoteRacer: Free Multiplayer Twitch Emote Guessing Game"
   history.pushState({urlPath:'/'},"",'/')
   main.style.visibility = "hidden";
   navAside.style.visibility = "hidden";
@@ -273,7 +274,7 @@ function loadMainImgs() {
 function battleRoyalePage() {
 
   // CONFIG
-  document.title = "BATTLE ROYALE"
+  document.title = "EmoteRacer: Battle Royale"
   history.pushState({urlPath:'/battle-royale'},"",'/battle-royale')
   main.style.visibility = "hidden";
   loadingBox.style.display = "flex";
@@ -349,7 +350,7 @@ function battleRoyalePage() {
 
 function onePage() {
   // CONFIG
-  document.title = "1v1"
+  document.title = "EmoteRacer: 1 VS 1"
   history.pushState({urlPath:'/1v1'},"",'/1v1')
   main.style.visibility = "hidden";
   loadingBox.style.display = "flex";
@@ -426,7 +427,7 @@ function onePage() {
 function soloPage() {
 
   // CONFIG
-  document.title = "GUESS THE EMOTE"
+  document.title = "EmoteRacer: Practice Solo"
   history.pushState({urlPath:'/solo'},"",'/solo')
   main.style.visibility = "hidden";
   loadingBox.style.display = "flex";
@@ -492,7 +493,7 @@ function soloPage() {
 
 function profilePage() {
   // CONFIG
-  document.title = "PROFILE"
+  document.title = "EmoteRacer: My Profile"
   history.pushState({urlPath:'/profile'},"",'/profile')
   main.style.visibility = "hidden";
   loadingBox.style.display = "flex";

@@ -427,6 +427,13 @@
 
 @media all and (max-width: 500px) {
 
+  .original-game .game-upper {
+    clip-path: polygon(100% 0, 100% 100%, 50% 96%, 0 100%, 0 0) !important;
+  }
+  .original-game .game-upper::before {
+    height: 6% !important;
+  }
+
 
   .game-results {
     min-width: auto !important;
