@@ -138,7 +138,7 @@ function mainPage() {
       `
       <div class="landing-container">
         <div class="title-container">
-          <img class="landing-logo" src="imgs/EmoteRacer_Logo_v0.8.png">
+          <img class="landing-logo" src="imgs/EmoteRacer_Logo.png">
         </div>
         <div class="games-container main-lower">
           <div class="game-box">
@@ -161,7 +161,7 @@ function mainPage() {
             <div>
               <p>Match up against another player or challenge your friend.</p>
             </div>
-            <div class="game-icon"><img class="main-one-img main-game-icon" src="imgs/1v1-swords-fill3.svg"></div>
+            <div class="game-icon"><img class="main-one-img main-game-icon" src="imgs/1v1-swords-fill.svg"></div>
           </div>
           <div class="game-box">
             <img class="game-box-background-img" src="https://cdn.betterttv.net/emote/5d6096974932b21d9c332904/3x">
@@ -361,7 +361,7 @@ function onePage() {
       `
       <div class="landing-container">
         <div class="title-container">
-          <h1><img class="title-icon" src="imgs/1v1-swords-fill3.svg">1 VS 1<img class="title-icon" src="imgs/1v1-swords-fill3.svg"></h1>
+          <h1><img class="title-icon" src="imgs/1v1-swords-fill.svg">1 VS 1<img class="title-icon" src="imgs/1v1-swords-fill.svg"></h1>
         </div>
         <div class="buttons-play-container main-lower">
           <button class="button-card-box play-1v1-btn">

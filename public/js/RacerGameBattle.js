@@ -464,6 +464,7 @@ function racerGameBattle(mode) {
     inputEmote.readOnly = false;
     gameUpperContent.style.transition = "100ms"
     circleBox.classList.add("racer-timer-bar")
+    document.addEventListener("keydown", skipListener)
 
     // Generate For First slot
     currentEmoteFirst = localEmotes[localRandomEmoteIndexArr[0]]
@@ -934,7 +935,7 @@ function racerGameBattle(mode) {
             <div class="battle-player-name"></div>
             <div class="battle-player-ready"></div>
           </div>
-          <img class="battle-icon-1v1" src="/imgs/SwordsGlow2.png" alt="">
+          <img class="battle-icon-1v1" src="/imgs/SwordsGlow.png" alt="">
           <div class="battle-player-box">
             <div class="battle-player-score-fx battle-player-score-fx2">+1</div>
             <div class="battle-player-score battle-player-score2"></div>
@@ -1064,7 +1065,6 @@ function racerGameBattle(mode) {
   this.racerGameBattleEVENT = function() {
     // inputEmote.addEventListener("keypress", guessListener)
     document.addEventListener("keypress", guessListener)
-    document.addEventListener("keydown", skipListener)
 
 
     // INVITE COPY
