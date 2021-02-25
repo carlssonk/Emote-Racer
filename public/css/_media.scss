@@ -65,6 +65,12 @@
 
 }
 
+@media all and (max-height: 550px) {
+  .progress-bar-container {
+    bottom: -30px !important;
+  }
+}
+
 @media all and (max-height: 450px) {
   .game .original-game .game-lower .game-lower-guess-the-name {
     display: none !important;
@@ -84,7 +90,15 @@
   .game .original-game .game-upper {
     clip-path: none !important;
   }
+  .original-game .game-info-label-container {
+    top: 50% !important;
+  }
+  .progress-bar-container {
+    bottom: 30px !important;
+    z-index: 10 !important;
+  }
 }
+
 
 @media all and (max-height: 400px) {
   .game .original-game .game-upper-content-container .emote-img-container {
@@ -114,16 +128,31 @@
   }
 }
 
+@media all and (max-height: 730px) and (max-width: 1024px) {
+  .original-game .game-info-label-container h2:first-of-type {
+    display: none !important;
+  }
+  .original-game .game-info-label-container .racer-start-game-label-btn {
+    margin-top: 60px !important;
+  }
+}
 
-// @media all and (max-height: 600px) {
-//   .original-game .game-skip-label {
-//     display: none;
+
+// @media all and (max-height: 530px) {
+//   .original-game .game-info-label-container .racer-start-game-label-btn {
+//     margin-top: 60px !important;
 //   }
 // }
 
 @media all and (max-height: 500px) {
   .original-game .game-lower .game-lower-guess-the-name {
     bottom: 10px !important;
+  }
+}
+
+@media all and (max-height: 540px) {
+  .game .original-game .game-upper .final-score-racer {
+    top: -6px !important;
   }
 }
 
@@ -227,6 +256,10 @@
 }
 
 @media all and (max-width: 1024px) {
+  .original-game .game-lower .game-skip-label {
+    display: none !important;
+  }
+
   .battle-royale-aside {
     width: 260px !important;
   }
@@ -405,6 +438,10 @@
 }
 
 @media all and (max-width: 700px) {
+
+  .original-game .game-info-label-container h2:first-of-type {
+    font-size: 1.2rem !important;
+  }
 
 
   .landing-container .buttons-play-container .button-card-box {
