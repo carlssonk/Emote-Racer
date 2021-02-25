@@ -72,7 +72,6 @@ function brGetClientsByNamePublic(username) {
 // Leave user from a room
 function brUserLeavePublic(id) {
   const index = brUsersPublic.findIndex(user => user.id === id);
-  console.log(index)
   if (index !== -1) {
     return brUsersPublic.splice(index, 1)[0];
   }
@@ -119,7 +118,6 @@ function oneUserLeavePrivate(id) {
 
 // Get all users in a room
 function oneGetRoomUsersPrivate(room) {
-  console.log(oneUsersPrivate)
   return oneUsersPrivate.filter(user => user.room.id === room);
 }
 

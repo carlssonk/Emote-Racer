@@ -311,21 +311,26 @@ function battleRoyalePage() {
     mainLower = document.querySelector(".main-lower");
   }
 
+  let clicked = false; // to prevent user from clicking buttons multiple times
   this.battleRoyaleEVENT = function() {
     quickPlayBtn.addEventListener("click", () => {
+      if(clicked === true) return;
+      clicked = true;
       // DOM
       loadingBox.style.display = "flex";
       main.style.visibility = "hidden";
       initSocket();
       initBattleRoyale("public")
-    });
+    },{once : true});
     privateLobbyBtn.addEventListener("click", () => {
+      if(clicked === true) return;
+      clicked = true;
       // DOM
       loadingBox.style.display = "flex";
       main.style.visibility = "hidden";
       initSocket();
       initBattleRoyale("private")
-    });
+    },{once : true});
   }
 
   pageChangeDisplay("main")
@@ -387,21 +392,26 @@ function onePage() {
     mainLower = document.querySelector(".main-lower");
   }
 
+  let clicked = false; // to prevent user from clicking buttons multiple times
   this.oneEVENT = function() {
     play1v1Btn.addEventListener("click", function() {
+      if(clicked === true) return;
+      clicked = true;
       // DOM
       loadingBox.style.display = "flex";
       main.style.visibility = "hidden";
       initSocket();
       racerGameBattle("public");
-    });
+    },{once : true});
     play1v1PrivateBtn.addEventListener("click", function() {
+      if(clicked === true) return;
+      clicked = true;
       // DOM
       loadingBox.style.display = "flex";
       main.style.visibility = "hidden";
       initSocket();
       racerGameBattle("private");
-    });
+    },{once : true});
   }
 
   pageChangeDisplay("main")
@@ -463,13 +473,22 @@ function soloPage() {
     mainLower = document.querySelector(".main-lower");
   }
 
+  let clicked = false; // to prevent user from clicking buttons multiple times
   this.soloEVENT = function() {
     playOriginalSoloBtn.addEventListener("click", function() {
+      if(clicked === true) return;
+      clicked = true;
+      
+      navAside.style.display = "none";
       originalGame();
-    });
+    },{once : true});
     playRacerSoloBtn.addEventListener("click", function() {
+      if(clicked === true) return;
+      clicked = true;
+
+      navAside.style.display = "none";
       racerGame();
-    });
+    },{once : true});
   }
 
   pageChangeDisplay("main")
@@ -1237,6 +1256,11 @@ if(getDarkMode() === "dark") {
   lightDarkLabel.innerText = "Dark"
   root.className = "dark"
 }
+
+// Display HTML elements when page loads, WHEN all images for that html has loaded 
+$('.info-aside-container').waitForImages(function() {
+  infoAside.style.visibility = "visible";
+});
 
 
 

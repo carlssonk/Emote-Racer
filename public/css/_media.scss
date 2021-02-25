@@ -65,6 +65,55 @@
 
 }
 
+@media all and (max-height: 450px) {
+  .game .original-game .game-lower .game-lower-guess-the-name {
+    display: none !important;
+  }
+  .game .original-game .game-lower {
+    height: 60px !important;
+  }
+  .game .original-game .game-lower .emote-container {
+    margin-top: 0 !important;
+  }
+  .game .original-game .game-lower .emote-container .inputEmote {
+    margin-top: 0 !important;
+  }
+  .game .original-game .game-upper::before {
+    background-color: transparent;
+  }
+  .game .original-game .game-upper {
+    clip-path: none !important;
+  }
+}
+
+@media all and (max-height: 400px) {
+  .game .original-game .game-upper-content-container .emote-img-container {
+    margin-top: 50px !important;
+  }
+}
+@media all and (max-height: 366px) {
+  .game .original-game .game-upper-content-container .emote-img-container {
+    margin-top: 40px !important;
+  }
+}
+@media all and (max-height: 336px) {
+  .game .original-game .game-upper-content-container .emote-img-container {
+    margin-top: 30px !important;
+  }
+}
+@media all and (max-height: 320px) {
+  .game .original-game .game-upper-content-container .emote-img-container {
+    margin-top: 22px !important;
+  }
+}
+
+
+@media all and (max-height: 700px) and (max-width: 700px) {
+  .original-game .game-lower .game-lower-guess-the-name {
+    display: none !important;
+  }
+}
+
 
 // @media all and (max-height: 600px) {
 //   .original-game .game-skip-label {
