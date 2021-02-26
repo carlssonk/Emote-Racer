@@ -321,7 +321,7 @@ function racerGame() {
         </div>
         <div class="game-results-nav">
           <button class="game-nav-btn play-again-btn">PLAY AGAIN</button>
-          <button class="game-nav-btn main-lobby-btn">MAIN LOBBY</button>
+          <button class="game-nav-btn main-lobby-btn">MAIN MENU</button>
         </div>
       </div>
       <div class="game-info-label-container">

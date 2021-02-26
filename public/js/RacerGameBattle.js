@@ -904,7 +904,7 @@ function racerGameBattle(mode) {
         </div>
         <div class="game-results-nav">
           <button class="game-nav-btn game-nav-btn-multiplayer play-again-btn">PLAY AGAIN</button>
-          <button class="game-nav-btn game-nav-btn-multiplayer main-lobby-btn">MAIN LOBBY</button>
+          <button class="game-nav-btn game-nav-btn-multiplayer main-lobby-btn">MAIN MENU</button>
         </div>
       </div>
       <div class="game-info-label-container-1v1">

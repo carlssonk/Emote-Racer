@@ -1219,8 +1219,8 @@ function initBattleRoyale(mode, lastRoomId) {
           <div class="output-exit-btn"><i class="fas fa-times"></i></div>
           <h1>ELIMINATED</h1>
           <div class="output-buttons-container">
-            <button class="br-play-again-btn result-btn-style game-nav-btn-multiplayer">Play Again</button>
-            <button class="br-main-menu-btn result-btn-style game-nav-btn-multiplayer">Main Menu</button>
+            <button class="br-play-again-btn result-btn-style game-nav-btn-multiplayer">PLAY AGAIN</button>
+            <button class="br-main-menu-btn result-btn-style game-nav-btn-multiplayer">MAIN MENU</button>
           </div>
         </div>
         <div class="output-can-still-qualify output-exit">
@@ -1242,8 +1242,8 @@ function initBattleRoyale(mode, lastRoomId) {
             </div>
           </div>
           <div class="output-buttons-container">
-            <button class="br-play-again-btn result-btn-style game-nav-btn-multiplayer">Play Again</button>
-            <button class="br-main-menu-btn result-btn-style game-nav-btn-multiplayer">Main Menu</button>
+            <button class="br-play-again-btn result-btn-style game-nav-btn-multiplayer">PLAY AGAIN</button>
+            <button class="br-main-menu-btn result-btn-style game-nav-btn-multiplayer">MAIN MENU</button>
           </div>
         </div>
       </div>
