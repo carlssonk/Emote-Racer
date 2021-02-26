@@ -17,14 +17,14 @@ const emoteAvatars = [
     price: 300,
   },
   {
-    name: "TriHard",
-    url: "https://static-cdn.jtvnw.net/emoticons/v1/120232/3.0",
+    name: "MEGALUL",
+    url: "https://cdn.frankerfacez.com/emoticon/419215/4",
     code: "3fa952df-2a55-44d5-ad89-b58f16c62ac3",
     price: 500,
   },
   {
-    name: "Kappa",
-    url: "https://static-cdn.jtvnw.net/emoticons/v1/25/2.0",
+    name: "POGGERS",
+    url: "https://cdn.betterttv.net/emote/58ae8407ff7b7276f8e594f2/3x",
     code: "f1541635-7b33-43e4-a9bf-7fe53dc190f0",
     price: 50,
   },

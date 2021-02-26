@@ -142,7 +142,7 @@ function mainPage() {
         </div>
         <div class="games-container main-lower">
           <div class="game-box">
-            <img class="game-box-background-img" src="https://static-cdn.jtvnw.net/emoticons/v1/114836/3.0">
+            <img class="game-box-background-img" src="https://cdn.frankerfacez.com/emoticon/229760/4">
             <div class="play-box">
               <h1>Battle Royale</h1>
               <button class="play-btn br-play-btn">Play</button>
@@ -153,7 +153,7 @@ function mainPage() {
             <div class="game-icon"><img class="main-br-img main-game-icon" src="imgs/crown-fill.svg"></div>
           </div>
           <div class="game-box">
-            <img class="game-box-background-img" src="https://static-cdn.jtvnw.net/emoticons/v1/120232/3.0">
+            <img class="game-box-background-img" src="https://cdn.frankerfacez.com/emoticon/246878/4">
             <div class="play-box">
               <h1>1 VS 1</h1>
               <button class="play-btn one-play-btn">Play</button>
@@ -737,9 +737,9 @@ function profilePage() {
             <div class="custom-emote-img-container">
               <div class="customize-column">
                 <div class="emote-box emote-box-owned animate__animated animate__faster">
-                  <div class="cosmetic-box-label">:)</div>
+                  <div class="cosmetic-box-label">YEP</div>
                   <div class="emote-box-img">
-                    <img class="emote-box-owned-url" src="https://static-cdn.jtvnw.net/emoticons/v1/1/3.0">
+                    <img class="emote-box-owned-url" src="https://cdn.frankerfacez.com/emoticon/418189/4">
                   </div>
                   <button class="select-emote-btn">SELECT</button>
                 </div>
@@ -758,20 +758,20 @@ function profilePage() {
                   <button class="buy-emote-btn" data-value="300" data-name="EZ">300<img src="imgs/YEP_COIN.svg"></button>
                 </div>
                 <div class="emote-box animate__animated animate__faster">
-                  <div class="cosmetic-box-label">TriHard</div>
+                  <div class="cosmetic-box-label">MEGALUL</div>
                   <div class="emote-box-img">
-                    <img class="emote-box-url" src="https://static-cdn.jtvnw.net/emoticons/v1/120232/3.0">
+                    <img class="emote-box-url" src="https://cdn.frankerfacez.com/emoticon/419215/4">
                   </div>
-                  <button class="buy-emote-btn" data-value="500" data-name="TriHard">500<img src="imgs/YEP_COIN.svg"></button>
+                  <button class="buy-emote-btn" data-value="500" data-name="MEGALUL">500<img src="imgs/YEP_COIN.svg"></button>
                 </div>                   
               </div>
               <div class="customize-column">
                 <div class="emote-box animate__animated animate__faster">
-                  <div class="cosmetic-box-label">Kappa</div>
+                  <div class="cosmetic-box-label">POGGERS</div>
                   <div class="emote-box-img">
-                    <img class="emote-box-url kappa-profile-img" src="https://static-cdn.jtvnw.net/emoticons/v1/25/2.0">
+                    <img class="emote-box-url" src="https://cdn.betterttv.net/emote/58ae8407ff7b7276f8e594f2/3x">
                   </div>
-                  <button class="buy-emote-btn" data-value="50" data-name="Kappa">50<img src="imgs/YEP_COIN.svg"></button>
+                  <button class="buy-emote-btn" data-value="50" data-name="POGGERS">50<img src="imgs/YEP_COIN.svg"></button>
                 </div>
                 <div class="emote-box animate__animated animate__faster">
                   <div class="cosmetic-box-label">Pepega</div>

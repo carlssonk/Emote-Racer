@@ -295,6 +295,21 @@ function racerGameBattle(mode) {
 
     // Init countdown
     startCountdown()
+
+
+    // Tag Manager Start
+    if(localUsers[0].room.isPrivate === true) {
+      dataLayer.push({
+        "event": "private1v1Trigger",
+        "msg": "User Playing 1v1 (Private)"
+      })
+    } else {
+      dataLayer.push({
+        "event": "public1v1Trigger",
+        "msg": "User Playing 1v1 (Public)"
+      })
+    }
+    // Tag Manager End
   });
 
   socket.on("toggleReady1v1", (userSocketId) => {

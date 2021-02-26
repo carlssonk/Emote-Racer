@@ -1995,10 +1995,12 @@ body {
         font-family: 'Open Sans', sans-serif;
         font-weight: 700;
         color: var(--buttons-text);
+        pointer-events: none;
       }
       .play-icon {
         font-size: 90px;
-        color: var(--play-icon)
+        color: var(--play-icon);
+        pointer-events: none;
       }
     }
     .button-card-box:nth-of-type(1) {
@@ -2373,9 +2375,6 @@ body {
     img {
       width: 100%;
     }
-  }
-  .kappa-profile-img {
-    padding: 0 2px;
   }
 }
 

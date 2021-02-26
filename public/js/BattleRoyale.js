@@ -196,6 +196,20 @@ function initBattleRoyale(mode, lastRoomId) {
     localRandomEmoteIndex = randomEmoteIndex;
     localUsers = users;
     loadBattleRoyale();
+
+    // Tag Manager Start
+    if(localUsers[0].room.isPrivate === true) {
+      dataLayer.push({
+        "event": "privateBrTrigger",
+        "msg": "User Playing Battle Royale (Private)"
+      })
+    } else {
+      dataLayer.push({
+        "event": "publicBrTrigger",
+        "msg": "User Playing Battle Royale (Public)"
+      })
+    }
+    // Tag Manager End
   });
 
 
