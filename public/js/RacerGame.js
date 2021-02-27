@@ -209,18 +209,6 @@ function racerGame() {
       setTimeout(() => skipBool = true, 400)
     }
   }
-  // function skipTimer() {
-  //   let count = 1000;
-  //   let counter = setInterval(() => skipTimerSolo(), 10); //10 will  run it every 100th of a second
-  //   this.skipTimeSolo = function() {
-  //     count--;
-  //     if(count <= 0) {
-  //       clearInterval(counter)
-  //       return;
-  //     }
-  //     return count;
-  //   }
-  // }
 
 
   // DOM MANIPULATION WHEN USER GUESS WRONG

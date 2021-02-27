@@ -119,13 +119,6 @@ const buyAvatar = (newImg, code) => {
       // Set avatar as new profile img
       setProfileImg(emote.url)
 
-      // Tag Manager Start
-      dataLayer.push({
-        "event": "buyEmoteTrigger",
-        "emote": emote.name
-      })
-      // Tag Manager End
-
     } 
   }
 }
@@ -158,29 +151,24 @@ const buyColor = (newColor, code) => {
       // Set avatar as new profile img
       setUsernameColor(color.name)
 
-      // Tag Manager Start
-      dataLayer.push({
-        "event": "buyColorTrigger",
-        "color": color.name
-      })
-      // Tag Manager End
-
     } 
   }
 }
 
 
 // SET USER PROFILE WHEN HE JOINS WEBSITE FOR THE FIRST TIME
+// If he user has this profile img: https://static-cdn.jtvnw.net/emoticons/v1/1/3.0, reset localStorage, this is an old profile image for an older version for the game.
+
 if(getCoins() === null) localStorage.setItem("coins", JSON.stringify(0));
 
 if(getUsername() === null) localStorage.setItem("username", generateUsername());
 
 if(getUsernameColor() === null) localStorage.setItem("usernameColor", "white");
 
-if(getProfileImg() === null) localStorage.setItem("profileImg", "https://cdn.frankerfacez.com/emoticon/418189/4");
+if(getProfileImg() === null || getProfileImg() === "https://static-cdn.jtvnw.net/emoticons/v1/1/3.0") localStorage.setItem("profileImg", "https://cdn.frankerfacez.com/emoticon/418189/4");
 
 const initOwnedAvatars = ["https://cdn.frankerfacez.com/emoticon/418189/4"]
-if(getOwnedAvatars() === null) localStorage.setItem("ownedAvatars", JSON.stringify(initOwnedAvatars));
+if(getOwnedAvatars() === null || getOwnedAvatars().includes("https://static-cdn.jtvnw.net/emoticons/v1/1/3.0")) localStorage.setItem("ownedAvatars", JSON.stringify(initOwnedAvatars));
 
 const initOwnedColors = ["white"] // Default refers to none
 if(getOwnedColors() === null) localStorage.setItem("ownedColors", JSON.stringify(initOwnedColors));
@@ -332,43 +320,3 @@ const setDarkMode = (mode) => {
 }
 
 if(getDarkMode() === null) localStorage.setItem("darkMode", "light");
-
-
-
-
-
-
-
-
-// Google Tag Manager
-
-function setCoinsTagManager(amount) {
-  if(amount === 5) {
-    dataLayer.push({
-      "event": "setCoinsTrigger",
-      "amount": amount,
-      "game": "1 VS 1 (Force Win)"
-    })
-  }
-  if(amount === 10) {
-    dataLayer.push({
-      "event": "setCoinsTrigger",
-      "amount": amount,
-      "game": "1 VS 1"
-    })
-  }
-  if(amount === 25) {
-    dataLayer.push({
-      "event": "setCoinsTrigger",
-      "amount": amount,
-      "game": "Battle Royale (Force Win)"
-    })
-  }
-  if(amount === 50) {
-    dataLayer.push({
-      "event": "setCoinsTrigger",
-      "amount": amount,
-      "game": "Battle Royale"
-    })
-  }
-}

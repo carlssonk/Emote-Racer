@@ -296,20 +296,6 @@ function racerGameBattle(mode) {
     // Init countdown
     startCountdown()
 
-
-    // Tag Manager Start
-    if(localUsers[0].room.isPrivate === true) {
-      dataLayer.push({
-        "event": "private1v1Trigger",
-        "msg": "User Playing 1v1 (Private)"
-      })
-    } else {
-      dataLayer.push({
-        "event": "public1v1Trigger",
-        "msg": "User Playing 1v1 (Public)"
-      })
-    }
-    // Tag Manager End
   });
 
   socket.on("toggleReady1v1", (userSocketId) => {
@@ -828,60 +814,6 @@ function racerGameBattle(mode) {
     oneIncrementWinningStreak();
     oneIncrementGamesPlayed();
   }
-
-  // // Play again button execute
-  // const playAgainDomReset = () => {
-  //   inputEmote.focus(); // Automatically focus input text
-  //   for(let score of finalScore) score.innerText = currentScore; // Reset score
-  //   gameUpperContent.style.clip = "rect(0px,0px,0px,0px)", gameUpperContent.style.position = "absolute";
-
-  //   gameInfoLabelContainer.style.display = "block"
-  //   circleBox.classList.remove("racer-timer-bar")
-  //   inputEmote.readOnly = false;
-
-  //   // Reset Stats
-  //   speed = 0;
-  //   roundKeysTyped = 0;
-  //   totalKeysTyped = 0;
-  //   totalEmoteCharacters = 0;
-  //   incorrectGuesses = 0;
-
-  //   // Reset socket related stuff
-  //   resetSocketConfig()
-
-  //   // Add event listener
-  //   document.addEventListener("keypress", guessListener)
-  //   document.addEventListener("keydown", skipListener)
-  // }
-
-
-  // function resetSocketConfig() {
-  //   // DOM
-
-  //   for(let rdy of battlePlayerReady) {
-  //     rdy.classList.remove("color-red")
-  //     rdy.classList.remove("color-green")
-  //     rdy.innerText = "NOT READY"
-  //   }
-
-  //   for(let i = 0; i < localUsers.length; i++) {
-  //     localUsers[i].score = 0;
-  //     localUsers[i].isReady = false;
-  //   }
-
-  //   if(localUsers.length === 1) {
-  //     battlePlayerReady[1].innerText = ""
-  //     localUsers = [{id: socket.id, isReady: false}, {isReady: false}];
-  //   }
-  // }
-
-
-    // // Disconnect socket
-    // this.disconnectSocket = function() {
-    //   socket.removeAllListeners()
-    //   if(mode === "public") socket.emit("leaveUser", "1v1Public", roomId)
-    //   if(mode === "private") socket.emit("leaveUser", "1v1Private", roomId)
-    // }
 
   // #################################################################################
   // ############### GUESS THE EMOTE GAME (DYNAMIC PAGE CREATION) ####################

@@ -143,24 +143,6 @@ io.on("connection", (socket) => {
   }
 
 
-  // socket.on("gameEndPublic", (roomId) => {
-  //   const theRoom = brGetRoomUsersPrivate(roomId)
-  //   for(let i = 0; i < theRoom.length; i++) {
-  //     theRoom[i].room.isPlaying = false;
-  //   }
-  // })
-
-  // function splice1v1Public(roomId, socketId) {
-  //   // TO CLIENT
-  //   io.to(roomId).emit("userLeave1v1", socketId, oneGetRoomUsersPublic(roomId), "public")
-  //   // SERVER
-  //   decrementUserLength("1v1", roomId) // This room is public & have a public roomsListArray. So Remove length for that room
-  //   oneUserLeavePublic(socketId)
-  // }
-  // if(brRoomsList[i].userLength === 0) brRoomsList.splice(i, 1) // Lastly, if userLength === 0, splice room
-
-
-
 
   // ########################################
   // #### BATTLE ROYALE PRIVATE HANDLING ####
@@ -352,14 +334,6 @@ io.on("connection", (socket) => {
     io.to(user.room.id).emit("joinPrivateLobby1v1", oneGetRoomUsersPrivate(roomId), room, socket.id);
   })
 
-  // socket.on("gameEndPrivate1v1", (roomId) => {
-  //   const theRoom = oneGetRoomUsersPrivate(roomId)
-  //   for(let i = 0; i < theRoom.length; i++) {
-  //     theRoom[i].room.isPlaying = false;
-  //   }
-  // })
-
-
   // ###########################
   // #### GAME LOGIC WIRING ####
   // ###########################
@@ -372,11 +346,6 @@ io.on("connection", (socket) => {
 
   // Send signal to all users
   socket.on("requestStartGamePrivate1v1", (roomId) => {
-    // const theRoom = oneGetRoomUsersPrivate(roomId)
-    // for(let i = 0; i < theRoom.length; i++) {
-    //   theRoom[i].room.isPlaying = true;
-    // }
-
     let randomEmoteIndexArr = [];
 
     for(let i = 0; i < emotesServer.length; i++) {

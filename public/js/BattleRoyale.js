@@ -197,19 +197,6 @@ function initBattleRoyale(mode, lastRoomId) {
     localUsers = users;
     loadBattleRoyale();
 
-    // Tag Manager Start
-    if(localUsers[0].room.isPrivate === true) {
-      dataLayer.push({
-        "event": "privateBrTrigger",
-        "msg": "User Playing Battle Royale (Private)"
-      })
-    } else {
-      dataLayer.push({
-        "event": "publicBrTrigger",
-        "msg": "User Playing Battle Royale (Public)"
-      })
-    }
-    // Tag Manager End
   });
 
 
@@ -1211,16 +1198,6 @@ function initBattleRoyale(mode, lastRoomId) {
   }
 
 
-
-  // // Disconnect socket
-  // this.disconnectSocket = function() {
-  //   socket.removeAllListeners()
-  //   if(mode === "public") {
-  //     socket.emit("leaveUser", "battleRoyalePublic", roomId)
-  //   } else if(mode === "private" || mode === "joinByLink") {
-  //     socket.emit("leaveUser", "battleRoyalePrivate", roomId)
-  //   }
-  // }
 
   // HTML
   this.brGameHTML = function() {
