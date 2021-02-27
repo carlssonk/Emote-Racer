@@ -1,7 +1,9 @@
 # Emote-Racer
 
+![Game Screenshot](https://ibb.co/k5NjTdY)
+
 ## Description
-[emoteracer.com]https://emoteracer.com) is a free online multiplayer [Twitch Emote]https://www.twitch.tv/creatorcamp/en/learn-the-basics/emotes/) typing/guessing game, where you try to guess the name of a given emote. You can choose to play battle royale, 1 vs 1, or practice alone.
+[emoteracer.com](https://emoteracer.com) is a free online multiplayer [Twitch Emote](https://www.twitch.tv/creatorcamp/en/learn-the-basics/emotes/) typing/guessing game, where you try to guess the name of a given emote. You can choose to play battle royale, 1 vs 1, or practice alone.
 
 ## Installation
 If you want to download and use this project locally:
