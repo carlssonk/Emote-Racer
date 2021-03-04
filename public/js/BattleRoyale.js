@@ -163,7 +163,6 @@ function initBattleRoyale(mode, lastRoomId) {
         }
       }
 
-      
       // Remove index from array
       // -1 means "findIndex method" did not find user
       if(index !== -1) {
@@ -299,6 +298,7 @@ function initBattleRoyale(mode, lastRoomId) {
       playersQualifiedContainer.innerHTML = "";
 
       let ordinals = "";
+
 
       // if(localUsers.length >= 6) {
         if(currentRound === 0) {
@@ -745,8 +745,6 @@ function initBattleRoyale(mode, lastRoomId) {
         // We set a timeout here because we want to wait for animation to finish before removing element completely
         setTimeout(() => {
           eliminatedPlayersDom(eliminatedPlayers)
-          // Splice player from localUsers
-          removeEliminatedPlayers(eliminatedPlayers)
         }, 400)
       }
 
@@ -935,6 +933,7 @@ function initBattleRoyale(mode, lastRoomId) {
         resetOutput()
 
         if(string === "outputEliminated") {
+          if(eliminated) return // if he already is eliminated, we dont need to show this to the user.
           outputEliminated.style.display = "flex";
           outputEliminated.classList.add("show-fade-output")
           eliminated = true;
@@ -972,6 +971,7 @@ function initBattleRoyale(mode, lastRoomId) {
         if(eliminated === false) userOutputContainer.style.display = "none";
         resetOutput();
         stopProgressBar();
+
 
         // Handle next step
         if(playerQualifiedCount === 1) handleWinner();
