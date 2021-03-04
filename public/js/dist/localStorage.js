@@ -119,6 +119,8 @@ const buyAvatar = (newImg, code) => {
       // Set avatar as new profile img
       setProfileImg(emote.url)
 
+      // Google Tag Manager
+      gtagBuyEmote(emote)
     } 
   }
 }
@@ -151,6 +153,8 @@ const buyColor = (newColor, code) => {
       // Set avatar as new profile img
       setUsernameColor(color.name)
 
+      // Google Tag Manager
+      gtagBuyColor(color)
     } 
   }
 }

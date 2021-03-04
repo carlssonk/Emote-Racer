@@ -196,6 +196,9 @@ function initBattleRoyale(mode, lastRoomId) {
     localUsers = users;
     loadBattleRoyale();
 
+    // Google Tag Manager
+    gtagBrStartGame(localUsers[0].room.isPrivate); // <-- pass in a boolean, I know its ugly
+
   });
 
 

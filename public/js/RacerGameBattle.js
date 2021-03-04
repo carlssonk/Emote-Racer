@@ -296,6 +296,9 @@ function racerGameBattle(mode) {
     // Init countdown
     startCountdown()
 
+    // Google Tag Manager
+    gtagOneStartGame(localUsers[0].room.isPrivate) // <-- pass in a boolean, I know its ugly
+
   });
 
   socket.on("toggleReady1v1", (userSocketId) => {
